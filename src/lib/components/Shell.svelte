@@ -2,21 +2,34 @@
 	import CLI from '$lib/shell/cli';
 	const cli = new CLI();
 
+	/**
+	 * @type {import('$lib/shell/cli').LogEntry[]}
+	 */
+	export let prerun = []; // Commands to be run before the user can interact with the shell
+
+	export let animationSpeed = {
+		characters: 0,
+		lines: 0
+	}; // Speed of the animation in ms. 0 for no animation
+	let interactive = prerun.length === 0; // Whether the user can interact with the shell
+
 	let input = '';
 	$: log = [...cli.log];
-    $: cwd = cli.dir.cwd.replace('/home/itunderground', '~');
+	$: cwd = cli.dir.cwd.replace('/home/itunderground', '~');
 
 	function submit() {
+		if (!interactive) return;
 		cli.run(input);
 		input = '';
 		log = [...cli.log];
-        cwd = cli.dir.cwd.replace('/home/itunderground', '~');
+		cwd = cli.dir.cwd.replace('/home/itunderground', '~');
 	}
 
 	/**
 	 * @param e {KeyboardEvent & { currentTarget: EventTarget & Window; }}
 	 */
 	function onKeyDown(e) {
+		if (!interactive) return;
 		// Add key to input
 		if (e.key.length === 1 && !(e.ctrlKey || e.altKey || e.metaKey)) {
 			input += e.key;
@@ -29,30 +42,65 @@
 			submit();
 		}
 
-        // Modifiers
-        // CTRL+V
-        if (e.ctrlKey && e.key === 'v') {
-            e.preventDefault();
-            navigator.clipboard.readText().then(text => {
-                input += text;
-            });
-        }
-        // CTRL+backspace delete word
-        if (e.ctrlKey && e.key === 'Backspace') {
-            e.preventDefault();
-            input = input.replace(/\s*\S+$/, '');
-        }
+		// Modifiers
+		// CTRL+V
+		if (e.ctrlKey && e.key === 'v') {
+			e.preventDefault();
+			navigator.clipboard.readText().then((text) => {
+				input += text;
+			});
+		}
+		// CTRL+backspace delete word
+		if (e.ctrlKey && e.key === 'Backspace') {
+			e.preventDefault();
+			input = input.replace(/\s*\S+$/, '');
+		}
 	}
+
+	// Run prerun commands
+	async function type() {
+		for (const logEntry of prerun) {
+			if ('output' in logEntry) {
+				// Print to stdout if there is output
+				cli.stdout(logEntry.output);
+			}
+			if ('command' in logEntry) {
+				// Run command if there is one
+				// Display typing animation
+				if (animationSpeed.characters === 0) {
+					input = logEntry.command;
+				} else {
+					for (let i = 0; i < logEntry.command.length; i++) {
+						await new Promise((resolve) => setTimeout(resolve, animationSpeed.characters));
+						input = logEntry.command.slice(0, i + 1);
+					}
+				}
+				// Run command
+				cli.run(logEntry.command);
+				// Reset inpput
+				input = '';
+			}
+			// Update log and cwd
+			log = [...cli.log];
+			cwd = cli.dir.cwd.replace('/home/itunderground', '~');
+			// Wait for next line
+			if (animationSpeed.lines !== 0)
+				await new Promise((resolve) => setTimeout(resolve, animationSpeed.lines));
+		}
+		interactive = true;
+	}
+
+	type();
 </script>
 
-<div class="text-lg leading-5">
+<div class="w-full text-lg leading-5">
 	{#each log as line}
-        {#if line.user && line.server && line.cwd}
-		<span class="text-green-500">{line.user}@{line.server}</span>:<span class="text-purple-500"
-			>{line.cwd}</span
-		>$ <span>{line.command}</span>
-        {/if}
-		{#if line.output.length}
+		{#if 'user' in line}
+			<span class="text-green-500"><strong>{line.user}@{line.server}</strong></span>:<span
+				class="text-pink-500"><strong>{line.cwd}</strong></span
+			>$ <span>{line.command}</span>
+		{/if}
+		{#if 'output' in line}
 			<br />
 			<span class="whitespace-pre-wrap">
 				{@html line.output}
@@ -60,16 +108,25 @@
 		{/if}
 		<br />
 	{/each}
-	<span class="text-green-500">{CLI.commands.whoami()}@{CLI.commands.hostname()}</span>:<span
-		class="text-purple-500">{cwd}</span
-	>$ <span>{input}</span><span class="cursor" />
+	<span class="text-green-500"
+		><strong>{CLI.commands.whoami()}@{CLI.commands.hostname()}</strong></span
+	>:<span class="text-pink-500"><strong>{cwd}</strong></span>$ <span>{input}</span><span
+		class="cursor"
+	/>
 </div>
 <svelte:window on:keydown={onKeyDown} />
 
 <style>
 	/* monospace */
 	* {
-		font-family: monospace;
+		font-family: inconsolata, monospace;
+	}
+
+	:global(a) {
+		@apply underline;
+	}
+	:global(a:hover) {
+		@apply text-sky-500 no-underline;
 	}
 
 	:global(body) {
@@ -78,7 +135,7 @@
 	.cursor {
 		@apply inline-block h-[1.2rem] w-[0.6rem];
 		@apply align-text-bottom;
-        @apply bg-purple-500;
+		@apply bg-purple-500;
 		animation: blink 1s infinite;
 	}
 
