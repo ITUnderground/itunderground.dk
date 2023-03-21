@@ -128,7 +128,7 @@
 				class="text-pink-500"><strong>{line.cwd}</strong></span
 			>$ <span>{line.command}</span>
 		{/if}
-		{#if 'output' in line}
+		{#if 'output' in line && line.output !== ''}
 			<br />
 			<span class="whitespace-pre-wrap">
 				{@html line.output}
