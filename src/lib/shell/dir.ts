@@ -33,7 +33,7 @@ class Dir {
 		this._current = this._locate(this._cwd) as typeof this._current;
 	}
 	/**
-	 * Locates a directory in the file system.
+	 * Locates a directory in the file system. Returns null if directory doesn't exist.
 	 * Note: Does not work with relative paths, or paths like `./`, `../` or `~/`. Use `getAbsolutePath` first to sanitize paths.
 	 * @param path Absolute path to directory
 	 * @returns Directory at path
@@ -82,7 +82,7 @@ class Dir {
 	}
 
 	/**
-	 * Get a file or directory
+	 * Get a file or directory. Returns null if file or directory doesn't exist.
 	 * @param path Path to get
 	 */
 	read(path: string): { type: "Directory", value: Directory } | { type: "File", value: File } | null {
