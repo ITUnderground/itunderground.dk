@@ -3,8 +3,6 @@
 	import { version } from '$app/environment';
 	import { onMount } from 'svelte';
 
-	export const prerender = true; // This page should be prerendered
-
 	const cwd = '/home/itunderground';
 	const server = 'itunderground';
 	const user = 'itunderground';
