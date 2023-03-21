@@ -12,7 +12,7 @@ function ls({ command: { positional }, dir }: AccessObject) {
 	// Return list of files
     return Object.entries(directory.value).map(([key, value]) => {
         if (typeof value === 'string') return key;
-        if (typeof value === 'object') return `<span style="color: #3b78ff">${key}/</span>`;
+        if (typeof value === 'object') return `<span style="color: #ec4899">${key}/</span>`;
         return key;
     }).join('\n');
 }
