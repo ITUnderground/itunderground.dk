@@ -11,7 +11,6 @@ function ls({ command: { positional }, dir }: AccessObject) {
 
 	// Return list of files
     return Object.entries(directory.value).map(([key, value]) => {
-        console.log(key, value, typeof value);
         if (typeof value === 'string') return key;
         if (typeof value === 'object') return `<span style="color: #3b78ff">${key}/</span>`;
         return key;
