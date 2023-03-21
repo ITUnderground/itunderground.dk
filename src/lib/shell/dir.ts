@@ -2,18 +2,19 @@ import type Env from './env';
 import type { Directory, File } from './types';
 // Implements directory structure
 class Dir {
-	private _root = {
+	private _root: Directory = {
 		home: {
 			itunderground: {
-				'flag.txt': 'You\'ve been tricked! There isn\'t any flag here!',
+				'flag.txt': "You've been tricked! There isn't any flag here!",
 				spooky_folder: {
-					'inconspicuous.txt': 'You found me! Here\'s your flag: <code>itu{spooky}</code>',
+					'inconspicuous.txt': "You found me! Here's your flag: <code>itu{spooky}</code>"
 				},
-				underground: '├── <a href="/post/who-are-we">who-are-we</a>\n'
-                           + '├── <a href="/post/next-events">next-events</a>\n'
-                           + '├── <a href="/post/skill-level">im-a-beginner-help-me</a>\n'
-                           + '├── <a href="/post/skill-level">im-ready-to-pwn</a>\n'
-                           + '└── <a href="/post/discord">discord-server</a>'
+				underground:
+					'├── <a href="/post/who-are-we">who-are-we</a>\n' +
+					'├── <a href="/post/next-events">next-events</a>\n' +
+					'├── <a href="/post/skill-level">im-a-beginner-help-me</a>\n' +
+					'├── <a href="/post/skill-level">im-ready-to-pwn</a>\n' +
+					'└── <a href="/post/discord">discord-server</a>'
 			}
 		}
 	};
@@ -85,12 +86,14 @@ class Dir {
 	 * Get a file or directory. Returns null if file or directory doesn't exist.
 	 * @param path Path to get
 	 */
-	read(path: string): { type: "Directory", value: Directory } | { type: "File", value: File } | null {
+	read(
+		path: string
+	): { type: 'Directory'; value: Directory } | { type: 'File'; value: File } | null {
 		// Get file
 		const found = this._locate(this.getAbsolutePath(path));
 
 		// Return file
-        if (!found) return null;
+		if (!found) return null;
 		if (typeof found === 'string') return { type: 'File', value: found };
 		if (typeof found === 'object') return { type: 'Directory', value: found };
 		return null;
@@ -123,23 +126,61 @@ class Dir {
 		return finalPath.filter((p) => p !== '');
 	}
 
-    /**
-     * Write a file or directory to a path
-     * @param path The path to write to
-     * @param value The value to write. Can be a string or a directory
-     */
-    write(path: string, value: Directory | string) {
-        const absolutePath = this.getAbsolutePath(path);
-        const dir = absolutePath.slice(0, -1);
-        const file = absolutePath[absolutePath.length - 1];
+	/**
+	 * Write a file or directory to a path
+	 * @param path The path to write to
+	 * @param value The value to write. Can be a string or a directory
+	 */
+	write(path: string, value: Directory | string) {
+		const absolutePath = this.getAbsolutePath(path);
+		const dir = absolutePath.slice(0, -1);
+		const file = absolutePath[absolutePath.length - 1];
 
+		let current: Directory = this._root;
+		for (const d of dir) {
+			if (!(d in current)) current[d] = {};
+			current = current[d] as Directory;
+		}
+		current[file] = value;
+	}
+
+	/**
+	 * Delete a file or directory
+	 * @param path The path to delete
+	 * @returns Whether the file was deleted
+	 */
+	rm(path: string) {
+		const absolutePath = this.getAbsolutePath(path);
+
+        // Destroy everything if path is root
+        if (absolutePath.length === 0) {
+            const terminal = document.getElementById('Terminal'); // we do a little trolling
+            if (terminal) terminal.innerHTML = '';
+            return true;
+        }
+
+        const [dir, file] = // Unless absolutePath is the root, this will always return a valid directory and file
+            absolutePath.length === 0 ? [[], ''] :
+			(absolutePath.length > 1
+				? [absolutePath.slice(0, -1), absolutePath[absolutePath.length - 1]]
+				: [[], absolutePath[0]]);
+        
         let current: Directory = this._root;
         for (const d of dir) {
-            if (!(d in current)) current[d] = {};
+            if (!(d in current)) return false;
             current = current[d] as Directory;
         }
-        current[file] = value;
-    }
+        if (!(file in current)) return false;
+
+        // If cwd is in the path being deleted, move cwd to parent directory
+        if (this._cwd.length >= absolutePath.length && this._cwd.slice(0, absolutePath.length).join('/') === absolutePath.join('/')) {
+            this._cwd = dir;
+            this._navigate();
+        }
+
+        delete current[file];
+        return true;
+	}
 }
 
 export default Dir;
