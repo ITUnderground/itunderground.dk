@@ -9,3 +9,4 @@ export { default as cat } from './cat';
 export { default as cd } from './cd';
 export { default as history } from './history';
 export { default as touch } from './touch';
+export { default as mkdir } from './mkdir';
