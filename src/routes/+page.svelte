@@ -6,6 +6,8 @@
 	const server = 'itunderground';
 	const user = 'itunderground';
 
+	const padding = 5;
+
 	/**
 	 * @type {import('$lib/shell/cli').LogEntry[]}
 	 */
@@ -20,19 +22,19 @@ Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent permitted by a
 Last login: ${Date().slice(0, 24)} from 127.0.0.1`
 		},
 		{
-			command: 'whoami',
+			command: 'whoami' + ' '.repeat(padding),
 			cwd: '/home/itunderground',
 			server,
 			user
 		},
 		{
-			command: 'ls /home/itunderground',
+			command: 'ls /home/itunderground' + ' '.repeat(padding),
 			cwd,
 			server,
 			user
 		},
 		{
-			command: 'cat underground',
+			command: 'cat underground' + ' '.repeat(padding),
 			cwd,
 			server,
 			user
