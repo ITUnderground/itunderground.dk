@@ -30,7 +30,7 @@ npm run dev
 It will host the website on `localhost:5173`.  
 Once you're confident with your changes, run this command to update the website:  
 ```bash
-npm run build
+npm run publish
 ```
 > **❗ Warning**  
 > The above command pushes your changes *directly* to the `gh-pages` branch. Running it will *immediately* update the LIVE version on https://itunderground.dk, so make sure all your changes are final.  
