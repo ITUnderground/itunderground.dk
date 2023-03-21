@@ -45,7 +45,7 @@ const dir = new Dir(env);
 class CLI {
 	public static commands: typeof prebuilt & typeof custom = { ...prebuilt, ...custom };
 	public log: LogEntry[] = [];
-	private dir = dir;
+	public dir = dir;
 
 	/**
 	 * Extracts arguments from an shell command
