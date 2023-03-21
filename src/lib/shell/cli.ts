@@ -76,8 +76,8 @@ class CLI {
 		commands: [ParsedCommand | null, ParsedCommand | null];
 		redirect: string | null;
 	} {
-		// Only supported redirects are > and >>
-		const regex = />{1,2}/g;
+		// Supports >, >>, and |
+		const regex = />{1,2}|\|/g;
 		const match = command.match(regex);
 		if (!match) return { commands: [this._argParser(command), null], redirect: null };
 		const redirect = match[0];
@@ -142,12 +142,11 @@ class CLI {
 
 		// Parse redirects
 		const { commands, redirect } = this._redirectParser(command);
-		// console.log(commands, redirect);
 		// Run command
 		let output = this._execute(commands[0]);
 		// Redirect if needed
 		if (redirect) {
-			output = this.redirect(output || '', commands[1]?.command, redirect === '>>');
+			output = this.redirect(output || '', commands[1], redirect)
 		}
 
 		// Add to log
@@ -178,15 +177,32 @@ class CLI {
 	 * @param destination File to redirect to
 	 * @param append Whether to append to file or overwrite. Works like `>>` (append) and `>` (overwrite) in bash
 	 */
-	redirect(output: string, destination: string | undefined, append?: boolean) {
-		if (!destination) return;
-		const file = dir.read(destination);
-		if (file?.type === 'Directory') return `${destination}: is a directory`;
-		if (!append) {
-			dir.write(destination, output);
-			return;
-		}
-		dir.write(destination, (file?.value || '') + output);
+	redirect(output: string, destination: ParsedCommand | null, redirect: string): string | undefined {
+        if (!destination) return;
+        switch (redirect) {
+            case '>': {
+                const file = dir.read(destination.command);
+                if (file?.type === 'Directory') return `${destination.command}: is a directory`;
+                dir.write(destination.command, output);
+                return;
+            }
+            case '>>': {
+                const file = dir.read(destination.command);
+                if (file?.type === 'Directory') return `${destination.command}: is a directory`;
+                dir.write(destination.command, (file?.value || '') + output);
+                return;
+            }
+            case '|': {
+                const { commands, redirect } = this._redirectParser(destination.raw);
+                if (!commands[0]) return;
+                commands[0].raw += ' ' + output // Redirect previous output to new command
+                commands[0] = this._argParser(commands[0].raw); // Re-parse command
+                if (redirect) { // We have a chain of redirects
+                    return this.redirect(this._execute(commands[0]) || '', commands[1], redirect); // Run new command and redirect again
+                }
+                return this._execute(commands[0]); // Run new command
+            }
+        }
 	}
 }
 
