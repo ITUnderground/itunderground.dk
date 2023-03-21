@@ -1,6 +1,9 @@
 <script>
 	import Shell from '$lib/components/Shell.svelte';
 	import { version } from '$app/environment';
+	import { onMount } from 'svelte';
+
+	export const prerender = true; // This page should be prerendered
 
 	const cwd = '/home/itunderground';
 	const server = 'itunderground';
@@ -40,12 +43,27 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`
 			user
 		}
 	]; // Commands to be run before the user can interact with the shell
+
+	// Add cookie so we know the user has seen the animation
+	let inBrowser = false;
+	onMount(() => (inBrowser = true));
+	function showAnimation() {
+		if (!document.cookie.includes('seenAnimation')) {
+			// Set cookie
+            const age = 48 * 60 * 60; // 48 hours
+			document.cookie = `seenAnimation=true; max-age=${age}`;
+			return true;
+		}
+		return false;
+	}
 </script>
 
-<Shell
-	{prerun}
-	animationSpeed={{
-		characters: 0, //100,
-		lines: 0 //500
-	}}
-/>
+{#if inBrowser}
+	<Shell
+		{prerun}
+		animationSpeed={{
+			characters: showAnimation() ? 100 : 0,
+			lines: showAnimation() ? 500 : 0
+		}}
+	/>
+{/if}
