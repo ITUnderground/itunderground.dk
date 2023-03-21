@@ -48,7 +48,7 @@ class CLI {
 	private dir = dir;
 
 	/**
-	 * Extracts arguments from an itush command
+	 * Extracts arguments from an shell command
 	 * @param command string command to extract arguments from
 	 */
 	_argParser(command: string): ParsedCommand | null {
@@ -137,7 +137,7 @@ class CLI {
 	}
 
 	/**
-	 * Runs an itush command and adds it to the log
+	 * Runs an shell command and adds it to the log
 	 * @param command string command to run
 	 * @returns output of command
 	 */
