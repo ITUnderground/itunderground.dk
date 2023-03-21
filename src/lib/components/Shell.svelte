@@ -2,7 +2,7 @@
 	import CLI from '$lib/shell/cli';
 	const cli = new CLI();
 
-	/** @type {import('$lib/shell/cli').LogEntry[]} */
+	/** @type {import('$lib/shell/types').LogEntry[]} */
 	export let prerun = []; // Commands to be run before the user can interact with the shell
 
 	export let animationSpeed = {

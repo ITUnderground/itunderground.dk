@@ -12,7 +12,7 @@
 	const padding = 5;
 
 	/**
-	 * @type {import('$lib/shell/cli').LogEntry[]}
+	 * @type {import('$lib/shell/types').LogEntry[]}
 	 */
 	const prerun = [
 		{
