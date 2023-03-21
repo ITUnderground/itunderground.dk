@@ -8,9 +8,9 @@ class Dir {
 	private _root = {
 		home: {
 			itunderground: {
-				'flag.txt': 'flag{this_is_a_flag}',
-				secret: {
-					'not_flag.txt': 'flag{this_is_a_secret_flag}'
+				'flag.txt': 'You\'ve been tricked! There isn\'t any flag here!',
+				spooky_folder: {
+					'inconspicuous.txt': 'You found me! Here\'s your flag: <code>itu{spooky}</code>',
 				},
 				underground: '├── <a href="/post/who-are-we">who-are-we</a>\n'
                            + '├── <a href="/post/next-events">next-events</a>\n'
