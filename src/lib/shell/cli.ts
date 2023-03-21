@@ -13,7 +13,7 @@ const dir = new Dir(env);
 class CLI {
 	public static commands: typeof prebuilt & typeof custom = { ...prebuilt, ...custom };
 	public log: LogEntry[] = [];
-    public history: string[] = [];
+	public history: string[] = [];
 	public dir: Dir = dir;
 
 	/**
@@ -68,6 +68,29 @@ class CLI {
 	}
 
 	/**
+	 * Parses first instance of > or >> redirect in a command
+	 * @param command String command to parse
+	 * @returns ParsedCommand[] and redirects
+	 */
+	_redirectParser(command: string): {
+		commands: [ParsedCommand | null, ParsedCommand | null];
+		redirect: string | null;
+	} {
+		// Only supported redirects are > and >>
+		const regex = />{1,2}/g;
+		const match = command.match(regex);
+		if (!match) return { commands: [this._argParser(command), null], redirect: null };
+		const redirect = match[0];
+		const command1 = command.split(redirect)[0].trim();
+		const command2 = command.split(redirect).slice(1).join(redirect).trim();
+
+		return {
+			commands: [this._argParser(command1), this._argParser(command2)],
+			redirect
+		};
+	}
+
+	/**
 	 * Executes a ParsedCommand
 	 * @param parsed ParsedCommand to execute
 	 * @returns output of command
@@ -81,6 +104,7 @@ class CLI {
 		//@ts-ignore fuck you ts let me overflow
 		return CLI.commands[parsed.command as keyof typeof CLI.commands]({
 			command: {
+				name: parsed.command,
 				positional: parsed.positional,
 				named: parsed.named,
 				raw: parsed.raw
@@ -116,10 +140,17 @@ class CLI {
 		const server = CLI.commands.hostname();
 		const cwd = dir.cwd.replace('/home/itunderground', '~');
 
+		// Parse redirects
+		const { commands, redirect } = this._redirectParser(command);
+		// console.log(commands, redirect);
 		// Run command
-		const parsed = this._argParser(command);
-		const output = this._execute(parsed);
+		let output = this._execute(commands[0]);
+		// Redirect if needed
+		if (redirect) {
+			output = this.redirect(output || '', commands[1]?.command, redirect === '>>');
+		}
 
+		// Add to log
 		this.log.push({
 			user,
 			server,
@@ -127,7 +158,7 @@ class CLI {
 			command,
 			output: output || ''
 		});
-        this.history.push(command);
+		this.history.push(command);
 		return output;
 	}
 
@@ -139,6 +170,23 @@ class CLI {
 		this.log.push({
 			output: args.join(' ')
 		});
+	}
+
+	/**
+	 * Redirects text to a file
+	 * @param output Text to redirect to file
+	 * @param destination File to redirect to
+	 * @param append Whether to append to file or overwrite. Works like `>>` (append) and `>` (overwrite) in bash
+	 */
+	redirect(output: string, destination: string | undefined, append?: boolean) {
+		if (!destination) return;
+		const file = dir.read(destination);
+		if (file?.type === 'Directory') return `${destination}: is a directory`;
+		if (!append) {
+			dir.write(destination, output);
+			return;
+		}
+		dir.write(destination, (file?.value || '') + output);
 	}
 }
 
