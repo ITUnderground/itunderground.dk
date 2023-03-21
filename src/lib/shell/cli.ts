@@ -26,8 +26,8 @@ type ParsedCommand = {
 };
 type AccessObject = {
 	command: {
-		positional: string[];
-		named: { [key: string]: string };
+		positional: string[] | undefined[];
+		named: { [flag: string]: string };
 		raw: string;
 	};
 	cli: CLI;
