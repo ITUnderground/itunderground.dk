@@ -1,4 +1,4 @@
-import type { AccessObject } from '../cli';
+import type { AccessObject } from '../types';
 
 function history({ cli }: AccessObject) {
     const highestIndex = cli.history.length;

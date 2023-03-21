@@ -56,7 +56,7 @@ Once a markdown file has been added, don't forget to 1. **push your changes** to
 All commands in the Linux shell are custom implementations written in TypeScript. They're located in `src/lib/shell/commands/`, with some built-in core commands located in `builtin/`.  
 To add a command create a new TypeScript file in the `commands/` directory with the name of the command you wan't to implement. Copy the following template:  
 ```ts
-import type { AccessObject } from '../cli';
+import type { AccessObject } from '../types';
 
 function mycommand({ cli, dir, env, js, command }: AccessObject): string {
     return "Hello world!"

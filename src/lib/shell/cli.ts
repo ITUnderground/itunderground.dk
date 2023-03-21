@@ -2,39 +2,7 @@ import * as prebuilt from './commands/builtin/index';
 import * as custom from './commands/index';
 import Dir from './dir';
 import Env from './env';
-
-type Output = {
-	output: string;
-};
-type Input = {
-	user: string;
-	server: string;
-	cwd: string;
-	command: string;
-};
-/**
- * Log entry for the CLI.
- * Either define "`user`, `server`, `cwd`, and `command`" for input, "`output`" for output or both.
- */
-type LogEntry = Output | Input;
-
-type ParsedCommand = {
-	command: string;
-	positional: string[];
-	named: { [key: string]: string };
-	raw: string;
-};
-type AccessObject = {
-	command: {
-		positional: string[] | undefined[];
-		named: { [flag: string]: string };
-		raw: string;
-	};
-	cli: CLI;
-	dir: Dir;
-	env: Env;
-	js: (fn: () => void) => any;
-};
+import type { LogEntry, ParsedCommand } from './types';
 
 // Dir object for directory structure
 const env = new Env({
@@ -174,5 +142,4 @@ class CLI {
 	}
 }
 
-export type { LogEntry, ParsedCommand, AccessObject };
 export default CLI;

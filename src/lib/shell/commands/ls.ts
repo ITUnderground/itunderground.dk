@@ -1,11 +1,11 @@
-import type { AccessObject } from '../cli';
+import type { AccessObject } from '../types';
 
 function ls({ command: { positional }, dir }: AccessObject) {
 	// Get path parameter
 	const requestedPath = positional[0];
 
     // Locate directory
-	const directory = requestedPath ? dir.get(requestedPath) : dir.get(dir.cwd);
+	const directory = requestedPath ? dir.read(requestedPath) : dir.read(dir.cwd);
 	if (!directory) return `ls: ${requestedPath}: No such file or directory`;
 	if (directory.type === 'File') return `ls: ${requestedPath}: Not a directory`;
 

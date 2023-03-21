@@ -1,4 +1,4 @@
-import type { AccessObject } from '../../cli';
+import type { AccessObject } from '../../types';
 /**
  * Echoes a list of arguments to the console
  * @param Command object containing arguments

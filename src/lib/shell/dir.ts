@@ -1,9 +1,6 @@
 import type Env from './env';
-
+import type { Directory, File } from './types';
 // Implements directory structure
-type Directory = { [key: string]: Directory | File };
-type File = string;
-
 class Dir {
 	private _root = {
 		home: {
@@ -88,13 +85,13 @@ class Dir {
 	 * Get a file or directory
 	 * @param path Path to get
 	 */
-	get(path: string): { type: 'Directory' | 'File'; value: Directory | File } | null {
+	read(path: string): { type: "Directory", value: Directory } | { type: "File", value: File } | null {
 		// Get file
 		const found = this._locate(this.getAbsolutePath(path));
 
 		// Return file
+        if (!found) return null;
 		if (typeof found === 'string') return { type: 'File', value: found };
-		if (found === null) return null;
 		if (typeof found === 'object') return { type: 'Directory', value: found };
 		return null;
 	}
@@ -125,6 +122,24 @@ class Dir {
 		// Return absolute path
 		return finalPath.filter((p) => p !== '');
 	}
+
+    /**
+     * Write a file or directory to a path
+     * @param path The path to write to
+     * @param value The value to write. Can be a string or a directory
+     */
+    write(path: string, value: Directory | string) {
+        const absolutePath = this.getAbsolutePath(path);
+        const dir = absolutePath.slice(0, -1);
+        const file = absolutePath[absolutePath.length - 1];
+
+        let current: Directory = this._root;
+        for (const d of dir) {
+            if (!(d in current)) current[d] = {};
+            current = current[d] as Directory;
+        }
+        current[file] = value;
+    }
 }
 
 export default Dir;

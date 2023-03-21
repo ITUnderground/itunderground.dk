@@ -1,4 +1,4 @@
-import type { AccessObject } from '../cli';
+import type { AccessObject } from '../types';
 
 function cd({ command: { positional }, dir, env }: AccessObject) {
 	const requestedPath = positional[0];
