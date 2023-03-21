@@ -159,11 +159,8 @@ class Dir {
             return true;
         }
 
-        const [dir, file] = // Unless absolutePath is the root, this will always return a valid directory and file
-            absolutePath.length === 0 ? [[], ''] :
-			(absolutePath.length > 1
-				? [absolutePath.slice(0, -1), absolutePath[absolutePath.length - 1]]
-				: [[], absolutePath[0]]);
+        const [dir, file] = [absolutePath.slice(0, -1), absolutePath[absolutePath.length - 1]];
+        console.log(dir, file);
         
         let current: Directory = this._root;
         for (const d of dir) {
