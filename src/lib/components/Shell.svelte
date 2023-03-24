@@ -2,9 +2,7 @@
 	import CLI from '$lib/shell/cli';
 	const cli = new CLI();
 
-	/**
-	 * @type {import('$lib/shell/cli').LogEntry[]}
-	 */
+	/** @type {import('$lib/shell/types').LogEntry[]} */
 	export let prerun = []; // Commands to be run before the user can interact with the shell
 
 	export let animationSpeed = {
@@ -23,13 +21,41 @@
 		input = '';
 		log = [...cli.log];
 		cwd = cli.dir.cwd.replace('/home/itunderground', '~');
+        historyIndex = cli.history.length;
 	}
+
+    // Navigate history
+    let historyIndex = cli.history.length - 1;
+    /** @type {(direction: string) => void} */
+    function navigateHistory(direction) {
+        if (!interactive) return;
+        if (direction === 'up') {
+            if (historyIndex > 0) {
+                historyIndex--;
+                input = cli.history[historyIndex];
+            }
+        } else if (direction === 'down') {
+            if (historyIndex < cli.history.length - 1) {
+                historyIndex++;
+                input = cli.history[historyIndex];
+            } else {
+                historyIndex = cli.history.length;
+                input = '';
+            }
+        }
+    }
 
 	/**
 	 * @param e {KeyboardEvent & { currentTarget: EventTarget & Window; }}
 	 */
 	function onKeyDown(e) {
 		if (!interactive) return;
+        // Navigate history
+        if (e.key === 'ArrowUp') {
+            navigateHistory('up');
+        } else if (e.key === 'ArrowDown') {
+            navigateHistory('down');
+        }
 		// Add key to input
 		if (e.key.length === 1 && !(e.ctrlKey || e.altKey || e.metaKey)) {
 			input += e.key;
@@ -83,6 +109,8 @@
 			// Update log and cwd
 			log = [...cli.log];
 			cwd = cli.dir.cwd.replace('/home/itunderground', '~');
+            // Update history index
+            historyIndex = cli.history.length;
 			// Wait for next line
 			if (animationSpeed.lines !== 0)
 				await new Promise((resolve) => setTimeout(resolve, animationSpeed.lines));
@@ -100,7 +128,7 @@
 				class="text-pink-500"><strong>{line.cwd}</strong></span
 			>$ <span>{line.command}</span>
 		{/if}
-		{#if 'output' in line}
+		{#if 'output' in line && line.output !== ''}
 			<br />
 			<span class="whitespace-pre-wrap">
 				{@html line.output}

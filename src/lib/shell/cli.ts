@@ -2,39 +2,7 @@ import * as prebuilt from './commands/builtin/index';
 import * as custom from './commands/index';
 import Dir from './dir';
 import Env from './env';
-
-type Output = {
-	output: string;
-};
-type Input = {
-	user: string;
-	server: string;
-	cwd: string;
-	command: string;
-};
-/**
- * Log entry for the CLI.
- * Either define "`user`, `server`, `cwd`, and `command`" for input, "`output`" for output or both.
- */
-type LogEntry = Output | Input;
-
-type ParsedCommand = {
-	command: string;
-	positional: string[];
-	named: { [key: string]: string };
-	raw: string;
-};
-type AccessObject = {
-	command: {
-		positional: string[];
-		named: { [key: string]: string };
-		raw: string;
-	};
-	cli: CLI;
-	dir: Dir;
-	env: Env;
-	js: (fn: () => void) => any;
-};
+import type { LogEntry, ParsedCommand } from './types';
 
 // Dir object for directory structure
 const env = new Env({
@@ -45,10 +13,11 @@ const dir = new Dir(env);
 class CLI {
 	public static commands: typeof prebuilt & typeof custom = { ...prebuilt, ...custom };
 	public log: LogEntry[] = [];
-	public dir = dir;
+	public history: string[] = [];
+	public dir: Dir = dir;
 
 	/**
-	 * Extracts arguments from an itush command
+	 * Extracts arguments from an shell command
 	 * @param command string command to extract arguments from
 	 */
 	_argParser(command: string): ParsedCommand | null {
@@ -99,6 +68,29 @@ class CLI {
 	}
 
 	/**
+	 * Parses first instance of > or >> redirect in a command
+	 * @param command String command to parse
+	 * @returns ParsedCommand[] and redirects
+	 */
+	_redirectParser(command: string): {
+		commands: [ParsedCommand | null, ParsedCommand | null];
+		redirect: string | null;
+	} {
+		// Supports >, >>, and |
+		const regex = />{1,2}|\|/g;
+		const match = command.match(regex);
+		if (!match) return { commands: [this._argParser(command), null], redirect: null };
+		const redirect = match[0];
+		const command1 = command.split(redirect)[0].trim();
+		const command2 = command.split(redirect).slice(1).join(redirect).trim();
+
+		return {
+			commands: [this._argParser(command1), this._argParser(command2)],
+			redirect
+		};
+	}
+
+	/**
 	 * Executes a ParsedCommand
 	 * @param parsed ParsedCommand to execute
 	 * @returns output of command
@@ -112,6 +104,7 @@ class CLI {
 		//@ts-ignore fuck you ts let me overflow
 		return CLI.commands[parsed.command as keyof typeof CLI.commands]({
 			command: {
+				name: parsed.command,
 				positional: parsed.positional,
 				named: parsed.named,
 				raw: parsed.raw
@@ -137,7 +130,7 @@ class CLI {
 	}
 
 	/**
-	 * Runs an itush command and adds it to the log
+	 * Runs an shell command and adds it to the log
 	 * @param command string command to run
 	 * @returns output of command
 	 */
@@ -147,10 +140,16 @@ class CLI {
 		const server = CLI.commands.hostname();
 		const cwd = dir.cwd.replace('/home/itunderground', '~');
 
+		// Parse redirects
+		const { commands, redirect } = this._redirectParser(command);
 		// Run command
-		const parsed = this._argParser(command);
-		const output = this._execute(parsed);
+		let output = this._execute(commands[0]);
+		// Redirect if needed
+		if (redirect) {
+			output = this.redirect(output || '', commands[1], redirect)
+		}
 
+		// Add to log
 		this.log.push({
 			user,
 			server,
@@ -158,6 +157,7 @@ class CLI {
 			command,
 			output: output || ''
 		});
+		this.history.push(command);
 		return output;
 	}
 
@@ -170,7 +170,40 @@ class CLI {
 			output: args.join(' ')
 		});
 	}
+
+	/**
+	 * Redirects text to a file
+	 * @param output Text to redirect to file
+	 * @param destination File to redirect to
+	 * @param append Whether to append to file or overwrite. Works like `>>` (append) and `>` (overwrite) in bash
+	 */
+	redirect(output: string, destination: ParsedCommand | null, redirect: string): string | undefined {
+        if (!destination) return;
+        switch (redirect) {
+            case '>': {
+                const file = dir.read(destination.command);
+                if (file?.type === 'Directory') return `${destination.command}: is a directory`;
+                dir.write(destination.command, output);
+                return;
+            }
+            case '>>': {
+                const file = dir.read(destination.command);
+                if (file?.type === 'Directory') return `${destination.command}: is a directory`;
+                dir.write(destination.command, (file?.value || '') + output);
+                return;
+            }
+            case '|': {
+                const { commands, redirect } = this._redirectParser(destination.raw);
+                if (!commands[0]) return;
+                commands[0].raw += ' ' + output // Redirect previous output to new command
+                commands[0] = this._argParser(commands[0].raw); // Re-parse command
+                if (redirect) { // We have a chain of redirects
+                    return this.redirect(this._execute(commands[0]) || '', commands[1], redirect); // Run new command and redirect again
+                }
+                return this._execute(commands[0]); // Run new command
+            }
+        }
+	}
 }
 
-export type { LogEntry, ParsedCommand, AccessObject };
 export default CLI;

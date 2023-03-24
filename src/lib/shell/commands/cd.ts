@@ -1,4 +1,4 @@
-import type { AccessObject } from '../cli';
+import type { AccessObject } from '../types';
 
 function cd({ command: { positional }, dir, env }: AccessObject) {
 	const requestedPath = positional[0];
@@ -14,7 +14,6 @@ function cd({ command: { positional }, dir, env }: AccessObject) {
 		return `cd: ${requestedPath}: No such file or directory`;
 	// Navigate to path
 	dir.cwd = requestedPath;
-	console.log(dir.cwd);
 }
 cd.description = 'Changes current working directory';
 

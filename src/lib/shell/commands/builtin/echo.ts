@@ -1,10 +1,13 @@
-import type { AccessObject } from '../../cli';
+import type { AccessObject } from '../../types';
 /**
  * Echoes a list of arguments to the console
  * @param Command object containing arguments
  * @returns string of arguments joined by spaces
  */
 function echo({ command: { raw }, env }: AccessObject): string {
+    // Remove starting/ending quotes
+    raw = raw.replace(/^"|'|"|'$/g, '');
+
 	const words = raw.split(' ').slice(1);
 	// Replace environment variables
 	for (let i = 0; i < words.length; i++) {

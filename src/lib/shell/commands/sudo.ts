@@ -1,4 +1,4 @@
-import type { AccessObject } from "../cli"
+import type { AccessObject } from "../types"
 
 /**
  * Runs a command in G A M E R M O D E

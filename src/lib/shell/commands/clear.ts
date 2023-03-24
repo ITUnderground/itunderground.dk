@@ -1,4 +1,4 @@
-import type { AccessObject } from "../cli";
+import type { AccessObject } from "../types";
 
 /**
  * Clears the console
