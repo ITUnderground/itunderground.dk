@@ -4,13 +4,13 @@
 </script>
 
 <footer class="fixed left-0 bottom-0 flex w-screen justify-between bg-[#3f355b] text-white">
-	<div class="flex items-center gap-12">
+	<div class="flex items-center gap-12 overflow-hidden">
 		<!-- Left -->
 		{#each left as item}
-			<span>{@html item}</span>
+			<span class="inline-block w-auto">{@html item}</span>
 		{/each}
 	</div>
-	<div class="flex flex-row-reverse gap-12">
+	<div class="hidden flex-row-reverse gap-12 lg:flex ">
 		<!-- Right -->
 		{#each right as item}
 			<span>{@html item}</span>
