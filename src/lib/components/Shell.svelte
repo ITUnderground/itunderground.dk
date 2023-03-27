@@ -10,6 +10,7 @@
 		lines: 0
 	}; // Speed of the animation in ms. 0 for no animation
 	let interactive = prerun.length === 0; // Whether the user can interact with the shell
+	if (interactive) prompt(); // Open up phone keyboard
 
 	let input = '';
 	let input_right = '';
@@ -158,6 +159,7 @@
 				await new Promise((resolve) => setTimeout(resolve, animationSpeed.lines));
 		}
 		interactive = true;
+		prompt(); // Open up keyboard input
 	}
 
 	type();
