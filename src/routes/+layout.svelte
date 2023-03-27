@@ -7,6 +7,6 @@
 <style>
 	:global(body) {
 		@apply bg-black text-[#c8c1b4];
-        @apply text-2xl leading-7;
+        @apply text-2xl !leading-7;
 	}
 </style>
