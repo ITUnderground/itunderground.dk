@@ -1,5 +1,6 @@
 <script>
 	import Shell from '$lib/components/Shell.svelte';
+    import Footer from '$lib/components/Footer.svelte';
 	import { version } from '$app/environment';
 	import { onMount } from 'svelte';
 
@@ -48,7 +49,7 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`
 	function showAnimation() {
 		if (!document.cookie.includes('seenAnimation')) {
 			// Set cookie
-            const age = 48 * 60 * 60; // 48 hours
+			const age = 48 * 60 * 60; // 48 hours
 			document.cookie = `seenAnimation=true; max-age=${age}`;
 			return true;
 		}
@@ -66,6 +67,7 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`
 					lines: showAnimation() ? 500 : 0
 				}}
 			/>
+            <Footer />
 		{/if}
 	</div>
 </div>
