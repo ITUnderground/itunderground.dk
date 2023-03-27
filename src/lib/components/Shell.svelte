@@ -60,6 +60,19 @@
 			navigateHistory('down');
 		}
 
+		// Tab completion
+		if (e.key === 'Tab') {
+			e.preventDefault();
+			const command = input + input_right;
+			const [newCommand, completions] = cli.complete(command);
+			if (completions.length === 1) {
+				input = newCommand;
+			} else if (completions.length > 1) {
+				cli.newLine(command, completions.join(' '));
+				reloadLog();
+			}
+		}
+
 		// Navigate text left/right
 		if (e.key === 'ArrowLeft') {
 			input_right = input.slice(-1) + input_right;

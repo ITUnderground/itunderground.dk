@@ -146,7 +146,7 @@ class CLI {
 		let output = this._execute(commands[0]);
 		// Redirect if needed
 		if (redirect) {
-			output = this.redirect(output || '', commands[1], redirect)
+			output = this.redirect(output || '', commands[1], redirect);
 		}
 
 		// Add to log
@@ -177,32 +177,66 @@ class CLI {
 	 * @param destination File to redirect to
 	 * @param append Whether to append to file or overwrite. Works like `>>` (append) and `>` (overwrite) in bash
 	 */
-	redirect(output: string, destination: ParsedCommand | null, redirect: string): string | undefined {
-        if (!destination) return;
-        switch (redirect) {
-            case '>': {
-                const file = dir.read(destination.command);
-                if (file?.type === 'Directory') return `${destination.command}: is a directory`;
-                dir.write(destination.command, output);
-                return;
-            }
-            case '>>': {
-                const file = dir.read(destination.command);
-                if (file?.type === 'Directory') return `${destination.command}: is a directory`;
-                dir.write(destination.command, (file?.value || '') + output);
-                return;
-            }
-            case '|': {
-                const { commands, redirect } = this._redirectParser(destination.raw);
-                if (!commands[0]) return;
-                commands[0].raw += ' ' + output // Redirect previous output to new command
-                commands[0] = this._argParser(commands[0].raw); // Re-parse command
-                if (redirect) { // We have a chain of redirects
-                    return this.redirect(this._execute(commands[0]) || '', commands[1], redirect); // Run new command and redirect again
-                }
-                return this._execute(commands[0]); // Run new command
-            }
-        }
+	redirect(
+		output: string,
+		destination: ParsedCommand | null,
+		redirect: string
+	): string | undefined {
+		if (!destination) return;
+		switch (redirect) {
+			case '>': {
+				const file = dir.read(destination.command);
+				if (file?.type === 'Directory') return `${destination.command}: is a directory`;
+				dir.write(destination.command, output);
+				return;
+			}
+			case '>>': {
+				const file = dir.read(destination.command);
+				if (file?.type === 'Directory') return `${destination.command}: is a directory`;
+				dir.write(destination.command, (file?.value || '') + output);
+				return;
+			}
+			case '|': {
+				const { commands, redirect } = this._redirectParser(destination.raw);
+				if (!commands[0]) return;
+				commands[0].raw += ' ' + output; // Redirect previous output to new command
+				commands[0] = this._argParser(commands[0].raw); // Re-parse command
+				if (redirect) {
+					// We have a chain of redirects
+					return this.redirect(this._execute(commands[0]) || '', commands[1], redirect); // Run new command and redirect again
+				}
+				return this._execute(commands[0]); // Run new command
+			}
+		}
+	}
+
+	/**
+	 * Auto-completes a command based on the current directory
+	 * @param command Command to complete
+	 * @returns {[string, string[]]} Array of possible string completions
+	 */
+	complete(command: string): [string, string[]] {
+		// For now it only does directory, might add command completion later
+		const full = command.split(' ').slice(-1)[0]; // Get last part of command
+		const noSearch = command.split(' ').slice(0, -1).join(' '); // Remove last part of command to get command without search
+		const searchDir = full.split('/').slice(0, -1).join('/'); // Remove last part of search to get directory
+		const searchTerm = full.split('/').slice(-1)[0]; // Get last part of search to get search term
+		const files = dir.dir(searchDir);
+		const matches = files.filter((file) => file.startsWith(searchTerm));
+		return [`${noSearch} ${searchDir ? searchDir + '/' : ''}${matches[0]}`, matches];
+	}
+
+	/**
+	 * "Runs" the current command with the given output.
+	 */
+	newLine(command?: string, output?: string | string[]) {
+		this.log.push({
+			command: command || '',
+			cwd: dir.cwd.replace('/home/itunderground', '~'),
+			output: output ? (Array.isArray(output) ? output.join(' ') : output) : '',
+			server: CLI.commands.hostname(),
+			user: CLI.commands.whoami()
+		});
 	}
 }
 
