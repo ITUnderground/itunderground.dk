@@ -57,7 +57,7 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`
 	}
 </script>
 
-<div class="flex max-h-screen w-full flex-col-reverse items-center overflow-hidden" id="Terminal">
+<div class="flex max-h-[95vh] w-full flex-col-reverse items-center overflow-hidden" id="Terminal">
 	<div class="w-full xl:w-[1280px]">
 		{#if inBrowser}
 			<Shell
