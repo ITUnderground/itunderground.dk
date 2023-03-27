@@ -16,6 +16,10 @@
 	$: log = [...cli.log];
 	$: cwd = cli.dir.cwd.replace('/home/itunderground', '~');
 
+	function reloadLog() {
+		log = [...cli.log];
+	}
+
 	function submit() {
 		if (!interactive) return;
 		input += input_right;
@@ -80,6 +84,15 @@
 		} else if (e.key === 'ArrowRight') {
 			input = input + input_right.slice(0, 1);
 			input_right = input_right.slice(1);
+		}
+
+		// Home/End
+		if (e.key === 'Home') {
+			input_right = input + input_right;
+			input = '';
+		} else if (e.key === 'End') {
+			input = input + input_right;
+			input_right = '';
 		}
 
 		// Add key to input
