@@ -13,6 +13,10 @@ We will look at more true to life hacking, hacking a "box" aka. a vulnerable ser
 For this event we will explore more difficult parts of web challenges. <br /> <br />
 
 ### Previous events:  
-06/03-2023: Zero to Hero: Web Hacking 101, Our first official Event!  
-We introduced hacking and itunderground and covered how to get started with web challenges.
-
+**06/03-2023**: [Zero to Hero](https://docs.google.com/presentation/d/1NKq6T3BsB07zz03xzss2HTeou0ufYaHw2_7G90WLALU/edit?usp=sharing)  
+Web Hacking 101, Our first official Event!  
+We introduced hacking and itunderground and covered how to get started with web challenges. <br /> <br />
+  
+**20/03-2023**: [Setup 101](https://docs.google.com/presentation/d/1Gf1oz5B81gZTHK6ECNtXGcdvrAQvLICyXcp0jkXK0oc/edit?usp=sharing)  
+We set up a Kali Linux enviornment and introduced some of the useful tools that come preinstalled.  
+We also looked at how these tools could be used to obtain and crack passwords, as well as how to scan a website.
