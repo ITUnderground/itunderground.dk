@@ -4,7 +4,7 @@ date: 2022-10-10T19:36:18+02:00
 draft: false
 ---
 # Calendar: 
-### Upcomming events:
+### Upcoming events:
   
 **17/04-2023**: Pentest 101  
 We will look at more true to life hacking, hacking a "box" aka. a vulnerable server. We hope to hope to cover some useful tools for this and maybe even reverse shells. <br /> <br />
