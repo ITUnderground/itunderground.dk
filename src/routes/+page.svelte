@@ -15,7 +15,7 @@
 	 */
 	const prerun = [
 		{
-			output: `ITUnderground v${version} Tue Mar 21 05:47:24 CST 2023 SvelteKit
+			output: `ITUnderground v${version} Mon Apr 3 17:28:20 CST 2023 SvelteKit
 
 The programs included with the Debian GNU/Linux system are free software;
 the exact distribution terms for each program are described in the individual files in /usr/share/doc/*/copyright.
