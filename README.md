@@ -14,11 +14,11 @@ To extend, you first need to set up a local development environment.
 ## Setup  
 Clone this repository to your machine:  
 ```bash
-git clone https://github.com/ITUnderground/website
+git clone https://github.com/ITUnderground/itunderground.dk
 ```
 Once it's been cloned, enter it and install the npm packages.
 ```bash
-cd website
+cd itunderground.dk
 npm install
 ```
   
@@ -27,13 +27,13 @@ To run the website locally use following command:
 ```bash
 npm run dev
 ```
-It will host the website on `localhost:5173`.  
+It will host the website on [localhost:5173](http://localhost:5173).  
 Once you're confident with your changes, run this command to update the website:  
 ```bash
 npm run publish
 ```
 > **❗ Warning**  
-> The above command pushes your changes *directly* to the `gh-pages` branch. Running it will *immediately* update the LIVE version on https://itunderground.dk, so make sure all your changes are final.  
+> The above command pushes your changes *directly* to the `gh-pages` branch. Running it will *immediately* update the LIVE version on [itunderground.dk](https://itunderground.dk), so make sure all your changes are final.  
   
 Once you've made some changes, don't forget to push them!  
 ```bash
@@ -44,7 +44,7 @@ git push
 # Extending  
 Once you've set up a local environment, you can begin updating the website.  
 ## Markdown  
-Markdown files are used for blog-like posts. An example of this is [itunderground.dk/post/who-are-we](https://itunderground.dk/post/who-are-we). The corresponding markdown file is located in `src/routes/post/who-are-we/+page.md`.  
+Markdown files are used for blog-like posts. An example of this is [itunderground.dk/post/who-are-we](https://itunderground.dk/post/who-are-we). The corresponding markdown file is located in [`src/routes/post/who-are-we/+page.md`](./src/routes/post/who-are-we/+page.md).  
   
 To render markdown, we use [mdsvex](https://mdsvex.com/). It supports both .md files and .svx files, and both support directly inserting Svelte components. That means you can for example create a dynamic that fetches data from some server (remember, the site is static so make sure any data fetching happens client-side!).  
   
