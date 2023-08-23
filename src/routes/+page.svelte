@@ -23,12 +23,12 @@ the exact distribution terms for each program are described in the individual fi
 Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent permitted by applicable law.
 Last login: ${Date().slice(0, 24)} from 127.0.0.1`
 		},
-		{
-			command: 'whoami' + ' '.repeat(padding),
-			cwd: '/home/itunderground',
-			server,
-			user
-		},
+		// {
+		// 	command: 'whoami' + ' '.repeat(padding),
+		// 	cwd: '/home/itunderground',
+		// 	server,
+		// 	user
+		// },
 		{
 			command: 'ls /home/itunderground' + ' '.repeat(padding),
 			cwd,
@@ -63,7 +63,7 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`
 			<Shell
 				{prerun}
 				animationSpeed={{
-					characters: showAnimation() ? 100 : 0,
+					characters: showAnimation() ? 75 : 0,
 					lines: showAnimation() ? 500 : 0
 				}}
 			/>
