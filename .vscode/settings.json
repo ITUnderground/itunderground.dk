@@ -2,4 +2,5 @@
     "deepscan.enable": true,
     "css.lint.unknownAtRules": "ignore",
     "prettier.useTabs": true,
+    "editor.insertSpaces": false
 }
