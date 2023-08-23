@@ -9,7 +9,8 @@ To extend, you first need to set up a local development environment.
 # Setting up a local environment  
 ## Dependencies  
 * Git: https://git-scm.com/downloads
-* Node.js: https://nodejs.org/ (Most newer versions should work. If you experience problems, use v19).  
+* Node.js: https://nodejs.org/ <sub>(Most newer versions should work, project was last built with v20).</sub>  
+* pnpm: https://pnpm.io/installation <sub>(you can probably use npm if you change `pnpm` to `npm` in `package.json`.)</sub>
   
 ## Setup  
 Clone this repository to your machine:  
@@ -19,18 +20,18 @@ git clone https://github.com/ITUnderground/itunderground.dk
 Once it's been cloned, enter it and install the npm packages.
 ```bash
 cd itunderground.dk
-npm install
+pnpm install
 ```
   
 ## Running and building  
 To run the website locally use following command:  
 ```bash
-npm run dev
+pnpm run dev
 ```
 It will host the website on [localhost:5173](http://localhost:5173).  
 Once you're confident with your changes, run this command to update the website:  
 ```bash
-npm run publish
+pnpm run publish
 ```
 > **❗ Warning**  
 > The above command pushes your changes *directly* to the `gh-pages` branch. Running it will *immediately* update the LIVE version on [itunderground.dk](https://itunderground.dk), so make sure all your changes are final.  
