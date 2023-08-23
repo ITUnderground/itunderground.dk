@@ -4,16 +4,17 @@ import type { Directory, File } from './types';
 class Dir {
 	private _root: Directory = {
 		home: {
+			// Folder
 			itunderground: {
-				'flag.txt': "You've been tricked! There isn't any flag here!",
-				spooky_folder: {
+				// Simple file
+				'flag.txt': "Did you really think it'd be that easy?",
+				secret_folder: {
 					'inconspicuous.txt': "You found me! Here's your flag: <code>itu{spooky}</code>"
 				},
+				// Multiline file
 				underground:
 					'├── <a href="/post/who-are-we">who-are-we</a>\n' +
 					'├── <a href="/post/next-events">next-events</a>\n' +
-					'├── <a href="/post/skill-level">im-a-beginner-help-me</a>\n' +
-					'├── <a href="/post/skill-level">im-ready-to-pwn</a>\n' +
 					'└── <a href="/post/discord">discord-server</a>'
 			}
 		}
@@ -152,31 +153,34 @@ class Dir {
 	rm(path: string) {
 		const absolutePath = this.getAbsolutePath(path);
 
-        // Destroy everything if path is root
-        if (absolutePath.length === 0) {
-            const terminal = document.getElementById('Terminal'); // we do a little trolling
-            if (terminal) terminal.innerHTML = '';
-            return true;
-        }
+		// Destroy everything if path is root
+		if (absolutePath.length === 0) {
+			const terminal = document.getElementById('Terminal'); // we do a little trolling
+			if (terminal) terminal.innerHTML = '';
+			return true;
+		}
 
-        const [dir, file] = [absolutePath.slice(0, -1), absolutePath[absolutePath.length - 1]];
-        console.log(dir, file);
-        
-        let current: Directory = this._root;
-        for (const d of dir) {
-            if (!(d in current)) return false;
-            current = current[d] as Directory;
-        }
-        if (!(file in current)) return false;
+		const [dir, file] = [absolutePath.slice(0, -1), absolutePath[absolutePath.length - 1]];
+		console.log(dir, file);
 
-        // If cwd is in the path being deleted, move cwd to parent directory
-        if (this._cwd.length >= absolutePath.length && this._cwd.slice(0, absolutePath.length).join('/') === absolutePath.join('/')) {
-            this._cwd = dir;
-            this._navigate();
-        }
+		let current: Directory = this._root;
+		for (const d of dir) {
+			if (!(d in current)) return false;
+			current = current[d] as Directory;
+		}
+		if (!(file in current)) return false;
 
-        delete current[file];
-        return true;
+		// If cwd is in the path being deleted, move cwd to parent directory
+		if (
+			this._cwd.length >= absolutePath.length &&
+			this._cwd.slice(0, absolutePath.length).join('/') === absolutePath.join('/')
+		) {
+			this._cwd = dir;
+			this._navigate();
+		}
+
+		delete current[file];
+		return true;
 	}
 }
 
