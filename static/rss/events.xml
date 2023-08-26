@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+	<channel>
+		<title>ITUnderground events</title>
+		<link>https://itunderground.dk</link>
+		<description>Events for the hacking organisation at the IT University of Copenhagen</description>
+
+		<item>
+			<title>Web 102</title>
+			<description>For this event we will explore more difficult parts of web challenges.</description>
+			<date>2023-05-01</date>
+		</item>
+
+		<item>
+			<title>Pentest 101</title>
+			<description>We will look at more true to life hacking, hacking a â€œboxâ€ aka. a
+				vulnerable server. We hope to hope to cover some useful tools for this and maybe
+				even reverse shells.</description>
+			<date>2023-04-17</date>
+		</item>
+
+		<item>
+			<title>Setup 101</title>
+			<description>We set up a Kali Linux enviornment and introduced some of the useful tools
+				that come preinstalled.
+				We also looked at how these tools could be used to obtain and crack passwords, as
+				well as how to scan a website.</description>
+			<date>2023-03-20</date>
+		</item>
+
+		<item>
+			<title>Zero to Hero</title>
+			<description>Web Hacking 101, Our first official Event.
+				We introduced hacking and itunderground and covered how to get started with web
+				challenges.</description>
+			<date>2023-03-06</date>
+		</item>
+
+	</channel>
+</rss>
