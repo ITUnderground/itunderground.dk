@@ -1,0 +1,16 @@
+name: Build site on push
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  publish_sveltekit_site:
+    runs-on: ubuntu-latest # Should work on all
+    steps:
+      - uses: pnpm/action-setup@2.4.0
+        with:
+          run_install: true
+          standalone: true
+      - uses: actions/checkout@v2
+      - run: pnpm run publish
