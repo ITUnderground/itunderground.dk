@@ -57,9 +57,12 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`
 	}
 </script>
 
-<div class="flex max-h-[95vh] w-full flex-col-reverse items-center overflow-hidden" id="Terminal">
-	<div class="w-full xl:w-[1280px]">
+<div class="flex h-full w-full overflow-hidden" id="Terminal">
+	<div class="flex w-full flex-col-reverse items-center justify-between">
 		{#if inBrowser}
+			<!-- This is pretty fucked, but basically I'm using a reverse flex column to that the terminal overflows on top, which means the footer needs to go first. -->
+			<!-- If I didn't do this you would have to scroll down after every command which sucks -->
+			<Footer />
 			<Shell
 				{prerun}
 				animationSpeed={{
@@ -67,7 +70,6 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`
 					lines: showAnimation() ? 500 : 0
 				}}
 			/>
-			<Footer />
 		{/if}
 	</div>
 </div>

@@ -3,7 +3,7 @@
 	const right = ['(Emacs-Lisp Paredit lambda)', 'Git:master', '(87,0)'];
 </script>
 
-<footer class="fixed bottom-0 left-0 flex h-7 w-screen justify-between bg-[#3f355b] text-white">
+<footer class="bottom-0 left-0 flex h-7 w-screen justify-between bg-[#3f355b] text-white">
 	<div class="flex items-center gap-12 overflow-hidden">
 		<!-- Left -->
 		{#each left as item}

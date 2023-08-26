@@ -1,4 +1,4 @@
-<div class="console h-[calc(100vh-28px)]">
+<div class="console h-[100vh]">
 	<slot />
 </div>
 
