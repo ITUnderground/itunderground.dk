@@ -204,7 +204,7 @@
 		<br />
 	{/each}
 	<span class="text-[var(--shellcolor-home)]"
-		><strong>{CLI.commands.whoami()}@{CLI.commands.hostname()}</strong></span
+		><strong>{cli.env.get('USER')}@{CLI.commands.hostname()}</strong></span
 	>:<span class="text-[var(--shellcolor-base)]"><strong>{cwd}</strong></span>$
 	<span>{input}</span><span class="cursor" /><span
 		class="-ml-[0.8rem] text-[var(--shellcolor-base)]">{input_right}</span

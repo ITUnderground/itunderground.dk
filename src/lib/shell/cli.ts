@@ -6,7 +6,9 @@ import type { LogEntry, ParsedCommand } from './types';
 
 // Dir object for directory structure
 const env = new Env({
-	HOME: '/home/itunderground'
+	HOME: '/home/itunderground',
+	USER: 'it',
+	START_TIME: `${Date.now()}`
 });
 const dir = new Dir(env);
 
@@ -15,6 +17,7 @@ class CLI {
 	public log: LogEntry[] = [];
 	public history: string[] = [];
 	public dir: Dir = dir;
+	public env: Env = env;
 
 	/**
 	 * Extracts arguments from an shell command
@@ -119,13 +122,19 @@ class CLI {
 	 * Runs a javascript function in the browser
 	 * @param fn function to run
 	 */
-	js(fn: () => void) {
+	js(fn: (() => void) | string) {
 		// const newScript = document.createElement("script")
 		// const inlineScript = document.createTextNode(`(${fn.toString()})()`)
 		// newScript.appendChild(inlineScript);
 		// document.body.appendChild(newScript);
 		// Return the same thing as the function
-		return fn();
+		if (typeof fn === 'function') return fn();
+		else {
+			console.log('evaling: ' + fn);
+			const res = eval(fn);
+			console.log('eval result: ' + res);
+			return res;
+		}
 	}
 
 	/**
@@ -135,7 +144,7 @@ class CLI {
 	 */
 	run(command: string) {
 		// Get variables in case they are changed by command
-		const user = CLI.commands.whoami();
+		const user = env.get('USER') || 'it';
 		const server = CLI.commands.hostname();
 		const cwd = dir.cwd.replace('/home/itunderground', '~');
 
@@ -234,7 +243,7 @@ class CLI {
 			cwd: dir.cwd.replace('/home/itunderground', '~'),
 			output: output ? (Array.isArray(output) ? output.join(' ') : output) : '',
 			server: CLI.commands.hostname(),
-			user: CLI.commands.whoami()
+			user: env.get('USER') || 'it'
 		});
 	}
 }
