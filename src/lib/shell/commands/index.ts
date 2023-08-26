@@ -11,3 +11,4 @@ export { default as history } from './history';
 export { default as touch } from './touch';
 export { default as mkdir } from './mkdir';
 export { default as rm } from './rm';
+export { default as neofetch } from './neofetch';
