@@ -1,6 +1,8 @@
 {
-    "deepscan.enable": true,
-    "css.lint.unknownAtRules": "ignore",
-    "prettier.useTabs": true,
-    "editor.insertSpaces": false
+	"deepscan.enable": true,
+	"css.lint.unknownAtRules": "ignore",
+	"prettier.useTabs": true,
+	"editor.insertSpaces": false,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.formatOnSave": true
 }
