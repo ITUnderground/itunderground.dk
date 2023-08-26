@@ -37,6 +37,12 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+      
+      - name: Git identification
+        # Use the name and email of whoever triggered the workflow
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.event.pusher.email }}"
 
       - name: Build and deploy site
         run: pnpm run publish
