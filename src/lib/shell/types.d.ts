@@ -33,7 +33,7 @@ export type AccessObject = {
 	cli: CLI;
 	dir: Dir;
 	env: Env;
-	js: (fn: () => void) => void;
+	js: (fn: (() => void) | string) => unknown | void | undefined;
 };
 
 export type Directory = { [key: string]: Directory | File };
