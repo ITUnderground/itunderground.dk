@@ -4,7 +4,7 @@ on:
   - push
 
 jobs:
-  publish_sveltekit_site:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -37,12 +37,23 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-      
-      - name: Git identification
-        # Use the name and email of whoever triggered the workflow
-        run: |
-          git config --global user.name "${{ github.actor }}"
-          git config --global user.email "${{ github.event.pusher.email }}"
 
-      - name: Build and deploy site
-        run: pnpm run publish
+      - name: Build site
+        run: pnpm run build
+        
+  deploy:
+    needs: build
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: gh-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
