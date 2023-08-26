@@ -6,7 +6,7 @@ type Brand = {
 	version: string;
 };
 
-function neofetch({ cli, command: { name, named, positional, raw }, dir, env, js }: AccessObject) {
+function neofetch({ env, js }: AccessObject) {
 	const user = env.get('USER') || 'it';
 	const hostname = CLI.commands.hostname();
 	const loc = `${user}@${hostname}`;
