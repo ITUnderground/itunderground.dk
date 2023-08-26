@@ -28,6 +28,7 @@ module.exports = {
 		}
 	],
 	rules: {
-		'svelte/no-at-html-tags': 'warn'
+		'svelte/no-at-html-tags': 'warn',
+		'@typescript-eslint/no-unused-vars': 'warn'
 	}
 };
