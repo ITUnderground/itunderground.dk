@@ -56,7 +56,7 @@ function neofetch({ env, js }: AccessObject) {
 	];
 
 	const output =
-		`${logo[0]}   ${loc}\n` +
+		`${logo[0]}   <span style="color: #4beb53;">${loc}</span>\n` +
 		`${logo[1]}   ${'-'.repeat(loc.length)}\n` +
 		`${logo[2]}   <span style="color: #4beb53;">OS:</span> ${os}\n` +
 		`${logo[3]}   <span style="color: #4beb53;">Browser:</span> ${browser}\n` +
