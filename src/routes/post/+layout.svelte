@@ -36,7 +36,11 @@
 					></span
 				>
 				<!-- "is not a valid href attribute" dies of cringe -->
-				<a href="javascript:history.back()" class="bg-blue-600 text-black hover:text-white hover:cursor-pointer">
+				<!-- svelte-ignore a11y-invalid-attribute -->
+				<a
+					href="javascript:history.back()"
+					class="bg-blue-600 text-black hover:cursor-pointer hover:text-white"
+				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="24"
@@ -62,10 +66,12 @@
 	}
 	.outer::before {
 		/* CRT effect */
-		@apply pointer-events-none absolute top-0 left-0 bottom-0 right-0 block content-[""];
+		@apply pointer-events-none absolute bottom-0 left-0 right-0 top-0 block content-[""];
 		background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
 			linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-		background-size: 100% 4px, 6px 100%;
+		background-size:
+			100% 4px,
+			6px 100%;
 	}
 	.inner {
 		@apply h-full w-full bg-indigo-900;
@@ -75,7 +81,7 @@
 		@apply relative z-10 max-h-[90%] min-h-[80%] min-w-[80%] max-w-[90%] rounded-lg bg-slate-900 p-10;
 	}
 	.buttons {
-		@apply absolute top-2 right-2 flex space-x-1;
+		@apply absolute right-2 top-2 flex space-x-1;
 		font-size: 0;
 	}
 	.buttons > * {
