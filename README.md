@@ -29,19 +29,16 @@ To run the website locally use following command:
 pnpm run dev
 ```
 It will host the website on [localhost:5173](http://localhost:5173).  
-Once you're confident with your changes, run this command to update the website:  
-```bash
-pnpm run publish
-```
-> **❗ Warning**  
-> The above command pushes your changes *directly* to the `gh-pages` branch. Running it will *immediately* update the LIVE version on [itunderground.dk](https://itunderground.dk), so make sure all your changes are final.  
-  
-Once you've made some changes, don't forget to push them!  
+
+Once you're confident with your changes, push them to GitHub and the Actions Workflow will automatically update the site:  
 ```bash
 git add .
 git commit -m "Write what you changed here"
 git push
 ```
+> **❗ Warning**  
+> Pushing to the `master` branch will *immediately* update the LIVE version on [itunderground.dk](https://itunderground.dk), so make sure all your changes are final before pushing.  
+
 # Extending  
 Once you've set up a local environment, you can begin updating the website.  
 ## Markdown  
