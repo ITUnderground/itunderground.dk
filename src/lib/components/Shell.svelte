@@ -11,7 +11,7 @@
 	}; // Speed of the animation in ms. 0 for no animation
 	let interactive = prerun.length === 0; // Whether the user can interact with the shell
 
-    let input = '';
+	let input = '';
 	let input_right = '';
 	$: log = [...cli.log];
 	$: cwd = cli.dir.cwd.replace('/home/itunderground', '~');
@@ -56,14 +56,14 @@
 	 * @param e {KeyboardEvent & { currentTarget: EventTarget & Window; }}
 	 */
 	function onKeyDown(e) {
-        // Skip animation when pressing enter
-        if (e.key === 'Enter') {
-            animationSpeed = {
-                characters: 0,
-                lines: 0
-            };
-            interactive = true;
-        }
+		// Skip animation when pressing enter
+		if (e.key === 'Enter') {
+			animationSpeed = {
+				characters: 0,
+				lines: 0
+			};
+			interactive = true;
+		}
 		if (!interactive) return;
 		// Navigate history
 		if (e.key === 'ArrowUp') {

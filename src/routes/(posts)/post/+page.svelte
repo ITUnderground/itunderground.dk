@@ -1,5 +1,7 @@
 <script>
+	import { onMount } from 'svelte';
+
 	// Redirect to / without adding to history
 	// This page only exists for the breadcrumbs
-	window.location.replace('/');
+	onMount(() => window.location.replace('/'));
 </script>
