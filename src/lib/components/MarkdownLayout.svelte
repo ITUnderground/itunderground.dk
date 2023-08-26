@@ -35,9 +35,10 @@
 <header class="m-auto flex h-16 max-w-5xl flex-wrap px-4 py-4">
 	<a
 		href="/"
-		class="text-2xl font-bold text-[var(--primary)] no-underline hover:text-[var(--primary)]"
-		>ITUnderground</a
-	>
+		class="m-auto text-2xl font-bold text-[var(--primary)] no-underline hover:text-[var(--primary)]"
+		>ITUnderground
+		<img src="/cap.png" alt="itunderground" class="inline-block h-12" />
+	</a>
 </header>
 <article class="m-auto min-h-[calc(100vh-4rem)] max-w-3xl p-4">
 	<header class="my-6">
