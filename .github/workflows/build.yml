@@ -1,4 +1,4 @@
-name: Build site on push
+name: Publish site on push
 
 on:
   - push
