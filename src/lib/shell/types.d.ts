@@ -1,6 +1,6 @@
-import type CLI from "./cli";
-import type Dir from "./dir";
-import type Env from "./env";
+import type CLI from './cli';
+import type Dir from './dir';
+import type Env from './env';
 
 export type Output = {
 	output: string;
@@ -25,7 +25,7 @@ export type ParsedCommand = {
 };
 export type AccessObject = {
 	command: {
-        name: string;
+		name: string;
 		positional: string[] | undefined[];
 		named: { [flag: string]: string };
 		raw: string;
@@ -33,7 +33,7 @@ export type AccessObject = {
 	cli: CLI;
 	dir: Dir;
 	env: Env;
-	js: (fn: () => void) => any;
+	js: (fn: () => void) => void;
 };
 
 export type Directory = { [key: string]: Directory | File };

@@ -3,7 +3,7 @@
  * @returns the server hostname
  */
 function hostname(): string {
-    return "underground"
+	return 'underground';
 }
-hostname.description = "Returns the server hostname"
-export default hostname
+hostname.description = 'Returns the server hostname';
+export default hostname;

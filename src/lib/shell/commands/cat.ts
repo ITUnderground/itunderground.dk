@@ -1,4 +1,4 @@
-import type { AccessObject } from '../types'
+import type { AccessObject } from '../types';
 
 function cat({ command: { positional }, dir }: AccessObject): string {
 	// Get file parameter

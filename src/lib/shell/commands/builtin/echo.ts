@@ -5,8 +5,8 @@ import type { AccessObject } from '../../types';
  * @returns string of arguments joined by spaces
  */
 function echo({ command: { raw }, env }: AccessObject): string {
-    // Remove starting/ending quotes
-    raw = raw.replace(/^"|'|"|'$/g, '');
+	// Remove starting/ending quotes
+	raw = raw.replace(/^"|'|"|'$/g, '');
 
 	const words = raw.split(' ').slice(1);
 	// Replace environment variables

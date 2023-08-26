@@ -1,13 +1,15 @@
-import CLI from "../cli";
+import CLI from '../cli';
 
 function help(): string {
-    // Get commands
-    const commands = CLI.commands
+	// Get commands
+	const commands = CLI.commands;
 
-    return (Object.keys(commands).map(command => {
-        return `${command} - ${commands[command as keyof typeof commands].description}`
-    })).join("\n")
+	return Object.keys(commands)
+		.map((command) => {
+			return `${command} - ${commands[command as keyof typeof commands].description}`;
+		})
+		.join('\n');
 }
-help.description = "Returns a list of commands"
+help.description = 'Returns a list of commands';
 
-export default help
+export default help;

@@ -95,13 +95,12 @@ class CLI {
 	 * @param parsed ParsedCommand to execute
 	 * @returns output of command
 	 */
-	_execute(parsed: ParsedCommand | null): string | undefined {
+	_execute(parsed: ParsedCommand | null): string | undefined | void {
 		// Check if valid command
 		if (!parsed) return '';
 		if (!(parsed.command in CLI.commands)) return `${parsed.command}: command not found`;
 
 		// Run command
-		//@ts-ignore fuck you ts let me overflow
 		return CLI.commands[parsed.command as keyof typeof CLI.commands]({
 			command: {
 				name: parsed.command,
@@ -165,7 +164,7 @@ class CLI {
 	 * Logs to stdout
 	 * @param args arguments to log
 	 */
-	stdout(...args: any[]) {
+	stdout(...args: string[]) {
 		this.log.push({
 			output: args.join(' ')
 		});
@@ -181,7 +180,7 @@ class CLI {
 		output: string,
 		destination: ParsedCommand | null,
 		redirect: string
-	): string | undefined {
+	): string | undefined | void {
 		if (!destination) return;
 		switch (redirect) {
 			case '>': {

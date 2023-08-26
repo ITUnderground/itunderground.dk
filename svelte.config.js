@@ -7,21 +7,21 @@ import preprocess from 'svelte-preprocess';
 const config = {
 	// Consult https://kit.svelte.dev/docs/integrations#preprocessors
 	// for more information about preprocessors
-    extensions: ['.svelte', '.md', '.svx'],
+	extensions: ['.svelte', '.md', '.svx'],
 	preprocess: [
-        vitePreprocess(),
-        mdsvex({
-            extensions: ['.md', '.svx'],
-        }),
-        preprocess({
-            postcss: true,
-        })
-    ],
+		vitePreprocess(),
+		mdsvex({
+			extensions: ['.md', '.svx']
+		}),
+		preprocess({
+			postcss: true
+		})
+	],
 	kit: {
 		adapter: adapter(),
-        version: {
-            name: process.env.npm_package_version
-        }
+		version: {
+			name: process.env.npm_package_version
+		}
 	}
 };
 
