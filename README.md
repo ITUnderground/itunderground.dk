@@ -54,7 +54,12 @@ git push
 
 # Extending
 
-Once you've set up a local environment, you can begin updating the website.
+Once you've set up a local environment, you can begin updating the website.  
+There are 3 main elements of itunderground.dk:
+
+- [Markdown/posts](#markdown)
+- [CLI/commands](#commands)
+- [Visuals/design](#design)
 
 ## Markdown
 
@@ -64,12 +69,14 @@ To render markdown, we use [mdsvex](https://mdsvex.com/). It supports both .md f
 
 ~~View [next-events](src/routes/post/next-events/%2Bpage.md) for an example of a data-fetching markdown file. It fetches data from out public calendar.~~ <- Not yet implemented.
 
-Once a markdown file has been added, don't forget to 1. **push your changes** to the main repo and 2. **build** the website to update it (See [Running and building](#running-and-building)).
+To add a markdown file, create a directory corresponding to its name and add a `+page.md` file. Remember to link to the file somewhere, such as in the [dir](src/lib/shell/dir.ts) or there won't be a way to navigate to it.
+
+Push your changes to GitHub to see the updated website.
 
 ## Commands
 
-All commands in the Linux shell are custom implementations written in TypeScript. They're located in `src/lib/shell/commands/`, with some built-in core commands located in `builtin/`.  
-To add a command create a new TypeScript file in the `commands/` directory with the name of the command you wan't to implement. Copy the following template:
+All commands in the Linux shell are custom implementations written in TypeScript. They're located in [`src/lib/shell/commands/`](src/lib/shell/commands/), with some built-in core commands located in [`builtin/`](src/lib/shell/commands/builtin/).  
+To add a command create a new TypeScript file in the [`commands/`](src/lib/shell/commands/) directory with the name of the command you want to implement. Copy the following template:
 
 ```ts
 import type { AccessObject } from '../types';
@@ -82,7 +89,7 @@ mycommand.description = 'My cool and awesome command!';
 export default mycommand;
 ```
 
-There are some important things to note here:
+It is highly recommanded that you use something like IntelliSense to view all properties on the AccesObject that your command has access to. Methods starting with and underscore (\_) should be avoided as they are meant for internal use. See other commands for inspiration on how to make use of this object.
 
 1. The AccessObject contains all the metadata you have access to in the command.
    - `cli`: Exposes basic CLI methods that allows you to run a command and print to regular output, as well as the log.  
