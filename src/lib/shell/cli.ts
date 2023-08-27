@@ -2,7 +2,7 @@ import * as prebuilt from './commands/builtin/index';
 import * as custom from './commands/index';
 import Dir from './dir';
 import Env from './env';
-import type { LogEntry, ParsedCommand } from './types';
+import type { LogEntry, ParsedCommand, callback as Callback } from './types';
 
 // Dir object for directory structure
 const env = new Env({
@@ -18,6 +18,11 @@ class CLI {
 	public history: string[] = [];
 	public dir: Dir = dir;
 	public env: Env = env;
+	public onLogUpdate: Callback;
+
+	constructor(onLogUpdate: Callback) {
+		this.onLogUpdate = onLogUpdate;
+	}
 
 	/**
 	 * Extracts arguments from an shell command
@@ -98,13 +103,13 @@ class CLI {
 	 * @param parsed ParsedCommand to execute
 	 * @returns output of command
 	 */
-	_execute(parsed: ParsedCommand | null): string | undefined | void {
+	async _execute(parsed: ParsedCommand | null): Promise<string | undefined | void> {
 		// Check if valid command
 		if (!parsed) return '';
 		if (!(parsed.command in CLI.commands)) return `${parsed.command}: command not found`;
 
 		// Run command
-		return CLI.commands[parsed.command as keyof typeof CLI.commands]({
+		return await CLI.commands[parsed.command as keyof typeof CLI.commands]({
 			command: {
 				name: parsed.command,
 				positional: parsed.positional,
@@ -116,6 +121,11 @@ class CLI {
 			env,
 			js: this.js.bind(this)
 		});
+	}
+
+	_pushlog(entry: LogEntry) {
+		this.log.push(entry);
+		this.onLogUpdate();
 	}
 
 	/**
@@ -130,9 +140,7 @@ class CLI {
 		// Return the same thing as the function
 		if (typeof fn === 'function') return fn();
 		else {
-			console.log('evaling: ' + fn);
 			const res = eval(fn);
-			console.log('eval result: ' + res);
 			return res;
 		}
 	}
@@ -142,7 +150,7 @@ class CLI {
 	 * @param command string command to run
 	 * @returns output of command
 	 */
-	run(command: string) {
+	async run(command: string) {
 		// Get variables in case they are changed by command
 		const user = env.get('USER') || 'it';
 		const server = CLI.commands.hostname();
@@ -150,21 +158,23 @@ class CLI {
 
 		// Parse redirects
 		const { commands, redirect } = this._redirectParser(command);
-		// Run command
-		let output = this._execute(commands[0]);
-		// Redirect if needed
-		if (redirect) {
-			output = this.redirect(output || '', commands[1], redirect);
-		}
-
 		// Add to log
-		this.log.push({
+		this._pushlog({
 			user,
 			server,
 			cwd,
-			command,
-			output: output || ''
+			command
 		});
+		// Run command
+		let output = await this._execute(commands[0]);
+		// Redirect if needed
+		if (redirect) {
+			output = await this.redirect(output || '', commands[1], redirect);
+		}
+
+		// Add to log
+		if (output) this._pushlog({ output });
+
 		this.history.push(command);
 		return output;
 	}
@@ -174,7 +184,7 @@ class CLI {
 	 * @param args arguments to log
 	 */
 	stdout(...args: string[]) {
-		this.log.push({
+		this._pushlog({
 			output: args.join(' ')
 		});
 	}
@@ -185,11 +195,11 @@ class CLI {
 	 * @param destination File to redirect to
 	 * @param append Whether to append to file or overwrite. Works like `>>` (append) and `>` (overwrite) in bash
 	 */
-	redirect(
+	async redirect(
 		output: string,
 		destination: ParsedCommand | null,
 		redirect: string
-	): string | undefined | void {
+	): Promise<string | undefined | void> {
 		if (!destination) return;
 		switch (redirect) {
 			case '>': {
@@ -211,7 +221,7 @@ class CLI {
 				commands[0] = this._argParser(commands[0].raw); // Re-parse command
 				if (redirect) {
 					// We have a chain of redirects
-					return this.redirect(this._execute(commands[0]) || '', commands[1], redirect); // Run new command and redirect again
+					return this.redirect((await this._execute(commands[0])) || '', commands[1], redirect); // Run new command and redirect again
 				}
 				return this._execute(commands[0]); // Run new command
 			}
@@ -238,7 +248,7 @@ class CLI {
 	 * "Runs" the current command with the given output.
 	 */
 	newLine(command?: string, output?: string | string[]) {
-		this.log.push({
+		this._pushlog({
 			command: command || '',
 			cwd: dir.cwd.replace('/home/itunderground', '~'),
 			output: output ? (Array.isArray(output) ? output.join(' ') : output) : '',

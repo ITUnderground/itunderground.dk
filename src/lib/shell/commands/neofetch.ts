@@ -6,7 +6,7 @@ type Brand = {
 	version: string;
 };
 
-function neofetch({ env, js }: AccessObject) {
+async function neofetch({ cli, env, js }: AccessObject) {
 	const user = env.get('USER') || 'it';
 	const hostname = CLI.commands.hostname();
 	const loc = `${user}@${hostname}`;
@@ -55,31 +55,33 @@ function neofetch({ env, js }: AccessObject) {
 		'<span style="color: white;">         :~?5G#&&@@&#BPY7^              </span>'
 	];
 
-	const output =
-		`${logo[0]}   <span style="color: #4beb53;">${loc}</span>\n` +
-		`${logo[1]}   ${'-'.repeat(loc.length)}\n` +
-		`${logo[2]}   <span style="color: #4beb53;">OS:</span> ${os}\n` +
-		`${logo[3]}   <span style="color: #4beb53;">Browser:</span> ${browser}\n` +
-		`${logo[4]}   <span style="color: #4beb53;">Uptime:</span> ${uptime}\n` +
-		`${logo[5]}   <span style="color: #4beb53;">Packages:</span> ${packages}\n` +
-		`${logo[6]}   <span style="color: #4beb53;">Shell:</span> ${shell}\n` +
-		`${logo[7]}   <span style="color: #4beb53;">Terminal:</span> ${terminal}\n` +
-		`${logo[8]}   <span style="color: #4beb53;">CPU:</span> ${CPU}\n` +
-		`${logo[9]}   <span style="color: #4beb53;">GPU:</span> ${GPU}\n` +
-		`${logo[10]}   <span style="color: #4beb53;">Memory:</span> ${memory}\n` +
+	const output = [
+		`${logo[0]}   <span style="color: #4beb53;">${loc}</span>\n`,
+		`${logo[1]}   ${'-'.repeat(loc.length)}\n`,
+		`${logo[2]}   <span style="color: #4beb53;">OS:</span> ${os}\n`,
+		`${logo[3]}   <span style="color: #4beb53;">Browser:</span> ${browser}\n`,
+		`${logo[4]}   <span style="color: #4beb53;">Uptime:</span> ${uptime}\n`,
+		`${logo[5]}   <span style="color: #4beb53;">Packages:</span> ${packages}\n`,
+		`${logo[6]}   <span style="color: #4beb53;">Shell:</span> ${shell}\n`,
+		`${logo[7]}   <span style="color: #4beb53;">Terminal:</span> ${terminal}\n`,
+		`${logo[8]}   <span style="color: #4beb53;">CPU:</span> ${CPU}\n`,
+		`${logo[9]}   <span style="color: #4beb53;">GPU:</span> ${GPU}\n`,
+		`${logo[10]}   <span style="color: #4beb53;">Web memory:</span> ${memory}\n`,
 		`${logo[11]}   <span style="color: #dba9ff66;">▮</span>` +
-		'<span style="color: #4beb53;">▮</span>' +
-		'<span style="color: #d85aa5;">▮</span>' +
-		'<span style="color: #c8c1b4;">▮</span>' +
-		'<span style="color: #3f355b;">▮</span>' +
-		'<span style="color: #fdb2dd;">▮</span>' +
-		'<span style="color: #e2eaf3;">▮</span>\n' +
-		logo
-			.slice(12)
-			.map((line) => `${line}`)
-			.join('\n');
+			'<span style="color: #4beb53;">▮</span>' +
+			'<span style="color: #d85aa5;">▮</span>' +
+			'<span style="color: #c8c1b4;">▮</span>' +
+			'<span style="color: #3f355b;">▮</span>' +
+			'<span style="color: #fdb2dd;">▮</span>' +
+			'<span style="color: #e2eaf3;">▮</span>\n',
+		...logo.slice(12).map((line) => `${line}`)
+	];
 
-	return output;
+	await new Promise((resolve) => setTimeout(resolve, 300));
+	for (const line of output) {
+		cli.stdout(line);
+		await new Promise((resolve) => setTimeout(resolve, 10));
+	}
 }
 neofetch.description = 'Neofetch - A fast, highly customizable system info script';
 export default neofetch;

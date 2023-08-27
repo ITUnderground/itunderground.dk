@@ -38,3 +38,5 @@ export type AccessObject = {
 
 export type Directory = { [key: string]: Directory | File };
 export type File = string;
+
+export type callback = (...args: unknown[]) => void;

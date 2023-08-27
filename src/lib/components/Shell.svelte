@@ -1,6 +1,6 @@
 <script>
 	import CLI from '$lib/shell/cli';
-	const cli = new CLI();
+	const cli = new CLI(reloadLog);
 
 	/** @type {import('$lib/shell/types').LogEntry[]} */
 	export let prerun = []; // Commands to be run before the user can interact with the shell
@@ -9,7 +9,8 @@
 		characters: 0,
 		lines: 0
 	}; // Speed of the animation in ms. 0 for no animation
-	let interactive = prerun.length === 0; // Whether the user can interact with the shell
+	let introAnimationPlaying = prerun.length === 0; // Both of these control whether the shell is interactive
+	let interactive = true; // But this one allows commands to take control of the shell for a while
 
 	let input = '';
 	let input_right = '';
@@ -21,21 +22,22 @@
 	}
 
 	function submit() {
-		if (!interactive) return;
 		input += input_right;
 		input_right = '';
-		cli.run(input);
+		interactive = false;
+		cli.run(input).then(() => {
+			log = [...cli.log];
+			cwd = cli.dir.cwd.replace('/home/itunderground', '~');
+			historyIndex = cli.history.length;
+			interactive = true;
+		});
 		input = '';
-		log = [...cli.log];
-		cwd = cli.dir.cwd.replace('/home/itunderground', '~');
-		historyIndex = cli.history.length;
 	}
 
 	// Navigate history
 	let historyIndex = cli.history.length - 1;
 	/** @type {(direction: string) => void} */
 	function navigateHistory(direction) {
-		if (!interactive) return;
 		if (direction === 'up') {
 			if (historyIndex > 0) {
 				historyIndex--;
@@ -55,16 +57,16 @@
 	/**
 	 * @param e {KeyboardEvent & { currentTarget: EventTarget & Window; }}
 	 */
-	function onKeyDown(e) {
+	async function onKeyDown(e) {
 		// Skip animation when pressing enter
 		if (e.key === 'Enter') {
 			animationSpeed = {
 				characters: 0,
 				lines: 0
 			};
-			interactive = true;
+			introAnimationPlaying = true;
 		}
-		if (!interactive) return;
+		if (!introAnimationPlaying || !interactive) return;
 		// Navigate history
 		if (e.key === 'ArrowUp') {
 			navigateHistory('up');
@@ -152,7 +154,7 @@
 					}
 				}
 				// Run command
-				cli.run(logEntry.command);
+				await cli.run(logEntry.command);
 				// Reset inpput
 				input = '';
 			}
@@ -165,7 +167,7 @@
 			if (animationSpeed.lines !== 0)
 				await new Promise((resolve) => setTimeout(resolve, animationSpeed.lines));
 		}
-		interactive = true;
+		introAnimationPlaying = true;
 	}
 
 	type();
@@ -180,7 +182,7 @@
 </script>
 
 <!-- Hidden input for mobile users -->
-<div class="xl:w-[1280px]">
+<div class="flex w-full flex-col xl:w-[1280px]">
 	<input
 		type="text"
 		autocorrect="off"
@@ -191,24 +193,30 @@
 	/>
 	{#each log as line}
 		{#if 'user' in line}
-			<span class="text-[var(--shellcolor-home)]"><strong>{line.user}@{line.server}</strong></span
-			>:<span class="text-[var(--shellcolor-base)]"><strong>{line.cwd}</strong></span>$
-			<span>{line.command}</span>
+			<span>
+				<span class="text-[var(--shellcolor-home)]"><strong>{line.user}@{line.server}</strong></span
+				>:<span class="text-[var(--shellcolor-base)]"><strong>{line.cwd}</strong></span>$
+				<span>{line.command}</span>
+			</span>
 		{/if}
 		{#if 'output' in line && line.output !== ''}
-			<br />
-			<span class="whitespace-pre-wrap">
+			<span class="whitespace-pre-wrap break-keep">
 				{@html line.output}
 			</span>
 		{/if}
-		<br />
 	{/each}
-	<span class="text-[var(--shellcolor-home)]"
-		><strong>{cli.env.get('USER')}@{CLI.commands.hostname()}</strong></span
-	>:<span class="text-[var(--shellcolor-base)]"><strong>{cwd}</strong></span>$
-	<span>{input}</span><span class="cursor" /><span
-		class="-ml-[0.8rem] text-[var(--shellcolor-base)]">{input_right}</span
-	>
+	{#if interactive}
+		<span>
+			<span class="text-[var(--shellcolor-home)]"
+				><strong>{cli.env.get('USER')}@{CLI.commands.hostname()}</strong></span
+			>:<span class="text-[var(--shellcolor-base)]"><strong>{cwd}</strong></span>$
+			<span>{input}</span><span class="cursor" /><span
+				class="-ml-[0.8rem] text-[var(--shellcolor-base)]">{input_right}</span
+			>
+		</span>
+	{:else}
+		<br />
+	{/if}
 </div>
 <svelte:window on:keydown={onKeyDown} />
 
