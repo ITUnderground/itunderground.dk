@@ -11,9 +11,10 @@ Subscribe to our [rss feed](http://itunderground.dk/rss/events.xml) to never mis
 
 ### Upcoming events:
 
-| Name              | Description                                                                      | Date       |
-| ----------------- | -------------------------------------------------------------------------------- | ---------- |
-| Semester planning | Planning what we'll do for this semester of ITUnderground. Feel free to show up! | 2023-08-28 |
+| Name              | Description                                                                                                                                                                    | Date                    |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------- |
+| Semester planning | Planning what we'll do for this semester of ITUnderground. Feel free to show up!                                                                                               | 2023-08-28              |
+| Patriot CTF       | https://ctftime.org/event/2030<br><br>We meet up at ITU to play the CTF over the weekend. Stay tuned for more information in the discord server: https://discord.gg/NSYezU85nW | 2023-09-08 - 2023-09-10 |
 
 <details>
 <summary>Click to open Google Calendar</summary>
