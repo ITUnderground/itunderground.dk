@@ -6,6 +6,13 @@
 		<description>Events for the hacking organisation at the IT University of Copenhagen</description>
 
 		<item>
+			<title>Semester planning</title>
+			<description>Planning what we'll do for this semester of ITUnderground. Feel free to
+				show up!</description>
+			<date>2023-08-28</date>
+		</item>
+
+		<item>
 			<title>Web 102</title>
 			<description>For this event we will explore more difficult parts of web challenges.</description>
 			<date>2023-05-01</date>
@@ -13,7 +20,7 @@
 
 		<item>
 			<title>Pentest 101</title>
-			<description>We will look at more true to life hacking, hacking a â€œboxâ€ aka. a
+			<description>We will look at more true to life hacking, hacking a "box" aka. a
 				vulnerable server. We hope to hope to cover some useful tools for this and maybe
 				even reverse shells.</description>
 			<date>2023-04-17</date>

@@ -1,6 +1,6 @@
 ---
 title: 'Our events'
-date: 2023-08-26
+date: 2023-08-28
 length: 1 min
 author: ITUnderground
 ---
@@ -11,20 +11,9 @@ Subscribe to our [rss feed](http://itunderground.dk/rss/events.xml) to never mis
 
 ### Upcoming events:
 
-<table>
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th>Description</th>
-			<th>Date</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td colspan=3><em>Stay tuned for updates! Our first event this semester will probably fall on Monday, September 4th.</em></td>
-		</tr>
-	</tbody>
-</table>
+| Name              | Description                                                                      | Date       |
+| ----------------- | -------------------------------------------------------------------------------- | ---------- |
+| Semester planning | Planning what we'll do for this semester of ITUnderground. Feel free to show up! | 2023-08-28 |
 
 <br>
 <br>
