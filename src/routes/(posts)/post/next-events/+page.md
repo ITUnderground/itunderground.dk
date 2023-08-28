@@ -15,6 +15,11 @@ Subscribe to our [rss feed](http://itunderground.dk/rss/events.xml) to never mis
 | ----------------- | -------------------------------------------------------------------------------- | ---------- |
 | Semester planning | Planning what we'll do for this semester of ITUnderground. Feel free to show up! | 2023-08-28 |
 
+<details>
+<summary>Click to open Google Calendar</summary>
+<iframe src="https://calendar.google.com/calendar/embed?src=a958e7dadgao22g6k57f4ogjvvefcnqc%40import.calendar.google.com&ctz=Europe%2FBerlin" style="border: 0;" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+</details>
+
 <br>
 <br>
 

@@ -104,6 +104,9 @@
 				hr {
 					@apply mx-0 my-8 h-[2px] border-0 bg-[var(--tertiary)];
 				}
+				summary {
+					@apply select-none hover:cursor-pointer;
+				}
 			}
 		}
 	}
