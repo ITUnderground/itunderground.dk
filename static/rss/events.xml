@@ -6,6 +6,21 @@
 		<description>Events for the hacking organisation at the IT University of Copenhagen</description>
 
 		<item>
+			<title>Meet n' Greet</title>
+			<description>We are ITUnderground, ITU's cybersecurity student organisation!
+
+				We would like to invite you to our Meet n' Greet on September 11th from 16:00 at
+				room 2A50. Here we will briefly go over the events we'll be organising this
+				semester, as well as have some beginner friendly CTF challenges ready for everyone
+				to try out :) (Don't worry, you don't need any experience to try out those
+				challenges, and there will be plenty of people around to help!) We will, of course,
+				also have free snacks for all participants!
+
+				Hope to see you there, The ITUnderground team.</description>
+			<date>2023-09-11</date>
+		</item>
+
+		<item>
 			<title>Patriot CTF</title>
 			<description>https://ctftime.org/event/2030\n\nWe meet up at ITU to play the CTF over
 				the weekend. Stay tuned for more information in the discord server:

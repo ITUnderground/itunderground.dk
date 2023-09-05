@@ -15,6 +15,7 @@ Subscribe to our [rss feed](http://itunderground.dk/rss/events.xml) to never mis
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------- |
 | Semester planning | Planning what we'll do for this semester of ITUnderground. Feel free to show up!                                                                                               | 2023-08-28              |
 | Patriot CTF       | https://ctftime.org/event/2030<br><br>We meet up at ITU to play the CTF over the weekend. Stay tuned for more information in the discord server: https://discord.gg/NSYezU85nW | 2023-09-08 - 2023-09-10 |
+| Meet n' Greet     | We are ITUnderground, ITU's cybersecurity student organisation! <br><br>We would like to invite you to our Meet & Greet on September 11th from 16:00 at room 2A50. Here we will briefly go over the events we'll be organising this semester, as well as have some beginner friendly CTF challenges ready for everyone to try out :) (Don't worry, you don't need any experience to try out those challenges, and there will be plenty of people around to help!) We will, of course, also have free snacks for all participants!<br><br>Hope to see you there, The ITUnderground team. | 2023-09-11 |
 
 <details>
 <summary>Click to open Google Calendar</summary>
