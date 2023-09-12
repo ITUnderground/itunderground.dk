@@ -15,7 +15,9 @@ class Dir {
 				underground:
 					'├── <a href="/post/who-are-we">who-are-we</a>\n' +
 					'├── <a href="/post/next-events">next-events</a>\n' +
-					'└── <a href="/post/discord">discord-server</a>'
+					'├── <a href="/post/discord">discord-server</a>\n' +
+					'└── <a href="/?command=cat%20blog-posts">blog-posts</a>',
+				'blog-posts': 'Nothing here yet! Check back later.'
 			}
 		}
 	};

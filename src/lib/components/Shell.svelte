@@ -1,4 +1,7 @@
 <script>
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
+
 	import CLI from '$lib/shell/cli';
 	const cli = new CLI(reloadLog);
 
@@ -181,6 +184,18 @@
 	// 	mobileInput.focus();
 	// });
 
+	// Parse commands from query params
+	$: (() => {
+		const command = $page.url.searchParams.get('command');
+		if (!command) return;
+		// We do this because searchParams.delete does not work
+		goto($page.url.search.replace(/(command=[^&]+)&?/, ''));
+		cli.run(command).then(() => {
+			log = [...cli.log];
+			cwd = cli.dir.cwd.replace('/home/itunderground', '~');
+			historyIndex = cli.history.length;
+		});
+	})();
 </script>
 
 <div class="flex w-full flex-col xl:w-[1280px]">
