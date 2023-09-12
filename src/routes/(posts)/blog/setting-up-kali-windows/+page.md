@@ -1,7 +1,7 @@
 ---
 title: 'Getting set up with Kali Linux on Windows (WSL 2)'
 date: 2023-09-12
-length: 18–30 min
+length: 20–30 min
 author: Alexander
 ---
 
@@ -97,4 +97,4 @@ The only way to get better at hacking is by doing. We recommend checking out Pic
 
 Also stay tuned for an ITUnderground "getting started with hacking" guide. Coming soon!
 
-> **A super helpful way to learn** if you get stuck on a PicoCTF or HTB challenge is to look for what's called a _writup_. This is basically a blog post detailing a step-by-step guide for how to complete the challenge. This is an amazing way to leart about new tools or approaches that you might be unfamiliar with. As long as you learn something, it will have been worth your time!
+> **A super helpful way to learn** if you get stuck on a PicoCTF or HTB challenge is to look for what's called a _writup_. This is basically a blog post detailing a step-by-step guide for how to complete the challenge. This is an amazing way to learn about new tools or approaches that you might be unfamiliar with. As long as you learn something, it will have been worth your time!
