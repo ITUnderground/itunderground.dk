@@ -15,6 +15,7 @@ class Dir {
 				underground:
 					'├── <a href="/post/who-are-we">who-are-we</a>\n' +
 					'├── <a href="/post/next-events">next-events</a>\n' +
+					'├── <a href="/post/ressources">ressources</a>\n' +
 					'└── <a href="/post/discord">discord-server</a>'
 			}
 		}
