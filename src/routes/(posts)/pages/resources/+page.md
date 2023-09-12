@@ -1,11 +1,11 @@
 ---
-title: 'Ressources and getting started with ethical hacking'
-date: 2023-08-28
+title: 'Resources and getting started with ethical hacking'
+date: 2023-09-11
 length: 15 min
 author: ITUnderground
 ---
 
-## Ressources to learn hacking
+## Resources to learn hacking
 
 ### Cryptography
 
@@ -56,7 +56,7 @@ Be curious!
 
 ## Operating systems
 
-We do not want to decide what operating system you use for your own machine. But when we are doing ethical hacking, pentesting, ctf and so on. We do recommend using either a [virtual machine](https://en.wikipedia.org/wiki/Virtual_machine), [wsl](https://www.kali.org/docs/wsl/wsl-preparations/#wsl-in-microsoft-store) or just running a [linux distro](https://en.wikipedia.org/wiki/Virtual_machine) on your machine.
+We do not want to decide what operating system you use for your own machine. But when we are doing ethical hacking, pentesting, ctf and so on. We do recommend using either a [virtual machine](https://en.wikipedia.org/wiki/Virtual_machine), [wsl](/blog/setting-up-kali-windows) or just running a [linux distro](https://en.wikipedia.org/wiki/Virtual_machine) on your machine.
 
 ### Virtual machine
 
@@ -65,7 +65,7 @@ On MacOS we recommend just [installing Kali Linux in a VM using UTM](https://doc
 
 ### WSL
 
-For windows WSL is easily the most convenient way to get started. You can follow the [official guide](https://www.kali.org/docs/wsl/wsl-preparations/#wsl-in-microsoft-store) to get started.
+For windows WSL is easily the most convenient way to get started. You can follow the our [Kali Linux WSL setup guide](/blog/setting-up-kali-windows) to get started.
 
 ### Linux distro
 
