@@ -1,4 +1,7 @@
 <script>
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
+
 	import CLI from '$lib/shell/cli';
 	const cli = new CLI(reloadLog);
 
@@ -173,16 +176,31 @@
 	type();
 
 	// Force open mobile keyboard
+	//! Removed because it was buggy
 	/** @type {HTMLElement}*/
-	let mobileInput;
-	document.addEventListener('touchstart', () => {
-		// mobileInput.setAttribute('style', 'position:absolute;bottom:-100px;left:-100px;height:0px;');
-		mobileInput.focus();
-	});
+	// let mobileInput;
+	// document.addEventListener('touchstart', () => {
+	// 	// mobileInput.setAttribute('style', 'position:absolute;bottom:-100px;left:-100px;height:0px;');
+	// 	mobileInput.focus();
+	// });
+
+	// Parse commands from query params
+	$: (() => {
+		const command = $page.url.searchParams.get('command');
+		if (!command) return;
+		// We do this because searchParams.delete does not work
+		goto($page.url.search.replace(/(command=[^&]+)&?/, ''));
+		cli.run(command).then(() => {
+			log = [...cli.log];
+			cwd = cli.dir.cwd.replace('/home/itunderground', '~');
+			historyIndex = cli.history.length;
+		});
+	})();
 </script>
 
-<!-- Hidden input for mobile users -->
 <div class="flex w-full flex-col xl:w-[1280px]">
+	<!-- Hidden input for mobile users -->
+	<!--
 	<input
 		type="text"
 		autocorrect="off"
@@ -191,6 +209,7 @@
 		bind:value={input}
 		class="absolute -bottom-8 -left-8 h-0"
 	/>
+	-->
 	{#each log as line}
 		{#if 'user' in line}
 			<span>
