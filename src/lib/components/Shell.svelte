@@ -173,16 +173,19 @@
 	type();
 
 	// Force open mobile keyboard
+	//! Removed because it was buggy
 	/** @type {HTMLElement}*/
-	let mobileInput;
-	document.addEventListener('touchstart', () => {
-		// mobileInput.setAttribute('style', 'position:absolute;bottom:-100px;left:-100px;height:0px;');
-		mobileInput.focus();
-	});
+	// let mobileInput;
+	// document.addEventListener('touchstart', () => {
+	// 	// mobileInput.setAttribute('style', 'position:absolute;bottom:-100px;left:-100px;height:0px;');
+	// 	mobileInput.focus();
+	// });
+
 </script>
 
-<!-- Hidden input for mobile users -->
 <div class="flex w-full flex-col xl:w-[1280px]">
+	<!-- Hidden input for mobile users -->
+	<!--
 	<input
 		type="text"
 		autocorrect="off"
@@ -191,6 +194,7 @@
 		bind:value={input}
 		class="absolute -bottom-8 -left-8 h-0"
 	/>
+	-->
 	{#each log as line}
 		{#if 'user' in line}
 			<span>
