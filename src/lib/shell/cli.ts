@@ -48,7 +48,7 @@ class CLI {
 		const named: { [key: string]: string } = {};
 		const positional: string[] = [];
 		// Regex matches -a, --a, -a1, --a1, etc.
-		const namedRegex = /--?[a-zA-Z0-9]*/g;
+		const namedRegex = / --?[a-zA-Z0-9]*/g;
 
 		// Loop through arguments
 		for (let i = 1; i < args.length; i++) {
