@@ -13,11 +13,12 @@ class Dir {
 				},
 				// Multiline file
 				underground:
-					'├── <a href="/post/who-are-we">who-are-we</a>\n' +
-					'├── <a href="/post/next-events">next-events</a>\n' +
-					'├── <a href="/post/discord">discord-server</a>\n' +
+					'├── <a href="/pages/who-are-we">who-are-we</a>\n' +
+					'├── <a href="/pages/next-events">next-events</a>\n' +
+					'├── <a href="/pages/discord">discord-server</a>\n' +
 					'└── <a href="/?command=cat%20blog-posts">blog-posts</a>',
-				'blog-posts': 'Nothing here yet! Check back later.'
+				'blog-posts':
+					'└── <a href="/blog/setting-up-kali-windows">Setting up Kali Linux on Windows</a>'
 			}
 		}
 	};
