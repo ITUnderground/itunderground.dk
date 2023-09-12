@@ -245,13 +245,6 @@
 		font-family: inconsolata, monospace;
 	}
 
-	:global(a) {
-		@apply text-[#9cbbc8] underline;
-	}
-	:global(a:hover) {
-		@apply text-sky-500 no-underline;
-	}
-
 	:global(body) {
 		--purple: #dba9ff66;
 		--shellcolor-home: #4beb53;
