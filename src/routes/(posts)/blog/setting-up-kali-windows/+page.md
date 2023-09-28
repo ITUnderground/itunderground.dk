@@ -9,7 +9,7 @@ author: Alexander
 
 One of the most useful hacking tools is an OS called Kali Linux. It's very popular since it comes with a bunch of commonly used hacking tools, labeled by category. This guide will teach you how to set up Kali Linux on Windows in a seamless virtual machine called WSL 2 (Windows Subsystem for Linux).
 
-> _If you're on an M1 Mac_ the guide at [mac.itunderground.dk](https://mac.itunderground.dk) should work for you.
+> _If you're on an M1 Mac_ the guide at [mac.itunderground.dk](http://mac.itunderground.dk) should work for you.
 
 <sub>Sections of this guide were taken from <a href="https://www.kali.org/docs/wsl/wsl-preparations/">kali.org/docs/wsl/wsl-preparations</sub>
 
