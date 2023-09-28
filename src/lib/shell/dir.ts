@@ -156,15 +156,31 @@ class Dir {
 	rm(path: string) {
 		const absolutePath = this.getAbsolutePath(path);
 
-		// Destroy everything if path is root
+		// If / is passed, delete everything 🥚
 		if (absolutePath.length === 0) {
 			const terminal = document.getElementById('Terminal'); // we do a little trolling
 			if (terminal) terminal.innerHTML = '';
+			// Create full screen element with blue background and sad face
+			const fullscreen = document.createElement('div');
+			fullscreen.style.backgroundColor = '#0000FF';
+			fullscreen.style.width = '100vw';
+			fullscreen.style.height = '100vh';
+			fullscreen.style.display = 'flex';
+			fullscreen.style.justifyContent = 'center';
+			fullscreen.style.alignItems = 'center';
+			fullscreen.style.position = 'absolute';
+			fullscreen.style.top = '0';
+			fullscreen.style.left = '0';
+			fullscreen.style.fontSize = '10rem';
+			fullscreen.style.color = '#FFFFFF';
+			fullscreen.innerHTML =
+				':( <br><br> <p style="font-size: 2rem">&nbsp;&nbsp;&nbsp;file system gone</p>';
+			document.body.appendChild(fullscreen);
+
 			return true;
 		}
 
 		const [dir, file] = [absolutePath.slice(0, -1), absolutePath[absolutePath.length - 1]];
-		console.log(dir, file);
 
 		let current: Directory = this._root;
 		for (const d of dir) {
