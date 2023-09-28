@@ -56,7 +56,27 @@
 		</div>
 		<h1 class="mb-[2px] text-4xl font-bold text-[var(--primary)]">{title}</h1>
 		<div class="flex flex-wrap text-sm text-[var(--secondary)]">
-			{date}&nbsp;·&nbsp;{length}&nbsp;·&nbsp;{author}
+			{#if date}
+				<span>
+					{date}
+				</span>
+			{/if}
+			{#if date && (length || author)}
+				<span> &nbsp;·&nbsp; </span>
+			{/if}
+			{#if length}
+				<span>
+					{length}
+				</span>
+			{/if}
+			{#if length && author}
+				<span> &nbsp;·&nbsp; </span>
+			{/if}
+			{#if author}
+				<span>
+					{author}
+				</span>
+			{/if}
 		</div>
 	</header>
 	<div class="post-content">
