@@ -1,6 +1,7 @@
-import type { AccessObject } from '../types';
+import Command from '../command';
+import type { CommandFunction, NamedArgumentOptions } from '../types';
 
-function cd({ command: { positional }, dir, env }: AccessObject) {
+const cd: CommandFunction = ({ command: { positional }, dir, env }) => {
 	const requestedPath = positional[0];
 	if (!requestedPath) {
 		dir.cwd = env.get('HOME') ?? '/';
@@ -14,7 +15,12 @@ function cd({ command: { positional }, dir, env }: AccessObject) {
 		return `cd: ${requestedPath}: No such file or directory`;
 	// Navigate to path
 	dir.cwd = requestedPath;
-}
-cd.description = 'Changes current working directory';
+};
+const description = 'Changes current working directory';
+const namedArguments: NamedArgumentOptions = [];
 
-export default cd;
+export default new Command({
+	command: cd,
+	description,
+	namedArguments
+});

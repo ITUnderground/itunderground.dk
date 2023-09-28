@@ -1,14 +1,15 @@
-import type { AccessObject } from '../types';
+import Command from '../command';
 
-function history({ cli }: AccessObject) {
-	const highestIndex = cli.history.length;
-	return cli.history
-		.map((command, index) => {
-			const num = String(index + 1).padStart(String(highestIndex).length + 2, ' ');
-			return `${num}  ${command}`;
-		})
-		.join('\n');
-}
-history.description = 'Changes current working directory';
-
-export default history;
+export default new Command({
+	command({ cli }) {
+		const highestIndex = cli.history.length;
+		return cli.history
+			.map((command, index) => {
+				const num = String(index + 1).padStart(String(highestIndex).length + 2, ' ');
+				return `${num}  ${command}`;
+			})
+			.join('\n');
+	},
+	description: 'Returns a list of previous commands',
+	namedArguments: []
+});

@@ -1,4 +1,5 @@
 import type CLI from './cli';
+import type Command from './command';
 import type Dir from './dir';
 import type Env from './env';
 
@@ -17,19 +18,15 @@ export type Input = {
  */
 export type LogEntry = Output | Input;
 
+type NamedArguments = { [flag: string]: string | boolean | undefined };
 export type ParsedCommand = {
-	command: string;
-	positional: string[];
-	named: { [key: string]: string };
+	commandName: string;
+	positional: string[] | undefined[];
+	named: NamedArguments;
 	raw: string;
 };
 export type AccessObject = {
-	command: {
-		name: string;
-		positional: string[] | undefined[];
-		named: { [flag: string]: string };
-		raw: string;
-	};
+	command: ParsedCommand;
 	cli: CLI;
 	dir: Dir;
 	env: Env;
@@ -40,3 +37,15 @@ export type Directory = { [key: string]: Directory | File };
 export type File = string;
 
 export type callback = (...args: unknown[]) => void;
+
+type CommandFunction = (args: AccessObject) => string | void | Promise<string | void>;
+type CommandDescription = string;
+type NamedArgumentOptions = {
+	name: string;
+	choices: string[];
+	value?: boolean;
+}[];
+
+type CommandImport = {
+	[key: string]: Command;
+};

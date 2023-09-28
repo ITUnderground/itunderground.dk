@@ -1,13 +1,12 @@
-import type { AccessObject } from '../types';
+import Command from '../command';
+import type { CommandDescription, CommandFunction, NamedArgumentOptions } from '../types';
 
-/**
- * Removes a file or directory
- */
-function rm({ command: { positional, named }, dir }: AccessObject) {
-	const recursive = Object.keys(named).some((flag) => ['r', 'R', 'recursive'].includes(flag))
-		? named.r || named.R || named.recursive || true // The flag may exist, but with an empty value which is falsy
-		: false;
-	const requestedDir = positional[0] || recursive; // If there is no positional argument, it was probably passed after the recursive flag
+const command: CommandFunction = ({ command: { positional, named }, dir }) => {
+	console.log(positional, named);
+
+	const recursive = named.recursive;
+	const requestedDir = positional[0];
+
 	if (typeof requestedDir !== 'string') return 'rm: missing operand';
 
 	const readDir = dir.read(requestedDir);
@@ -21,7 +20,21 @@ function rm({ command: { positional, named }, dir }: AccessObject) {
 
 	// Remove file or directory
 	dir.rm(requestedDir);
-}
-rm.description = 'Remove files or directories';
+};
+const description: CommandDescription = 'Remove files or directories';
+const namedArguments: NamedArgumentOptions = [
+	{
+		name: 'recursive',
+		choices: ['r', 'R', 'recursive', 'rf', 'fr']
+	},
+	{
+		name: 'force',
+		choices: ['f', 'force', 'rf', 'fr']
+	}
+];
 
-export default rm;
+export default new Command({
+	command,
+	description,
+	namedArguments
+});

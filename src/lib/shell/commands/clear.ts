@@ -1,12 +1,9 @@
-import type { AccessObject } from '../types';
+import Command from '../command';
 
-/**
- * Clears the console
- * @param param0 {AccessObject} Command
- */
-function clear({ cli }: AccessObject) {
-	cli.log = [];
-}
-clear.description = 'Clears the console';
-
-export default clear;
+export default new Command({
+	command({ cli }) {
+		cli.log = [];
+	},
+	description: 'Clears the console',
+	namedArguments: []
+});

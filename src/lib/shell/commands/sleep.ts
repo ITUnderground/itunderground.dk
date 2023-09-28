@@ -1,17 +1,18 @@
-import type { AccessObject } from '../types';
+import Command from '../command';
 
-async function sleep({ command }: AccessObject): Promise<string> {
-	if (!command.positional[0]) {
-		return 'sleep: missing operand';
-	}
-	const time = parseInt(command.positional[0]);
-	if (isNaN(time)) {
-		return `sleep: invalid time interval '${command.positional[0]}'`;
-	}
+export default new Command({
+	async command({ command }) {
+		if (!command.positional[0]) {
+			return 'sleep: missing operand';
+		}
+		const time = parseInt(command.positional[0]);
+		if (isNaN(time)) {
+			return `sleep: invalid time interval '${command.positional[0]}'`;
+		}
 
-	await new Promise((resolve) => setTimeout(resolve, time * 1000));
-	return '';
-}
-sleep.description = 'Delay for a specified amount of time';
-
-export default sleep;
+		await new Promise((resolve) => setTimeout(resolve, time * 1000));
+		return '';
+	},
+	description: 'Delay for a specified amount of time',
+	namedArguments: []
+});
