@@ -303,10 +303,11 @@ class CLI {
 		// For now it only does directory, might add command completion later
 		const full = command.split(' ').slice(-1)[0]; // Get last part of command
 		const noSearch = command.split(' ').slice(0, -1).join(' '); // Remove last part of command to get command without search
-		const searchDir = full.split('/').slice(0, -1).join('/'); // Remove last part of search to get directory
 		const searchTerm = full.split('/').slice(-1)[0]; // Get last part of search to get search term
-		const files = dir.dir(searchDir);
-		const matches = files.filter((file) => file.startsWith(searchTerm));
+		const searchDir = full.split('/').slice(0, -1).join('/'); // Remove last part of search to get directory
+		const contents = dir.dir(searchDir);
+		console.log(contents);
+		const matches = contents.filter((file) => file.startsWith(searchTerm));
 		return [`${noSearch} ${searchDir ? searchDir + '/' : ''}${matches[0]}`, matches];
 	}
 

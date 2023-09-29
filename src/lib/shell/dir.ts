@@ -66,11 +66,15 @@ class Dir {
 	 */
 	dir(path?: string): string[] {
 		// Return list of files
-		const dir = path ? this.getAbsolutePath(path) : this._cwd;
-		const found = this._locate(dir);
+		const absPath = path ? this.getAbsolutePath(path) : this._cwd;
+		const found = this._locate(absPath);
 		if (typeof found === 'string') return [found];
 		if (found === null) return [];
-		if (typeof found === 'object') return Object.keys(found);
+		if (typeof found === 'object')
+			return Object.entries(found).map(([k, v]) => {
+				if (typeof v === 'string') return k;
+				return k + '/';
+			});
 		return [];
 	}
 	/**
@@ -108,12 +112,9 @@ class Dir {
 	 * @param path Path to get
 	 */
 	getAbsolutePath(path: string): string[] {
-		// Get starting path
-		const startingPath = path.startsWith('/')
-			? []
-			: path.startsWith('~')
-			? this._env.get('HOME')?.split('/') ?? []
-			: this._cwd;
+		path = path.replace('~', this._env.get('HOME') ?? '/');
+		// Get path root dir
+		const startingPath = path.startsWith('/') ? [] : this._cwd;
 		const finalPath = [...startingPath];
 
 		// Crawl path

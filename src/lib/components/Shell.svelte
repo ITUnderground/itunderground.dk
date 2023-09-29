@@ -85,7 +85,12 @@
 			if (completions.length === 1) {
 				input = newCommand;
 			} else if (completions.length > 1) {
-				cli.newLine(command, completions.join(' '));
+				cli.newLine(
+					command,
+					completions
+						.map((c) => (c.includes('/') ? `<span style="color: #ec4899">${c}</span>` : c))
+						.join(' ')
+				);
 				reloadLog();
 			}
 		}
