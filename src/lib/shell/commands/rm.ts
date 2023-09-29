@@ -2,8 +2,6 @@ import Command from '../command';
 import type { CommandDescription, CommandFunction, NamedArgumentOptions } from '../types';
 
 const command: CommandFunction = ({ command: { positional, named }, dir }) => {
-	console.log(positional, named);
-
 	const recursive = named.recursive;
 	const requestedDir = positional[0];
 

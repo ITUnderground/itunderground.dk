@@ -101,10 +101,7 @@ class CLI {
 			if (requestedArgumentList.every((arg) => !arg.value)) {
 				match = rawMatch.replace(rawValue, '').trim();
 			}
-			console.log(match);
-			console.log(commandString);
 			commandString = commandString.replace(match, '');
-			console.log(commandString);
 		}
 		const positional = commandString
 			.split(' ')
