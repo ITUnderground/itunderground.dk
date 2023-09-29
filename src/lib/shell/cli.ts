@@ -83,7 +83,12 @@ class CLI {
 			const requestedArgumentList = requestedArguments.filter((arg) =>
 				arg.choices.includes(rawName || rawMatch.split(' ')[0])
 			);
-			if (!requestedArgumentList.length) continue;
+			if (!requestedArgumentList.length) {
+				throw new Error(
+					`${commandName}: invalid option -- '${rawName}'\n` +
+						`Try '${commandName} --help' for more information.`
+				);
+			}
 
 			for (const requestedArgument of requestedArgumentList) {
 				const value = requestedArgument.value ? rawValue : true;
@@ -209,7 +214,7 @@ class CLI {
 		const cwd = dir.cwd.replace('/home/itunderground', '~');
 
 		// Parse redirects
-		const { commands, redirect } = this._redirectParser(command);
+		let output: string | void | undefined;
 		// Add to log
 		this._pushlog({
 			user,
@@ -217,13 +222,22 @@ class CLI {
 			cwd,
 			command
 		});
-		// Run command
-		let output = await this._execute(commands[0]);
-		// Redirect if needed
-		if (redirect) {
-			output = await this.redirect(output || '', commands[1], redirect);
+		// Try to run command
+		try {
+			const { commands, redirect } = this._redirectParser(command);
+			// Run command
+			output = await this._execute(commands[0]);
+			// Redirect if needed
+			if (redirect) {
+				output = await this.redirect(output || '', commands[1], redirect);
+			}
+		} catch (e) {
+			if (e instanceof Error) {
+				output = e.message;
+			} else {
+				output = 'An error occured.';
+			}
 		}
-
 		// Add to log
 		if (output) this._pushlog({ output });
 
