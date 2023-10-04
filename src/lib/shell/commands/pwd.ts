@@ -1,11 +1,9 @@
-import type { AccessObject } from '../types';
+import Command from '../command';
 
-/**
- * Returns current working directory
- * @returns current working directory
- */
-function pwd({ dir }: AccessObject): string {
-	return dir.cwd;
-}
-pwd.description = 'Returns current working directory';
-export default pwd;
+export default new Command({
+	command({ dir }) {
+		return dir.cwd;
+	},
+	description: 'Returns current working directory',
+	namedArguments: []
+});

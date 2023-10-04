@@ -1,12 +1,9 @@
-import type { AccessObject } from '../types';
+import Command from '../command';
 
-/**
- * Returns the current user
- * @returns current user
- */
-function whoami({ env }: AccessObject): string {
-	return env.get('USER') ?? 'it';
-}
-whoami.description = 'Returns the current user';
-
-export default whoami;
+export default new Command({
+	command({ env }) {
+		return env.get('USER') ?? 'it';
+	},
+	description: 'Returns the current user',
+	namedArguments: []
+});

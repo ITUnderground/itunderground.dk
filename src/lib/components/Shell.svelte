@@ -85,7 +85,12 @@
 			if (completions.length === 1) {
 				input = newCommand;
 			} else if (completions.length > 1) {
-				cli.newLine(command, completions.join(' '));
+				cli.newLine(
+					command,
+					completions
+						.map((c) => (c.includes('/') ? `<span style="color: #ec4899">${c}</span>` : c))
+						.join(' ')
+				);
 				reloadLog();
 			}
 		}
@@ -227,7 +232,8 @@
 	{#if interactive}
 		<span>
 			<span class="text-[var(--shellcolor-home)]"
-				><strong>{cli.env.get('USER')}@{CLI.commands.hostname()}</strong></span
+				><strong>{cli.env.get('USER')}@{CLI.commands.hostname.fn(cli.dummyAccessObject)}</strong
+				></span
 			>:<span class="text-[var(--shellcolor-base)]"><strong>{cwd}</strong></span>$
 			<span>{input}</span><span class="cursor" /><span
 				class="-ml-[0.8rem] text-[var(--shellcolor-base)]">{input_right}</span
@@ -243,13 +249,6 @@
 	/* monospace */
 	* {
 		font-family: inconsolata, monospace;
-	}
-
-	:global(a) {
-		@apply text-[#9cbbc8] underline;
-	}
-	:global(a:hover) {
-		@apply text-sky-500 no-underline;
 	}
 
 	:global(body) {

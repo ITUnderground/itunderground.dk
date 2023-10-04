@@ -1,9 +1,9 @@
-/**
- * Returns the server hostname
- * @returns the server hostname
- */
-function hostname(): string {
-	return 'underground';
-}
-hostname.description = 'Returns the server hostname';
-export default hostname;
+import Command from '../command';
+
+export default new Command({
+	command() {
+		return 'underground';
+	},
+	description: 'Returns the server hostname',
+	namedArguments: []
+});

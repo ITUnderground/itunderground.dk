@@ -1,17 +1,18 @@
-import type { AccessObject } from '../types';
+import Command from '../command';
 
-function cat({ command: { positional }, dir }: AccessObject): string {
-	// Get file parameter
-	const requestedFile = positional[0];
-	if (!requestedFile) return 'cat: missing file operand';
+export default new Command({
+	command({ command: { positional }, dir }) {
+		// Get file parameter
+		const requestedFile = positional[0];
+		if (!requestedFile) return 'cat: missing file operand';
 
-	// Get file
-	const file = dir.read(requestedFile);
-	if (!file) return `cat: ${requestedFile}: No such file or directory`;
-	if (file.type === 'Directory') return `cat: ${requestedFile}: Is a directory`;
+		// Get file
+		const file = dir.read(requestedFile);
+		if (!file) return `cat: ${requestedFile}: No such file or directory`;
+		if (file.type === 'Directory') return `cat: ${requestedFile}: Is a directory`;
 
-	return typeof file.value === 'string' ? file.value : '';
-}
-cat.description = 'Concatenate files and print on the standard output.';
-
-export default cat;
+		return typeof file.value === 'string' ? file.value : '';
+	},
+	description: 'Concatenate files and print on the standard output.',
+	namedArguments: []
+});

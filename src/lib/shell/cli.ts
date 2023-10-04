@@ -1,78 +1,130 @@
-import * as prebuilt from './commands/builtin/index';
-import * as custom from './commands/index';
+import type Command from './command';
+import * as _baseCommands from './commands/builtin/index';
+import * as _customCommands from './commands/index';
 import Dir from './dir';
 import Env from './env';
-import type { LogEntry, ParsedCommand, callback as Callback } from './types';
+import type {
+	LogEntry,
+	ParsedCommand,
+	callback as Callback,
+	AccessObject,
+	CommandImport,
+	NamedArguments
+} from './types';
 
-// Dir object for directory structure
+const baseCommands = _baseCommands as CommandImport;
+const customCommands = _customCommands as CommandImport;
+
+// Env object for environment variables
 const env = new Env({
 	HOME: '/home/itunderground',
 	USER: 'it',
 	START_TIME: `${Date.now()}`
 });
+// Dir object for directory structure
 const dir = new Dir(env);
 
 class CLI {
-	public static commands: typeof prebuilt & typeof custom = { ...prebuilt, ...custom };
+	public static commands: typeof baseCommands & typeof customCommands = {
+		...baseCommands,
+		...customCommands
+	};
 	public log: LogEntry[] = [];
 	public history: string[] = [];
 	public dir: Dir = dir;
 	public env: Env = env;
 	public onLogUpdate: Callback;
 
+	public dummyAccessObject: AccessObject;
+
 	constructor(onLogUpdate: Callback) {
 		this.onLogUpdate = onLogUpdate;
+
+		this.dummyAccessObject = {
+			cli: this,
+			command: {
+				commandName: '',
+				named: {},
+				positional: [],
+				raw: ''
+			},
+			dir,
+			env,
+			js: this.js.bind(this)
+		};
 	}
 
 	/**
 	 * Extracts arguments from an shell command
-	 * @param command string command to extract arguments from
+	 * @param commandString string command to extract arguments from
 	 */
-	_argParser(command: string): ParsedCommand | null {
-		/* Example: "command arg1 -a b -c d --named argument -a=1 --named2=equals -x" becomes
-		 * {
-		 *   command: "command",
-		 *   positional: ["arg1"],
-		 *   named: {
-		 *     a: "b",
-		 *     c: "d",
-		 *     named: "argument",
-		 *     a: "1",
-		 *     named2: "equals",
-		 *     x: ""
-		 *   }
-		 * }
-		 */
-		const args = command.split(' ');
-		const main = args[0];
-		const named: { [key: string]: string } = {};
-		const positional: string[] = [];
-		// Regex matches -a, --a, -a1, --a1, etc.
-		const namedRegex = / --?[a-zA-Z0-9]*/g;
+	_argParser(commandString: string): ParsedCommand | null {
+		const commandName = commandString.split(' ')[0];
+		if (!commandName) return null;
 
-		// Loop through arguments
-		for (let i = 1; i < args.length; i++) {
-			const arg = args[i];
-			if (!arg.match(namedRegex) && !args[i - 1].match(namedRegex)) {
-				positional.push(arg);
-				continue;
+		const commandObject = this._getCommandObject(commandName);
+		if (!commandObject) return null;
+
+		const { namedArguments: requestedArguments } = commandObject;
+
+		const named: NamedArguments = Object.fromEntries(
+			requestedArguments.map((arg) => {
+				return [arg.name, false];
+			})
+		);
+		const namedRegex = new RegExp(/ --?(\w*)(?:(?:\s+|=)(\w+))?/g);
+		let z: RegExpExecArray | null;
+		// cursed assignment
+		while ((z = namedRegex.exec(commandString)) !== null) {
+			const [rawMatch, rawName, rawValue] = z;
+
+			// Find matching names in requested arguments
+			// Name could be empty string with `rm -`. In those cases we just pass - or --
+			const requestedArgumentList = requestedArguments.filter((arg) =>
+				arg.choices.includes(rawName || rawMatch.split(' ')[0])
+			);
+			if (!requestedArgumentList.length) {
+				throw new Error(
+					`${commandName}: invalid option -- '${rawName}'\n` +
+						`Try '${commandName} --help' for more information.`
+				);
 			}
-			// Check if using = or space
-			const [name, value] = arg.includes('=')
-				? arg.split('=')
-				: // If we're using a space, check if the next argument is another argument or a value
-				  [arg, args[i + 1] && !args[i + 1].match(namedRegex) ? args[i + 1] : ''];
-			named[name.replace(/-+/g, '')] = value || '';
-		}
 
-		return main
-			? {
-					command: main,
-					positional,
-					named,
-					raw: command
-			  }
-			: null;
+			for (const requestedArgument of requestedArgumentList) {
+				const value = requestedArgument.value ? rawValue : true;
+				named[requestedArgument.name] = value;
+			}
+
+			// Remove match from commandString so it can be used as positional arguments
+			let match = rawMatch;
+			// dont remove captured value if there isn't supposed to be one
+			if (requestedArgumentList.every((arg) => !arg.value)) {
+				match = rawMatch.replace(rawValue, '').trim();
+			}
+			commandString = commandString.replace(match, '');
+		}
+		const positional = commandString
+			.split(' ')
+			.slice(1)
+			.filter((arg) => arg !== '');
+
+		return {
+			commandName,
+			named,
+			positional,
+			raw: commandString
+		};
+	}
+
+	/**
+	 * Gets a command object from the commands object
+	 * @param commandName Name of command to get
+	 * @returns Command object or null if not found
+	 */
+	_getCommandObject(commandName: string): Command | null {
+		// Check if command exists
+		if (!(commandName in CLI.commands)) return null;
+		return CLI.commands[commandName];
 	}
 
 	/**
@@ -103,15 +155,17 @@ class CLI {
 	 * @param parsed ParsedCommand to execute
 	 * @returns output of command
 	 */
-	async _execute(parsed: ParsedCommand | null): Promise<string | undefined | void> {
+	async _execute(parsed: ParsedCommand | null): Promise<string | void> {
 		// Check if valid command
 		if (!parsed) return '';
-		if (!(parsed.command in CLI.commands)) return `${parsed.command}: command not found`;
+
+		const command = this._getCommandObject(parsed.commandName);
+		if (!command) return '';
 
 		// Run command
-		return await CLI.commands[parsed.command as keyof typeof CLI.commands]({
+		return await command.fn({
 			command: {
-				name: parsed.command,
+				commandName: parsed.commandName,
 				positional: parsed.positional,
 				named: parsed.named,
 				raw: parsed.raw
@@ -153,11 +207,11 @@ class CLI {
 	async run(command: string) {
 		// Get variables in case they are changed by command
 		const user = env.get('USER') || 'it';
-		const server = CLI.commands.hostname();
+		const server = CLI.commands.hostname.fn(this.dummyAccessObject) as string;
 		const cwd = dir.cwd.replace('/home/itunderground', '~');
 
 		// Parse redirects
-		const { commands, redirect } = this._redirectParser(command);
+		let output: string | void | undefined;
 		// Add to log
 		this._pushlog({
 			user,
@@ -165,13 +219,22 @@ class CLI {
 			cwd,
 			command
 		});
-		// Run command
-		let output = await this._execute(commands[0]);
-		// Redirect if needed
-		if (redirect) {
-			output = await this.redirect(output || '', commands[1], redirect);
+		// Try to run command
+		try {
+			const { commands, redirect } = this._redirectParser(command);
+			// Run command
+			output = await this._execute(commands[0]);
+			// Redirect if needed
+			if (redirect) {
+				output = await this.redirect(output || '', commands[1], redirect);
+			}
+		} catch (e) {
+			if (e instanceof Error) {
+				output = e.message;
+			} else {
+				output = 'An error occured.';
+			}
 		}
-
 		// Add to log
 		if (output) this._pushlog({ output });
 
@@ -203,15 +266,15 @@ class CLI {
 		if (!destination) return;
 		switch (redirect) {
 			case '>': {
-				const file = dir.read(destination.command);
-				if (file?.type === 'Directory') return `${destination.command}: is a directory`;
-				dir.write(destination.command, output);
+				const file = dir.read(destination.commandName);
+				if (file?.type === 'Directory') return `${destination.commandName}: is a directory`;
+				dir.write(destination.commandName, output);
 				return;
 			}
 			case '>>': {
-				const file = dir.read(destination.command);
-				if (file?.type === 'Directory') return `${destination.command}: is a directory`;
-				dir.write(destination.command, (file?.value || '') + output);
+				const file = dir.read(destination.commandName);
+				if (file?.type === 'Directory') return `${destination.commandName}: is a directory`;
+				dir.write(destination.commandName, (file?.value || '') + output);
 				return;
 			}
 			case '|': {
@@ -237,10 +300,11 @@ class CLI {
 		// For now it only does directory, might add command completion later
 		const full = command.split(' ').slice(-1)[0]; // Get last part of command
 		const noSearch = command.split(' ').slice(0, -1).join(' '); // Remove last part of command to get command without search
-		const searchDir = full.split('/').slice(0, -1).join('/'); // Remove last part of search to get directory
 		const searchTerm = full.split('/').slice(-1)[0]; // Get last part of search to get search term
-		const files = dir.dir(searchDir);
-		const matches = files.filter((file) => file.startsWith(searchTerm));
+		const searchDir = full.split('/').slice(0, -1).join('/'); // Remove last part of search to get directory
+		const contents = dir.dir(searchDir);
+		console.log(contents);
+		const matches = contents.filter((file) => file.startsWith(searchTerm));
 		return [`${noSearch} ${searchDir ? searchDir + '/' : ''}${matches[0]}`, matches];
 	}
 
@@ -252,7 +316,7 @@ class CLI {
 			command: command || '',
 			cwd: dir.cwd.replace('/home/itunderground', '~'),
 			output: output ? (Array.isArray(output) ? output.join(' ') : output) : '',
-			server: CLI.commands.hostname(),
+			server: CLI.commands.hostname.fn(this.dummyAccessObject) as string,
 			user: env.get('USER') || 'it'
 		});
 	}

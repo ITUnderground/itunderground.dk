@@ -17,7 +17,7 @@ class Dir {
 					'├── <a href="/pages/next-events">next-events</a>\n' +
 					'├── <a href="/pages/discord">discord-server</a>\n' +
 					'├── <a href="/pages/resources">resources</a>\n' +
-					'└── <a href="/?command=cat%20blog-posts">blog-posts</a>',
+					'└── <a href="/?command=cat%20blog-posts">blog-posts/</a>',
 				'blog-posts':
 					'└── <a href="/blog/setting-up-kali-windows">Setting up Kali Linux on Windows</a>'
 			}
@@ -67,11 +67,15 @@ class Dir {
 	 */
 	dir(path?: string): string[] {
 		// Return list of files
-		const dir = path ? this.getAbsolutePath(path) : this._cwd;
-		const found = this._locate(dir);
+		const absPath = path ? this.getAbsolutePath(path) : this._cwd;
+		const found = this._locate(absPath);
 		if (typeof found === 'string') return [found];
 		if (found === null) return [];
-		if (typeof found === 'object') return Object.keys(found);
+		if (typeof found === 'object')
+			return Object.entries(found).map(([k, v]) => {
+				if (typeof v === 'string') return k;
+				return k + '/';
+			});
 		return [];
 	}
 	/**
@@ -109,12 +113,9 @@ class Dir {
 	 * @param path Path to get
 	 */
 	getAbsolutePath(path: string): string[] {
-		// Get starting path
-		const startingPath = path.startsWith('/')
-			? []
-			: path.startsWith('~')
-			? this._env.get('HOME')?.split('/') ?? []
-			: this._cwd;
+		path = path.replace('~', this._env.get('HOME') ?? '/');
+		// Get path root dir
+		const startingPath = path.startsWith('/') ? [] : this._cwd;
 		const finalPath = [...startingPath];
 
 		// Crawl path
@@ -157,15 +158,31 @@ class Dir {
 	rm(path: string) {
 		const absolutePath = this.getAbsolutePath(path);
 
-		// Destroy everything if path is root
+		// If / is passed, delete everything 🥚
 		if (absolutePath.length === 0) {
 			const terminal = document.getElementById('Terminal'); // we do a little trolling
 			if (terminal) terminal.innerHTML = '';
+			// Create full screen element with blue background and sad face
+			const fullscreen = document.createElement('div');
+			fullscreen.style.backgroundColor = '#0000FF';
+			fullscreen.style.width = '100vw';
+			fullscreen.style.height = '100vh';
+			fullscreen.style.display = 'flex';
+			fullscreen.style.justifyContent = 'center';
+			fullscreen.style.alignItems = 'center';
+			fullscreen.style.position = 'absolute';
+			fullscreen.style.top = '0';
+			fullscreen.style.left = '0';
+			fullscreen.style.fontSize = '10rem';
+			fullscreen.style.color = '#FFFFFF';
+			fullscreen.innerHTML =
+				':( <br><br> <p style="font-size: 2rem">&nbsp;&nbsp;&nbsp;file system gone</p>';
+			document.body.appendChild(fullscreen);
+
 			return true;
 		}
 
 		const [dir, file] = [absolutePath.slice(0, -1), absolutePath[absolutePath.length - 1]];
-		console.log(dir, file);
 
 		let current: Directory = this._root;
 		for (const d of dir) {
