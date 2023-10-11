@@ -123,7 +123,9 @@ class CLI {
 	 */
 	_getCommandObject(commandName: string): Command | null {
 		// Check if command exists
-		if (!(commandName in CLI.commands)) return null;
+		if (!(commandName in CLI.commands))
+			throw new Error(`${commandName}: command not found\n Try 'help' for more information.`);
+
 		return CLI.commands[commandName];
 	}
 
@@ -160,7 +162,10 @@ class CLI {
 		if (!parsed) return '';
 
 		const command = this._getCommandObject(parsed.commandName);
-		if (!command) return '';
+		if (!command)
+			throw new Error(
+				`${parsed.commandName}: command not found\n` + `Try 'help' for more information.`
+			);
 
 		// Run command
 		return await command.fn({
