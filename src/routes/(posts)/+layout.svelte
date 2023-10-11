@@ -1,3 +1,12 @@
+<svelte:head>
+	<link
+		rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+		integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV"
+		crossorigin="anonymous"
+	/>
+</svelte:head>
+
 <div class="post">
 	<slot />
 </div>
@@ -108,6 +117,13 @@
 					@apply select-none hover:cursor-pointer;
 				}
 			}
+		}
+	}
+
+	:global {
+		.katex-html {
+			// I have no fucking clue why this shows as regular text and at this point i'm just gonna hide it
+			@apply hidden;
 		}
 	}
 </style>
