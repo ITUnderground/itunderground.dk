@@ -14,8 +14,8 @@ export default new Command({
 		const user = env.get('USER') || 'it';
 		const hostname = CLI.commands.hostname.fn(accessObject);
 		const loc = `${user}@${hostname}`;
-		const os = js(`navigator.userAgentData?.platform`);
-		const browser = (js(`navigator.userAgentData?.brands`) as Brand[] | undefined)
+		const os = js(`navigator?.userAgentData?.platform`);
+		const browser = (js(`navigator?.userAgentData?.brands`) as Brand[] | undefined)
 			?.map((brand) => brand.brand)
 			.join(', ');
 		const uptime = new Date(Date.now() - parseInt(env.get('START_TIME')!))
@@ -24,22 +24,22 @@ export default new Command({
 		const packages = Object.keys(CLI.commands).length;
 		const shell = 'ColorShell';
 		const terminal = 'Web Terminal';
-		const CPU = (js(`window.navigator.hardwareConcurrency`) || 'unknown') + ' cores';
+		const CPU = (js(`window?.navigator?.hardwareConcurrency`) || 'unknown') + ' cores';
 		const GPU = (
 			js(
 				`(() => {
-				var canvas = document.createElement('canvas');
-				var gl = canvas.getContext("experimental-webgl");
+				var canvas = document?.createElement('canvas');
+				var gl = canvas?.getContext("experimental-webgl");
 				
-				var dbgRenderInfo = gl.getExtension("WEBGL_debug_renderer_info");
-				return gl.getParameter(dbgRenderInfo.UNMASKED_RENDERER_WEBGL);
+				var dbgRenderInfo = gl?.getExtension("WEBGL_debug_renderer_info");
+				return gl?.getParameter(dbgRenderInfo.UNMASKED_RENDERER_WEBGL);
 			})();`
 			) as string | undefined
 		)
 			?.split('Direct')[0]
 			.split(',')[1]
 			.trim();
-		const memory = js(`navigator.deviceMemory`) + 'GB';
+		const memory = js(`navigator?.deviceMemory`) + 'GB';
 
 		const logo = [
 			'<span style="color: white;">               .~?5GP5PGBB#&GYJ7:       </span>',
