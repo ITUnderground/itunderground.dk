@@ -1,3 +1,18 @@
+<script context="module">
+	import h1 from './markdownComponents/h1.svelte';
+	import h2 from './markdownComponents/h2.svelte';
+	import h3 from './markdownComponents/h3.svelte';
+	import h4 from './markdownComponents/h4.svelte';
+	import h5 from './markdownComponents/h5.svelte';
+	import h6 from './markdownComponents/h6.svelte';
+
+	// These are custom heading components.
+	// Their only feature is turning the innerText into
+	// their id as per the VSCode markdown intellisense.
+
+	export { h1, h2, h3, h4, h5, h6 };
+</script>
+
 <script>
 	//! mdsvex does not support typescript yet, so we have to use jsdoc
 	import { page } from '$app/stores';
