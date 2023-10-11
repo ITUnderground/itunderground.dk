@@ -6,6 +6,24 @@
 		<description>Events for the hacking organisation at the IT University of Copenhagen</description>
 
 		<item>
+			<title>Bi-weekly Hack n' Chill / DeadFace Writeups</title>
+			<description>Come and join us for some easy hacking like CTF and HTB. No experience
+				hacking? Don't worry, just show up and everyone will help eachother.\n\nThis event
+				will also include writeups for the DeadFace event. Don't worry if you didn't
+				participate in the CTF, you can still come and learn.</description>
+			<date>2023-10-23</date>
+		</item>
+
+		<item>
+			<title>CTF weekend: DeadFace CTF</title>
+			<description>https://ctftime.org/event/2031\n\nWe meet up at ITU to play the CTF over
+				the weekend, representing ITU as
+				ITUnderground. Stay tuned for more information in the discord server:
+				https://discord.gg/NSYezU85nW</description>
+			<date>2023-10-20 - 2023-10-22</date>
+		</item>
+
+		<item>
 			<title>Bi-weekly Hack n' Chill</title>
 			<description>
 				Come and join us for some easy hacking like CTF and HTB. No experience
