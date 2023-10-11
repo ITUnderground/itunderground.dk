@@ -27,6 +27,11 @@ const config = {
 		adapter: adapter(),
 		version: {
 			name: process.env.npm_package_version
+		},
+		prerender: {
+			// IDs are generated client-side.
+			// couldn't figure out how to do it on build so ignore error it is
+			handleMissingId: 'ignore'
 		}
 	}
 };
