@@ -5,6 +5,28 @@ length: 15 min
 author: ITUnderground
 ---
 
+<details>
+<summary>Table of contents</summary>
+
+- [Resources to learn hacking](#resources-to-learn-hacking)
+  - [Categories](#categories)
+    - [Cryptography](#cryptography)
+    - [Forensics](#forensics)
+    - [Web Hacking](#web-hacking)
+    - [Binary Exploitation](#binary-exploitation---cybersecurity-subject)
+  - [Where do I learn?](#where-do-i-learn)
+    - [HackTheBox](#hack-the-box)
+    - [TryHackMe](#tryhackme)
+    - [PicoCTF](#picoctf---hands-on-with-ctf-challenges)
+- [Mentality](#mentality)
+  - [Operating systems](#operating-systems)
+    - [Virtual machine](#virtual-machine)
+    - [WSL](#wsl)
+    - [Linux and Kali](#linux-and-why-we-use-kali)
+  - [What's a CTF?](#whats-a-ctf)
+
+</details>
+
 ## Resources to learn hacking
 
 ### Categories
