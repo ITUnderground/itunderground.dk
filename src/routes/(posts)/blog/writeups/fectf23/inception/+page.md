@@ -32,7 +32,7 @@ author: Alexander
 
 ## Looking at the files
 
-The only thing we get in this challenge is the following 4017x4017 PNG file:
+The only thing we get in this challenge is the following 4309x4309 PNG file:
 
 <details>
 <summary>Click to expand</summary>
