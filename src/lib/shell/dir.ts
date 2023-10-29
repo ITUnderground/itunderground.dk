@@ -17,9 +17,13 @@ class Dir {
 					'├── <a href="/pages/next-events">next-events</a>\n' +
 					'├── <a href="/pages/discord">discord-server</a>\n' +
 					'├── <a href="/pages/resources">resources</a>\n' +
-					'└── <a href="/?command=cat%20blog-posts">blog-posts/</a>',
+					'├── <a href="/?command=cat%20blog-posts">blog-posts/</a>\n' +
+					'└── <a href="/?command=cat%20writeups">writeups/</a>',
 				'blog-posts':
-					'└── <a href="/blog/setting-up-kali-windows">Setting up Kali Linux on Windows</a>'
+					'└── <a href="/blog/setting-up-kali-windows">Setting up Kali Linux on Windows</a>',
+				writeups:
+					'└── FE CTF 2023 - The UniPwnie Experience\n' +
+					'    └── <a href="/blog/writeups/fectf23/inception">Inception</a>'
 			}
 		}
 	};
