@@ -84,12 +84,12 @@
 					@apply min-w-[80px] border-b-[1px] border-[var(--border)] px-2 py-3 leading-[1.5];
 				}
 				code {
-					@apply mx-1 my-auto block rounded-sm bg-[#282c34] px-[6px] py-1 text-[.78em] leading-[1.5];
+					@apply mx-1 my-auto rounded-sm bg-[#282c34] px-[6px] py-1 text-[.78em] leading-[1.5];
 				}
 				pre {
 					@apply relative my-[1em] block whitespace-nowrap;
 					code {
-						@apply text-[.9em];
+						@apply block text-[.9em];
 					}
 				}
 				ol {
