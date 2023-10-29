@@ -19,13 +19,15 @@
 	import '../styles/prism-one-dark.css';
 
 	// Frontmatter props
-	/** @type {string[]} */
+	/** @type {string|null[]} */
 	export let [title, date, length, author] = [];
-	date = new Date(date).toLocaleDateString('dk-DK', {
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric'
-	});
+	date = date
+		? new Date(date).toLocaleDateString('dk-DK', {
+				year: 'numeric',
+				month: 'long',
+				day: 'numeric'
+		  })
+		: null;
 
 	$: breadcrumbs = $page.url.pathname
 		.split('/')
