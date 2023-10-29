@@ -64,7 +64,7 @@ matrix = [
 ]
 ```
 
-The algorithm the finds the path from A to B:
+The algorithm then finds the path from A to B:
 
 ```py
 from pathfinding.core.diagonal_movement import DiagonalMovement
@@ -108,7 +108,7 @@ We even get a handy list of coordinates:
 
 ### Converting the maze
 
-Next up is converting the maze into a 2d list. This is a pretty common operation in Python, and we can do it witl [Pillow](https://python-pillow.org/) and [NumPy](https://numpy.org/):
+Next up is converting the maze into a 2d list. This is a pretty common operation in Python, and we can do it with [Pillow](https://python-pillow.org/) and [NumPy](https://numpy.org/):
 
 ```py
 from PIL import Image
@@ -136,7 +136,7 @@ array([[[  0,   0,   0],
         [  0,   0,   0]]], dtype=uint8)
 ```
 
-This is a 3D array, width $\times$ height $\times$ color. To convert this to the notation used by `python-pathfinding` we need to do some transformation.
+This is a 3D array, width\*height\*color. To convert this to the notation used by `python-pathfinding` we need to do some transformation.
 
 ```py
 flat = np.average(matrix, axis=2) # Flatten the color channel by averaging the R-G-B.
@@ -191,7 +191,7 @@ No path huh...
 Sticking the original maze into an image editor and using the bucket tool on a white pixel fills the entire image, so we know the maze is possible. Exporting our flat array as a black/white image reveals a different story however:
 
 ```py
-formatted = flat * 255).astype(int)
+formatted = (flat * 255).astype(int)
 img = Image.fromarray(formatted)
 img.show()
 ```
@@ -208,7 +208,7 @@ Turns out the answer is yes, and it can even include white pixels too. These are
 
 So we want to mark the black/white pixels that are on the path. We can do so with 2 simple rules:
 
-> **White pixels** are always next to a wall aka. a black pixel. If they aren't, it means they're on the path. Before converting the image, we can therefore check every white pixel, and mark it if we find no black neighbors (8 directions):
+> **White pixels** are always next to a wall aka. a black pixel. If they aren't, it means they're on the path. Before converting the image, we can therefore check every white pixel and mark the ones with no black neighbors (8 directions):
 >
 > ```diff
 > flat = np.average(matrix, axis=2)
@@ -233,9 +233,9 @@ So we want to mark the black/white pixels that are on the path. We can do so wit
 > flat = flat.astype(int) # Convert to int
 > ```
 >
-> Later we can just mark all of these as 1s.
+> Later we can just set all of the marked pixels as 1s.
 
-> **Black pixels** always have a black neighbor (4 directions). If they don't, it meanr they're on the path. Like above, we can mark it before converting the image:
+> **Black pixels** always have a black neighbor (4 directions). If they don't, it mean they're on the path. Like above, we can mark them before converting the image:
 >
 > ```diff
 > flat = np.average(matrix, axis=2)
@@ -256,9 +256,9 @@ So we want to mark the black/white pixels that are on the path. We can do so wit
 > flat = flat.astype(int) # Convert to int
 > ```
 >
-> And again, we mark them as 1s later.
+> And again, we set them to 1s later.
 
-_Note that this doesn't take into account a black and white pixel on the path right next to each other. Sometimes it's better to keep things simple and just hope they work out. In this case it paid off._
+_Note that this doesn't take into account a black and white pixel on the path right next to each other. Sometimes it's better to keep things simple and just hope they work out. In this case it paid off!_
 
 Combining all of this we get:
 
@@ -323,7 +323,7 @@ colors
 
 ## Using the colors
 
-Now that we have the colors what are they used for? First, some practical information.
+Now that we have the colors how do we use them? First, some practical information.
 
 - Each pixel has 3 color values.
 - Each color value is 1 byte.
@@ -365,6 +365,8 @@ aaand
 
 </details>
 it's another maze... Guess that's what they mean by "Inception". Thankfully we already have all the necessary code and can just compile it into a solve script!
+
+_Try it yourself to find the flag_
 
 ## Solvescript
 
