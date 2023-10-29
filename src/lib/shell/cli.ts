@@ -124,7 +124,7 @@ class CLI {
 	_getCommandObject(commandName: string): Command | null {
 		// Check if command exists
 		if (!(commandName in CLI.commands))
-			throw new Error(`${commandName}: command not found\n Try 'help' for more information.`);
+			throw new Error(`${commandName}: command not found\nTry 'help' for more information.`);
 
 		return CLI.commands[commandName];
 	}
