@@ -3,6 +3,7 @@ title: 'FECTF 2023 Admin CLI writeup'
 date: 2023-10-30
 length: 6 min
 author: Alexander
+headline: Read a solution to Admin CLI in FE CTF 2023
 ---
 
 > **Admin CLI**  

@@ -3,6 +3,7 @@ title: 'FECTF 2023 Inception writeup'
 date: 2023-10-29
 length: 8 min
 author: Alexander
+headline: Read a solution to Inception in FE CTF 2023
 ---
 
 > **Inception**  

@@ -2,6 +2,10 @@
 	<slot />
 </div>
 
+<svelte:head>
+	<title>ITUNDERGROUND</title>
+</svelte:head>
+
 <style lang="scss">
 	.console {
 		:global {

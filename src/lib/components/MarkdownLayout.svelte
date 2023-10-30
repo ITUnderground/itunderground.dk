@@ -20,7 +20,7 @@
 
 	// Frontmatter props
 	/** @type {string|null[]} */
-	export let [title, date, length, author] = [];
+	export let [title, date, length, author, headline] = [];
 	date = date
 		? new Date(date).toLocaleDateString('dk-DK', {
 				year: 'numeric',
@@ -47,7 +47,28 @@
 			.map((p) => p[0])
 			.slice(0, i + 1)
 			.join('/');
+
+	const metaTitle = title + ' | ITUNDERGROUND' || 'ITUNDERGROUND';
+	const metaUrl = 'https://itunderground.dk' + $page.url.pathname;
+	const metaDescription = headline ? headline + ' - By ' + author : 'Read post on ITUnderground.dk';
+	const metaImage = 'https://itunderground.dk/header.png';
 </script>
+
+<svelte:head>
+	{@html `<!-- Dynamic head meta -->
+		<title>${metaTitle}</title>
+		<meta name="title" content="${metaTitle}" />
+		<meta name="description" content="${metaDescription}" />
+		<meta property="og:title" content="${metaTitle}" />
+		<meta property="og:url" content="${metaUrl}" />
+		<meta property="og:description" content="${metaDescription}" />
+		<meta property="og:image" content="${metaImage}" />
+		<meta property="twitter:title" content="${metaTitle}" />
+		<meta property="twitter:url" content="${metaUrl}" />
+		<meta property="twitter:description" content="${metaDescription}" />
+		<meta property="twitter:image" content="${metaImage}" />
+		<meta property="twitter:card" content="summary_large_image" />`}
+</svelte:head>
 
 <header class="m-auto flex h-16 max-w-5xl flex-wrap px-4 py-4">
 	<a
