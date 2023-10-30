@@ -116,6 +116,10 @@
 				summary {
 					@apply select-none hover:cursor-pointer;
 				}
+
+				.math-inline .katex-mathml {
+					position: relative !important;
+				}
 			}
 		}
 	}
