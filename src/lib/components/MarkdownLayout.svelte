@@ -50,7 +50,14 @@
 
 	const metaTitle = title + ' | ITUNDERGROUND' || 'ITUNDERGROUND';
 	const metaUrl = 'https://itunderground.dk' + $page.url.pathname;
-	const metaDescription = headline ? headline + ' - By ' + author : 'Read post on ITUnderground.dk';
+	const metaDescription = `${headline || 'Read post on ITUnderground.dk'}${
+		author || date || length
+			? ` - ${length ? `${length} read ` : ''}${author ? `by ${author}` : ''}${
+					date ? ` - ${date}` : ''
+			  }`
+			: ''
+	}`;
+	console.log(metaDescription);
 	const metaImage = 'https://itunderground.dk/header.png';
 </script>
 
