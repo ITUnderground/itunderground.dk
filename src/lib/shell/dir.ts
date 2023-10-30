@@ -22,7 +22,7 @@ class Dir {
 				'blog-posts':
 					'└── <a href="/blog/setting-up-kali-windows">Setting up Kali Linux on Windows</a>',
 				writeups:
-					'└── FE CTF 2023 - The UniPwnie Experience\n' +
+					'└── <a href="/blog/writeups/fectf23">FE CTF 2023 - The UniPwnie Experience</a>\n' +
 					'    ├── <a href="/blog/writeups/fectf23/admin-cli">Admin CLI</a>\n' +
 					'    └── <a href="/blog/writeups/fectf23/inception">Inception</a>'
 			}
