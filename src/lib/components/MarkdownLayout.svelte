@@ -57,7 +57,6 @@
 			  }`
 			: ''
 	}`;
-	console.log(metaDescription);
 	const metaImage = 'https://itunderground.dk/header.png';
 </script>
 
