@@ -10,9 +10,6 @@
 
 	const padding = 5;
 
-	/**
-	 * @type {import('$lib/shell/types').LogEntry[]}
-	 */
 	const prerun = [
 		{
 			output: `ITUnderground v${version} Mon Aug 28 16:48:20 CST 2023 SvelteKit
@@ -59,10 +56,10 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`
 
 <div class="flex h-full w-full overflow-hidden" id="Terminal">
 	<div class="flex w-full flex-col-reverse items-center justify-between">
+		<!-- This is pretty fucked, but basically I'm using a reverse flex column so that the terminal overflows on top, which means the footer needs to go first. -->
+		<!-- If I didn't do this you would have to scroll down after every command which sucks -->
+		<Footer />
 		{#if inBrowser}
-			<!-- This is pretty fucked, but basically I'm using a reverse flex column to that the terminal overflows on top, which means the footer needs to go first. -->
-			<!-- If I didn't do this you would have to scroll down after every command which sucks -->
-			<Footer />
 			<Shell
 				{prerun}
 				animationSpeed={{
@@ -71,5 +68,58 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`
 				}}
 			/>
 		{/if}
+		<!-- Non-javascript buddies -->
+		<noscript style="font-family: inconsolata, monospace;" class="max-w-full">
+			<div class="flex w-full flex-col xl:w-[1280px]">
+				<span class="whitespace-pre-wrap break-keep">
+					{prerun[0].output}
+				</span>
+				<span>
+					<span class="text-[var(--shellcolor-home)]"><strong>it@underground</strong></span>:<span
+						class="text-[var(--shellcolor-base)]"><strong>~</strong></span
+					>$
+					<span>ls /home/itunderground</span>
+				</span>
+				<span class="whitespace-pre-wrap break-keep">
+					{@html 'flag.txt\n' +
+						'<span style="color: #ec4899">secret_folder/</span>\n' +
+						'underground\n' +
+						'blog-posts\n' +
+						'writeups'}
+				</span>
+				<span>
+					<span class="text-[var(--shellcolor-home)]"><strong>it@underground</strong></span>:<span
+						class="text-[var(--shellcolor-base)]"><strong>~</strong></span
+					>$
+					<span>cat underground</span>
+				</span>
+				<span class="whitespace-pre-wrap break-keep">
+					{@html '├── <a href="/pages/who-are-we">who-are-we</a>\n' +
+						'├── <a href="/pages/next-events">next-events</a>\n' +
+						'├── <a href="/pages/discord">discord-server</a>\n' +
+						'├── <a href="/pages/resources">resources</a>'}
+				</span>
+				<span>
+					<span class="text-[var(--shellcolor-home)]"><strong>it@underground</strong></span>:<span
+						class="text-[var(--shellcolor-base)]"><strong>~</strong></span
+					>$
+					<span>cat blog-posts</span>
+				</span>
+				<span class="whitespace-pre-wrap break-keep">
+					{@html '└── <a href="/blog/setting-up-kali-windows">Setting up Kali Linux on Windows</a>'}
+				</span>
+				<span>
+					<span class="text-[var(--shellcolor-home)]"><strong>it@underground</strong></span>:<span
+						class="text-[var(--shellcolor-base)]"><strong>~</strong></span
+					>$
+					<span>cat writeups</span>
+				</span>
+				<span class="whitespace-pre-wrap break-keep">
+					{@html '└── <a href="/blog/writeups/fectf23">FE CTF 2023 - The UniPwnie Experience</a>\n' +
+						'    ├── <a href="/blog/writeups/fectf23/admin-cli">Admin CLI</a>\n' +
+						'    └── <a href="/blog/writeups/fectf23/inception">Inception</a>'}
+				</span>
+			</div>
+		</noscript>
 	</div>
 </div>
