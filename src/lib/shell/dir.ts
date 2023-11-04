@@ -44,6 +44,16 @@ class Dir {
 	}
 
 	/**
+	 * Recovers the file system from the default file system
+	 */
+	_recoverFilesystem() {
+		this._root = dirDefault;
+		this._cwd = ['home', 'itunderground'];
+		this._navigate();
+		dirStore.set(this._root);
+	}
+
+	/**
 	 * List files in a directory. Defaults to current directory. If a file is specified, returns that file.
 	 * @returns list of files in current directory
 	 */
@@ -130,6 +140,7 @@ class Dir {
 			current = current[d] as Directory;
 		}
 		current[file] = value;
+		dirStore.set(this._root);
 	}
 
 	/**
@@ -161,6 +172,10 @@ class Dir {
 				':( <br><br> <p style="font-size: 2rem">&nbsp;&nbsp;&nbsp;file system gone</p>';
 			document.body.appendChild(fullscreen);
 
+			// Delete everything
+			for (const key in this._root) delete this._root[key];
+			dirStore.set(this._root);
+
 			return true;
 		}
 
@@ -183,6 +198,7 @@ class Dir {
 		}
 
 		delete current[file];
+		dirStore.set(this._root);
 		return true;
 	}
 }
