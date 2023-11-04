@@ -58,12 +58,12 @@ class CLI {
 	 * Extracts arguments from an shell command
 	 * @param commandString string command to extract arguments from
 	 */
-	_argParser(commandString: string): ParsedCommand | null {
+	_argParser(commandString: string): ParsedCommand {
 		const commandName = commandString.split(' ')[0];
-		if (!commandName) return null;
+		if (!commandName) throw new Error('No command name provided');
 
 		const commandObject = this._getCommandObject(commandName);
-		if (!commandObject) return null;
+		if (!commandObject) throw new Error(`${commandName}: command not found`);
 
 		const { namedArguments: requestedArguments } = commandObject;
 
@@ -135,19 +135,19 @@ class CLI {
 	 * @returns ParsedCommand[] and redirects
 	 */
 	_redirectParser(command: string): {
-		commands: [ParsedCommand | null, ParsedCommand | null];
+		commandOrFilePath: [ParsedCommand | null, string | null];
 		redirect: string | null;
 	} {
 		// Supports >, >>, and |
 		const regex = />{1,2}|\|/g;
 		const match = command.match(regex);
-		if (!match) return { commands: [this._argParser(command), null], redirect: null };
+		if (!match) return { commandOrFilePath: [this._argParser(command), null], redirect: null };
 		const redirect = match[0];
 		const command1 = command.split(redirect)[0].trim();
-		const command2 = command.split(redirect).slice(1).join(redirect).trim();
+		const maybecommand = command.split(redirect).slice(1).join(redirect).trim();
 
 		return {
-			commands: [this._argParser(command1), this._argParser(command2)],
+			commandOrFilePath: [this._argParser(command1), maybecommand],
 			redirect
 		};
 	}
@@ -226,7 +226,7 @@ class CLI {
 		});
 		// Try to run command
 		try {
-			const { commands, redirect } = this._redirectParser(command);
+			const { commandOrFilePath: commands, redirect } = this._redirectParser(command);
 			// Run command
 			output = await this._execute(commands[0]);
 			// Redirect if needed
@@ -265,25 +265,26 @@ class CLI {
 	 */
 	async redirect(
 		output: string,
-		destination: ParsedCommand | null,
+		destination: string | null,
 		redirect: string
 	): Promise<string | undefined | void> {
 		if (!destination) return;
 		switch (redirect) {
 			case '>': {
-				const file = dir.read(destination.commandName);
-				if (file?.type === 'Directory') return `${destination.commandName}: is a directory`;
-				dir.write(destination.commandName, output);
+				const file = dir.read(destination);
+				if (file?.type === 'Directory') return `${destination}: is a directory`;
+				dir.write(destination, output);
 				return;
 			}
 			case '>>': {
-				const file = dir.read(destination.commandName);
-				if (file?.type === 'Directory') return `${destination.commandName}: is a directory`;
-				dir.write(destination.commandName, (file?.value || '') + output);
+				const file = dir.read(destination);
+				if (file?.type === 'Directory') return `${destination}: is a directory`;
+				dir.write(destination, (file?.value || '') + output);
 				return;
 			}
 			case '|': {
-				const { commands, redirect } = this._redirectParser(destination.raw);
+				const command = this._argParser(destination);
+				const { commandOrFilePath: commands, redirect } = this._redirectParser(command.raw);
 				if (!commands[0]) return;
 				commands[0].raw += ' ' + output; // Redirect previous output to new command
 				commands[0] = this._argParser(commands[0].raw); // Re-parse command
