@@ -92,9 +92,8 @@ class Dir {
 	): { type: 'Directory'; value: Directory } | { type: 'File'; value: File } | null {
 		// Get file
 		const found = this._locate(this.getAbsolutePath(path));
-
 		// Return file
-		if (!found) return null;
+		if (found === null) return null;
 		if (typeof found === 'string') return { type: 'File', value: found };
 		if (typeof found === 'object') return { type: 'Directory', value: found };
 		return null;
