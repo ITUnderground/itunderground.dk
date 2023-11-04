@@ -8,3 +8,4 @@ List of writeups by ITUnderground
 >
 > - [Admin CLI](writeups/fectf23/admin-cli)
 > - [Inception](writeups/fectf23/inception)
+> - [Padding Oracle](writeups/fectf23/padding-oracle)
