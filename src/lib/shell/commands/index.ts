@@ -13,3 +13,4 @@ export { default as mkdir } from './mkdir';
 export { default as rm } from './rm';
 export { default as neofetch } from './neofetch';
 export { default as sleep } from './sleep';
+export { default as exit } from './exit';
