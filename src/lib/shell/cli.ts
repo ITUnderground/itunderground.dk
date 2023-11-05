@@ -96,7 +96,6 @@ class CLI {
 			for (const commandSupportedArgument of commandSupportedArgumentList) {
 				// If the argument requires a value, use the value from the command, otherwise use true to represent that it is present
 				const detectedValue = commandSupportedArgument.hasValue ? argValue : true;
-				console.log(detectedValue);
 				argumentValues[commandSupportedArgument.name] = detectedValue;
 			}
 
