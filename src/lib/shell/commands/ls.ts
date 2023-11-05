@@ -1,7 +1,7 @@
 import Command from '../command';
 
 export default new Command({
-	command({ command: { positional }, dir }) {
+	command({ command: { positionalArguments: positional }, dir }) {
 		// Get path parameter
 		const requestedPath = positional[0];
 

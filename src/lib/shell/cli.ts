@@ -43,9 +43,9 @@ class CLI {
 		this.dummyAccessObject = {
 			cli: this,
 			command: {
-				commandName: '',
-				named: {},
-				positional: [],
+				name: '',
+				namedArguments: {},
+				positionalArguments: [],
 				raw: ''
 			},
 			dir,
@@ -65,41 +65,46 @@ class CLI {
 		const commandObject = this._getCommandObject(commandName);
 		if (!commandObject) return null;
 
-		const { namedArguments: requestedArguments } = commandObject;
+		const { namedArguments: commandSupportedArguments } = commandObject;
 
-		const named: NamedArguments = Object.fromEntries(
-			requestedArguments.map((arg) => {
+		// Initialise all arguments to false
+		const argumentValues: NamedArguments = Object.fromEntries(
+			commandSupportedArguments.map((arg) => {
 				return [arg.name, false];
 			})
 		);
+		// Match stuff like -a, --all, -a=true, --all=true, -a true, --all true
 		const namedRegex = new RegExp(/ --?(\w*)(?:(?:\s+|=)(\w+))?/g);
 		let z: RegExpExecArray | null;
-		// cursed assignment
+		// cursed assignment, loop through all matches
 		while ((z = namedRegex.exec(commandString)) !== null) {
-			const [rawMatch, rawName, rawValue] = z;
+			const [fullMatch, argName, argValue] = z;
+			// argValue is just the word after the argement. requestedArguments.requireValue determines if argValue is used as an actual value, or just part of the command
 
-			// Find matching names in requested arguments
-			// Name could be empty string with `rm -`. In those cases we just pass - or --
-			const requestedArgumentList = requestedArguments.filter((arg) =>
-				arg.choices.includes(rawName || rawMatch.split(' ')[0])
+			// Find matching arg names in requested arguments
+			const commandSupportedArgumentList = commandSupportedArguments.filter((commandArg) =>
+				// Name could be empty string with `rm -`. In those cases we just pass - or -- (that's what the fullMatch.split does)
+				commandArg.choices.includes(argName || fullMatch.split(' ')[0])
 			);
-			if (!requestedArgumentList.length) {
+			if (!commandSupportedArgumentList.length) {
 				throw new Error(
-					`${commandName}: invalid option -- '${rawName}'\n` +
+					`${commandName}: invalid option -- '${argName}'\n` +
 						`Try '${commandName} --help' for more information.`
 				);
 			}
 
-			for (const requestedArgument of requestedArgumentList) {
-				const value = requestedArgument.value ? rawValue : true;
-				named[requestedArgument.name] = value;
+			for (const commandSupportedArgument of commandSupportedArgumentList) {
+				// If the argument requires a value, use the value from the command, otherwise use true to represent that it is present
+				const detectedValue = commandSupportedArgument.hasValue ? argValue : true;
+				console.log(detectedValue);
+				argumentValues[commandSupportedArgument.name] = detectedValue;
 			}
 
 			// Remove match from commandString so it can be used as positional arguments
-			let match = rawMatch;
-			// dont remove captured value if there isn't supposed to be one
-			if (requestedArgumentList.every((arg) => !arg.value)) {
-				match = rawMatch.replace(rawValue, '').trim();
+			let match = fullMatch;
+			// but dont remove captured value if the argument doesn't require a value
+			if (commandSupportedArgumentList.every((arg) => !arg.hasValue)) {
+				match = fullMatch.replace(argValue, '').trim();
 			}
 			commandString = commandString.replace(match, '');
 		}
@@ -109,9 +114,9 @@ class CLI {
 			.filter((arg) => arg !== '');
 
 		return {
-			commandName,
-			named,
-			positional,
+			name: commandName,
+			namedArguments: argumentValues,
+			positionalArguments: positional,
 			raw: commandString
 		};
 	}
@@ -161,18 +166,16 @@ class CLI {
 		// Check if valid command
 		if (!parsed) return '';
 
-		const command = this._getCommandObject(parsed.commandName);
+		const command = this._getCommandObject(parsed.name);
 		if (!command)
-			throw new Error(
-				`${parsed.commandName}: command not found\n` + `Try 'help' for more information.`
-			);
+			throw new Error(`${parsed.name}: command not found\n` + `Try 'help' for more information.`);
 
 		// Run command
 		return await command.fn({
 			command: {
-				commandName: parsed.commandName,
-				positional: parsed.positional,
-				named: parsed.named,
+				name: parsed.name,
+				positionalArguments: parsed.positionalArguments,
+				namedArguments: parsed.namedArguments,
 				raw: parsed.raw
 			},
 			cli: this,
@@ -271,15 +274,15 @@ class CLI {
 		if (!destination) return;
 		switch (redirect) {
 			case '>': {
-				const file = dir.read(destination.commandName);
-				if (file?.type === 'Directory') return `${destination.commandName}: is a directory`;
-				dir.write(destination.commandName, output);
+				const file = dir.read(destination.name);
+				if (file?.type === 'Directory') return `${destination.name}: is a directory`;
+				dir.write(destination.name, output);
 				return;
 			}
 			case '>>': {
-				const file = dir.read(destination.commandName);
-				if (file?.type === 'Directory') return `${destination.commandName}: is a directory`;
-				dir.write(destination.commandName, (file?.value || '') + output);
+				const file = dir.read(destination.name);
+				if (file?.type === 'Directory') return `${destination.name}: is a directory`;
+				dir.write(destination.name, (file?.value || '') + output);
 				return;
 			}
 			case '|': {

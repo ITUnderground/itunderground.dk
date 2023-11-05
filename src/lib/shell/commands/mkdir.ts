@@ -1,7 +1,7 @@
 import Command from '../command';
 
 export default new Command({
-	command({ command: { positional }, dir }) {
+	command({ command: { positionalArguments: positional }, dir }) {
 		const requestedDir = positional[0];
 		if (!requestedDir) return 'mkdir: missing operand';
 		const parentDir = requestedDir.split('/').slice(0, -1).join('/');

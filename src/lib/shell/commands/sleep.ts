@@ -2,12 +2,12 @@ import Command from '../command';
 
 export default new Command({
 	async command({ command }) {
-		if (!command.positional[0]) {
+		if (!command.positionalArguments[0]) {
 			return 'sleep: missing operand';
 		}
-		const time = parseInt(command.positional[0]);
+		const time = parseInt(command.positionalArguments[0]);
 		if (isNaN(time)) {
-			return `sleep: invalid time interval '${command.positional[0]}'`;
+			return `sleep: invalid time interval '${command.positionalArguments[0]}'`;
 		}
 
 		await new Promise((resolve) => setTimeout(resolve, time * 1000));

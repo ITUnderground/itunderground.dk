@@ -1,7 +1,7 @@
 import Command from '../command';
 
 export default new Command({
-	command({ dir, command: { positional } }) {
+	command({ dir, command: { positionalArguments: positional } }) {
 		const requestedPath = positional[0];
 		if (!requestedPath) return 'touch: missing file operand';
 

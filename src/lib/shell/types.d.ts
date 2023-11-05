@@ -20,9 +20,9 @@ export type LogEntry = Output | Input;
 
 type NamedArguments = { [flag: string]: string | boolean | undefined };
 export type ParsedCommand = {
-	commandName: string;
-	positional: string[] | undefined[];
-	named: NamedArguments;
+	name: string;
+	positionalArguments: string[] | undefined[];
+	namedArguments: NamedArguments;
 	raw: string;
 };
 export type AccessObject = {
@@ -43,7 +43,7 @@ type CommandDescription = string;
 type NamedArgumentOptions = {
 	name: string;
 	choices: string[];
-	value?: boolean;
+	hasValue?: boolean;
 }[];
 
 type CommandImport = {

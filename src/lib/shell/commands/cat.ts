@@ -1,7 +1,7 @@
 import Command from '../command';
 
 export default new Command({
-	command({ command: { positional }, dir }) {
+	command({ command: { positionalArguments: positional }, dir }) {
 		// Get file parameter
 		const requestedFile = positional[0];
 		if (!requestedFile) return 'cat: missing file operand';

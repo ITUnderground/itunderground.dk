@@ -36,7 +36,7 @@ const help = `cd: cd [-L|[-P [-e]] [-@]] [dir]
 	Returns 0 if the directory is changed, and if $PWD is set successfully when
 	-P is used; non-zero otherwise.`;
 
-const cd: CommandFunction = ({ command: { positional, named }, dir, env }) => {
+const cd: CommandFunction = ({ command: { positionalArguments: positional, namedArguments: named }, dir, env }) => {
 	if (named.help) return help;
 
 	const requestedPath = positional[0]?.replace('~', env.get('HOME') ?? '/');
