@@ -1,5 +1,6 @@
 ---
 title: 'FECTF 2023 Padding Oracle'
+shortTitle: 'Padding Oracle'
 date: 2023-11-4
 length: 10 min
 author: David

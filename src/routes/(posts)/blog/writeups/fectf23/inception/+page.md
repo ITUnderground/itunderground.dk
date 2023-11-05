@@ -1,5 +1,6 @@
 ---
 title: 'FECTF 2023 Inception writeup'
+shortTitle: 'Inception'
 date: 2023-10-29
 length: 8 min
 author: Alexander

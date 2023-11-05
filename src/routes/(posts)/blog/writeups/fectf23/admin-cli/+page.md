@@ -1,5 +1,6 @@
 ---
 title: 'FECTF 2023 Admin CLI writeup'
+shortTitle: 'Admin CLI'
 date: 2023-10-30
 length: 6 min
 author: Alexander
