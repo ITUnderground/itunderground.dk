@@ -28,7 +28,7 @@ Once it's been cloned, enter it and install the npm packages.
 
 ```bash
 cd itunderground.dk
-pnpm install
+pnpm install # Note: You can also choose to use npm, but pnpm is preferred
 ```
 
 ## Running and building
@@ -65,9 +65,9 @@ There are 3 main elements of itunderground.dk:
 
 Markdown files are used for blog-like posts. An example of this is [itunderground.dk/post/who-are-we](https://itunderground.dk/post/who-are-we). The corresponding markdown file is located in [`src/routes/post/who-are-we/+page.md`](./src/routes/post/who-are-we/+page.md).
 
-To render markdown, we use [mdsvex](https://mdsvex.com/). It supports both .md files and .svx files, and both support directly inserting Svelte components. That means you can for example create a dynamic that fetches data from some server (remember, the site is static so make sure any data fetching happens client-side!).
+To render markdown, we use [mdsvex](https://mdsvex.com/). It supports both .md files and .svx files, and both support directly inserting Svelte components. That means you can for example create a dynamic markdown file that fetches data from some server (remember, the site is static so make sure any data fetching happens client-side!).
 
-~~View [next-events](src/routes/post/next-events/%2Bpage.md) for an example of a data-fetching markdown file. It fetches data from out public calendar.~~ <- Not yet implemented.
+Dynamic data fetching in markdown components has not yet been used on our site, but feel free to add it to the readme if you decide to utilize it.
 
 To add a markdown file, create a directory corresponding to its name and add a `+page.md` file. Remember to link to the file somewhere, such as in the [dir](src/lib/shell/dir.ts) or there won't be a way to navigate to it.
 
@@ -79,17 +79,28 @@ All commands in the Linux shell are custom implementations written in TypeScript
 To add a command create a new TypeScript file in the [`commands/`](src/lib/shell/commands/) directory with the name of the command you want to implement. Copy the following template:
 
 ```ts
-import type { AccessObject } from '../types';
+import Command from '../command';
 
-function mycommand({ cli, dir, env, js, command }: AccessObject): string {
-	return 'Hello world!';
-}
-mycommand.description = 'My cool and awesome command!';
+export default new Command({
+	command({ cli, dir, env, js, command }) {
+		// Logic here
+		const flagValue = command.namedArguments['userflag'];
 
-export default mycommand;
+		cli.stdout('Hello world!');
+		return `You passed the flag ${flagValue}!`;
+	},
+	description: 'My cool and awesome command.',
+	namedArguments: [
+		{
+			name: 'userflag',
+			choices: ['flag', 'userflag', 'f'],
+			hasValue: true
+		}
+	]
+});
 ```
 
-It is highly recommanded that you use something like IntelliSense to view all properties on the AccesObject that your command has access to. Methods starting with and underscore (\_) should be avoided as they are meant for internal use. See other commands for inspiration on how to make use of this object.
+It is highly recommanded that you use something like IntelliSense to view all properties on the AccesObject that your command has access to. It can also be helpful to look at the type definitions in [`src/lib/shell/types.d.ts`](src/lib/shell/types.d.ts). Methods starting with and underscore (\_) should be avoided as they are meant for internal use. See other commands for inspiration on how to make use of this object.
 
 1. The AccessObject contains all the metadata you have access to in the command.
    - `cli`: Exposes basic CLI methods that allows you to run a command and print to regular output, as well as the log.  
@@ -99,14 +110,16 @@ It is highly recommanded that you use something like IntelliSense to view all pr
    - `env`: Exposes methods related to environment variables, like `get` and `set`.  
      See `builtin/echo` for a command that uses this object.
    - `js`: Allow you to execute JavaScript in the browser.  
-     No commands currently implement this object.
+     See `neofetch` for a command that uses this function.
    - `command`: Information about the command that was run. This object contains the arguments of the command.  
-     `positional` arguments are arguments relative to a command. That is, in `cat file.txt`, `file.txt` would be the first positional argument. This is a list of strings.  
-     `named` arguments are arguments passed as flags. That is, in `python -m script`, `script` is the named argument of `-m`. This is key-value object, being `{ "-m": "script" }` in the example.  
+      `name` is the name of the command, aka. the first word of the input.
+     `positionalArguments` are arguments relative to a command. That is, in `cat file.txt`, `file.txt` would be the first positional argument. This is a list of strings.  
+      `namedArguments` are arguments passed as flags. That is, in `python -m script`, `script` is the value of the named argument `-m`. To receive `namedArguments`, they must be defined in the `namedArguments` section. In the example above, the argument named "userflag" can be passed to the command using either `--flag`, `--userflag` or `-f`. Internally, its name is "userflag", and it expects a value. If `hasValue` is nullable, the value of the argument will simply be `true` if it is present. The value of any argument not passed by the user is `false`.  
+     **Note**: If an argument with `hasValue: true` is passed to the command _without_ a value, it will have value `undefined`. If the argument is _not_ passed to the command, it will have value `false`.
      `raw` is the raw string command.  
-     See `cat` and `sudo` for commands that implement this object.
-2. The command does not have to return anything, but if it does it this should be a string. This is what will be printed as the output of the command.  
-   Note that any HTML will be rendered, though script tag will not execute.
-3. The command _has_ to define a description as shown in the template.
+      See `cat` and `sudo` for commands that implement this object.
+2. There are 2 ways to write output from the command. The first is to use `cli.stdout()`, the second is to return a string. The latter is preferred. The command does not have to return anything, but if it does it this should be a string (or a promise of a string/void).  
+   Note that any HTML in both `cli.stdout` and return value will be rendered, though script tag will not execute (see for example `neofetch`).
+3. Commands can be asynchronous and return promises. Note that async commands _are_ currently blocking. See `neofetch` for async usage.
 
 Finally, **to be able to use the command**, add it in `commands/index.ts`. Commands not defined in this file _will not work_.
