@@ -194,7 +194,7 @@
 		const command = $page.url.searchParams.get('command');
 		if (!command) return;
 		// We do this because searchParams.delete does not work
-		goto($page.url.search.replace(/(command=[^&]+)&?/, ''));
+		goto($page.url.search.replace(/(command=[^&]+)&?/, ''), { replaceState: true });
 		cli.run(command).then(() => {
 			log = [...cli.log];
 			cwd = cli.dir.cwd.replace('/home/itunderground', '~');

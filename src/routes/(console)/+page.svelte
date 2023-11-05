@@ -117,7 +117,9 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`
 				<span class="whitespace-pre-wrap break-keep">
 					{@html '└── <a href="/blog/writeups/fectf23">FE CTF 2023 - The UniPwnie Experience</a>\n' +
 						'    ├── <a href="/blog/writeups/fectf23/admin-cli">Admin CLI</a>\n' +
-						'    └── <a href="/blog/writeups/fectf23/inception">Inception</a>'}
+						'    ├── <a href="/blog/writeups/fectf23/inception">Inception</a>\n' +
+						'    └── <a href="/blog/writeups/fectf23/padding-oracle">Padding Oracle</a>'}
+						
 				</span>
 			</div>
 		</noscript>

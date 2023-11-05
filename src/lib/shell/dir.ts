@@ -1,33 +1,10 @@
 import type Env from './env';
+import { dir as dirStore, dirDefault } from '$lib/stores';
 import type { Directory, File } from './types';
+import { get } from 'svelte/store';
 // Implements directory structure
 class Dir {
-	private _root: Directory = {
-		home: {
-			// Folder
-			itunderground: {
-				// Simple file
-				'flag.txt': "Did you really think it'd be that easy?",
-				secret_folder: {
-					'inconspicuous.txt': "You found me! Here's your flag: <code>itu{spooky}</code>"
-				},
-				// Multiline file
-				underground:
-					'├── <a href="/pages/who-are-we">who-are-we</a>\n' +
-					'├── <a href="/pages/next-events">next-events</a>\n' +
-					'├── <a href="/pages/discord">discord-server</a>\n' +
-					'├── <a href="/pages/resources">resources</a>\n' +
-					'├── <a href="/?command=cat%20blog-posts">blog-posts/</a>\n' +
-					'└── <a href="/?command=cat%20writeups">writeups/</a>',
-				'blog-posts':
-					'└── <a href="/blog/setting-up-kali-windows">Setting up Kali Linux on Windows</a>',
-				writeups:
-					'└── <a href="/blog/writeups/fectf23">FE CTF 2023 - The UniPwnie Experience</a>\n' +
-					'    ├── <a href="/blog/writeups/fectf23/admin-cli">Admin CLI</a>\n' +
-					'    └── <a href="/blog/writeups/fectf23/inception">Inception</a>'
-			}
-		}
-	};
+	private _root: Directory = get(dirStore);
 	private _cwd: string[];
 	private _current = this._root;
 	private _env: Env;
@@ -64,6 +41,16 @@ class Dir {
 			current = current[dir as keyof typeof current] as typeof current;
 		}
 		return current;
+	}
+
+	/**
+	 * Recovers the file system from the default file system
+	 */
+	_recoverFilesystem() {
+		this._root = dirDefault;
+		this._cwd = ['home', 'itunderground'];
+		this._navigate();
+		dirStore.set(this._root);
 	}
 
 	/**
@@ -105,9 +92,8 @@ class Dir {
 	): { type: 'Directory'; value: Directory } | { type: 'File'; value: File } | null {
 		// Get file
 		const found = this._locate(this.getAbsolutePath(path));
-
 		// Return file
-		if (!found) return null;
+		if (found === null) return null;
 		if (typeof found === 'string') return { type: 'File', value: found };
 		if (typeof found === 'object') return { type: 'Directory', value: found };
 		return null;
@@ -153,6 +139,7 @@ class Dir {
 			current = current[d] as Directory;
 		}
 		current[file] = value;
+		dirStore.set(this._root);
 	}
 
 	/**
@@ -184,6 +171,10 @@ class Dir {
 				':( <br><br> <p style="font-size: 2rem">&nbsp;&nbsp;&nbsp;file system gone</p>';
 			document.body.appendChild(fullscreen);
 
+			// Delete everything
+			for (const key in this._root) delete this._root[key];
+			dirStore.set(this._root);
+
 			return true;
 		}
 
@@ -206,6 +197,7 @@ class Dir {
 		}
 
 		delete current[file];
+		dirStore.set(this._root);
 		return true;
 	}
 }
