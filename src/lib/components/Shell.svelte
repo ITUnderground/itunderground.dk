@@ -28,7 +28,7 @@
 		input += input_right;
 		input_right = '';
 		interactive = false;
-		cli.run(input).then(() => {
+		cli.run(input.trim()).then(() => {
 			log = [...cli.log];
 			cwd = cli.dir.cwd.replace('/home/itunderground', '~');
 			historyIndex = cli.history.length;
