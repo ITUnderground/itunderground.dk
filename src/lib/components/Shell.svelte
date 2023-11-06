@@ -75,8 +75,15 @@
 			introAnimationPlaying = true;
 		}
 		if (!introAnimationPlaying || !interactive) return;
-		// Scroll to bottom
-		terminalInputSpan.scrollIntoView();
+		// Scroll to bottom if typing visible characters, enter or arrow keys
+		if (
+			(e.key.length === 1 && !(e.ctrlKey || e.altKey || e.metaKey)) ||
+			e.key === 'Enter' ||
+			e.key === 'Backspace' ||
+			e.key.startsWith('Arrow')
+		) {
+			terminalInputSpan.scrollIntoView();
+		}
 
 		// Navigate history
 		if (e.key === 'ArrowUp') {
