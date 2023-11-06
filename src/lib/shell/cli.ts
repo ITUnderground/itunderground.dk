@@ -276,13 +276,13 @@ class CLI {
 			case '>': {
 				const file = dir.read(destination);
 				if (file?.type === 'Directory') return `${destination}: is a directory`;
-				dir.write(destination, output);
+				dir.write(destination, output + '\n');
 				return;
 			}
 			case '>>': {
 				const file = dir.read(destination);
 				if (file?.type === 'Directory') return `${destination}: is a directory`;
-				dir.write(destination, (file?.value || '') + output);
+				dir.write(destination, (file?.value || '') + output + '\n');
 				return;
 			}
 			case '|': {

@@ -164,7 +164,7 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`);
 		if (!cshrc || cshrc.type !== 'File') return;
 
 		// Run commands in the file
-		for (const line of cshrc.value.split('\n')) {
+		for (const line of cshrc.value.trim().split('\n')) {
 			const command = line.trim();
 			if (command.startsWith('#')) continue;
 
@@ -190,7 +190,6 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`);
 			historyIndex = cli.history.length;
 
 			// Wait for next line
-			console.log(animationSpeed);
 			if (animationSpeed.lines !== 0)
 				await new Promise((resolve) => setTimeout(resolve, animationSpeed.lines));
 		}
