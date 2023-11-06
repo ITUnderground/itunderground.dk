@@ -189,7 +189,7 @@ class Dir {
 			if (terminal) terminal.innerHTML = '';
 			// Create full screen element with blue background and sad face
 			const fullscreen = document.createElement('div');
-			fullscreen.style.backgroundColor = '#0000FF';
+			fullscreen.style.backgroundColor = '#1d40bf';
 			fullscreen.style.width = '100vw';
 			fullscreen.style.height = '100vh';
 			fullscreen.style.display = 'flex';
@@ -201,7 +201,9 @@ class Dir {
 			fullscreen.style.fontSize = '10rem';
 			fullscreen.style.color = '#FFFFFF';
 			fullscreen.innerHTML =
-				':( <br><br> <p style="font-size: 2rem">&nbsp;&nbsp;&nbsp;file system gone</p>';
+				':( <br><br> <p style="font-size: 2rem">&nbsp;&nbsp;&nbsp;Oopsie Woopsie! Uwu We made a fucky wucky!! A wittle<br>' +
+				'fucko boingo! The code monkeys at our headquarters are<br>' +
+				'working VEWY HAWD to fix this!</p>';
 			document.body.appendChild(fullscreen);
 
 			// Delete everything
