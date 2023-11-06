@@ -113,7 +113,7 @@
 			input_right = '';
 		}
 
-		// Add key to input
+		// Regular typing
 		if (e.key.length === 1 && !(e.ctrlKey || e.altKey || e.metaKey)) {
 			input += e.key;
 		}
