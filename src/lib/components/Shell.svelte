@@ -24,17 +24,21 @@
 		log = [...cli.log];
 	}
 
-	function submit() {
+	/** @type {HTMLSpanElement}*/
+	let terminalInputSpan;
+	async function submit() {
 		input += input_right;
 		input_right = '';
 		interactive = false;
-		cli.run(input.trim()).then(() => {
+		await cli.run(input.trim()).then(() => {
 			log = [...cli.log];
 			cwd = cli.dir.cwd.replace('/home/itunderground', '~');
 			historyIndex = cli.history.length;
 			interactive = true;
 		});
 		input = '';
+
+		terminalInputSpan.scrollIntoView();
 	}
 
 	// Navigate history
@@ -70,6 +74,9 @@
 			introAnimationPlaying = true;
 		}
 		if (!introAnimationPlaying || !interactive) return;
+		// Scroll to bottom
+		terminalInputSpan.scrollIntoView();
+
 		// Navigate history
 		if (e.key === 'ArrowUp') {
 			navigateHistory('up');
@@ -203,7 +210,7 @@
 	})();
 </script>
 
-<div class="flex w-full flex-col xl:w-[1280px]">
+<div class="flex w-full flex-col overflow-y-auto xl:w-[1280px]">
 	<!-- Hidden input for mobile users -->
 	<!--
 	<input
@@ -230,7 +237,7 @@
 		{/if}
 	{/each}
 	{#if interactive}
-		<span>
+		<span bind:this={terminalInputSpan}>
 			<span class="text-[var(--shellcolor-home)]"
 				><strong>{cli.env.get('USER')}@{CLI.commands.hostname.fn(cli.dummyAccessObject)}</strong
 				></span
