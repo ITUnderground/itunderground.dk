@@ -5,28 +5,20 @@ shortTitle: 'FE CTF 2023 - The UniPwnie Experience'
 
 <script>
 	import { page } from '$app/stores';
-	const dirs = import.meta.glob('./*/*.md');
-	const cwd = $page.url.pathname;
+	import { ctfWriteups } from '$lib/dynamicFiles'
 
-	const filesPromise = Promise.all(Object.keys(dirs).map(async path => {
-		return [
-			path.slice(2).split('/')[0], // turn ./admin-cli/+page.md into admin-cli
-			await dirs[path]() // fetch the markdown module
-		];
-	}));
+	const cwd = $page.url.pathname.split('/');
+	const ctf = cwd[cwd.length - 1];
 </script>
 
 List of writups by ITUnderground for FE CTF 2023 - The UniPwnie Experience
 
-{#await filesPromise then files}
-
 <ul>
-{#each files as file}
 
-<li><a href="{cwd}/{file[0]}">{file[1].metadata.shortTitle || file[1].metadata.title}</a></li>
+{#each Object.values(ctfWriteups()[ctf].writeups) as writeup}
+
+<li><a href="{writeup.absPath}">{writeup.module.metadata.shortTitle || writeup.module.metadata.title}</a></li>
 
 {/each}
 
 </ul>
-
-{/await}

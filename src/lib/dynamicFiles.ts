@@ -1,48 +1,54 @@
-const ctfFiles = import.meta.glob('../routes/\\(posts\\)/blog/writeups/*/*.md');
-const writeupFiles = import.meta.glob('../routes/\\(posts\\)/blog/writeups/*/*/*.md');
-
-type Module = {
-	metadata: {
-		title: string;
-		shortTitle?: string;
-		date?: string;
-		length?: string;
-		author?: string;
-		headline?: string;
-	};
-};
-
-const ctfWriteups: {
-	[ctf: string]: {
-		absPath: string;
-		module: Module;
-		writeups: {
-			[writeup: string]: {
-				absPath: string;
-				module: Module;
-			};
+function ctfWriteups() {
+	type Module = {
+		metadata: {
+			title: string;
+			shortTitle?: string;
+			date?: string;
+			length?: string;
+			author?: string;
+			headline?: string;
 		};
 	};
-} = {};
-for (const path in ctfFiles) {
-	const pathEls = path.split('/');
-	const ctf = pathEls[pathEls.length - 2];
 
-	ctfWriteups[ctf] = {
-		absPath: '/' + pathEls.slice(3, 6).join('/'),
-		module: (await ctfFiles[path]()) as Module, // dit NOT know I could use top-level await
-		writeups: {}
-	};
-}
-for (const path in writeupFiles) {
-	const pathEls = path.split('/');
-	const ctf = pathEls[pathEls.length - 3];
-	const writeup = pathEls[pathEls.length - 2];
+	const ctfFiles = import.meta.glob('../routes/\\(posts\\)/blog/writeups/*/*.md', { eager: true });
+	const writeupFiles = import.meta.glob('../routes/\\(posts\\)/blog/writeups/*/*/*.md', {
+		eager: true
+	});
 
-	ctfWriteups[ctf].writeups[writeup] = {
-		absPath: '/' + pathEls.slice(3, 7).join('/'),
-		module: (await writeupFiles[path]()) as Module
-	};
+	const ctfWriteupsObj: {
+		[ctf: string]: {
+			absPath: string;
+			module: Module;
+			writeups: {
+				[writeup: string]: {
+					absPath: string;
+					module: Module;
+				};
+			};
+		};
+	} = {};
+	for (const path in ctfFiles) {
+		const pathEls = path.split('/');
+		const ctf = pathEls[pathEls.length - 2];
+
+		ctfWriteupsObj[ctf] = {
+			absPath: '/' + pathEls.slice(3, 6).join('/'),
+			module: ctfFiles[path] as Module,
+			writeups: {}
+		};
+	}
+	for (const path in writeupFiles) {
+		const pathEls = path.split('/');
+		const ctf = pathEls[pathEls.length - 3];
+		const writeup = pathEls[pathEls.length - 2];
+
+		ctfWriteupsObj[ctf].writeups[writeup] = {
+			absPath: '/' + pathEls.slice(3, 7).join('/'),
+			module: writeupFiles[path] as Module
+		};
+	}
+
+	return ctfWriteupsObj;
 }
 
 // Auto-generated writeups. Final output should look like:
@@ -52,7 +58,7 @@ for (const path in writeupFiles) {
 //     └── <a href="/blog/writeups/fectf23/padding-oracle">Padding Oracle</a>
 //TODO: Support for multiple CTFs
 const formatCtfWriteups = () =>
-	Object.values(ctfWriteups)
+	Object.values(ctfWriteups())
 		.map(({ absPath, module, writeups }) => {
 			// Go through every ctf...
 			const writeupsList = Object.values(writeups).map(({ absPath, module }) => {
