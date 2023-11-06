@@ -17,6 +17,7 @@ or available locally via: info '(coreutils) cat invocation'`;
 
 export default new Command({
 	command({ command: { positionalArguments, namedArguments }, dir }) {
+		if (namedArguments['help']) return help;
 		// Get file parameter
 		const requestedFile = positionalArguments[0];
 		if (!requestedFile) return 'cat: missing file operand';
