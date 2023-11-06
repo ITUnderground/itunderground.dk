@@ -1,3 +1,5 @@
+import { history as historyStore } from '$lib/stores';
+import { get } from 'svelte/store';
 import type Command from './command';
 import * as _baseCommands from './commands/builtin/index';
 import * as _customCommands from './commands/index';
@@ -30,7 +32,7 @@ class CLI {
 		...customCommands
 	};
 	public log: LogEntry[] = [];
-	public history: string[] = [];
+	public history: string[] = get(historyStore);
 	public dir: Dir = dir;
 	public env: Env = env;
 	public onLogUpdate: Callback;
@@ -247,6 +249,7 @@ class CLI {
 		if (output) this._pushlog({ output });
 
 		this.history.push(command);
+		historyStore.set(this.history);
 		return output;
 	}
 

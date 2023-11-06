@@ -5,6 +5,7 @@ import { version } from '$app/environment';
 import { defaultDir } from './shell/const';
 
 const dirDefault = defaultDir;
+const historyDefault: string[] = [];
 
 const dirInitial = (() => {
 	if (!browser) return dirDefault;
@@ -19,8 +20,12 @@ const dirInitial = (() => {
 	}
 	return dirDefault;
 })();
+const historyInitial = browser
+	? JSON.parse(localStorage.getItem('history') || 'null') ?? historyDefault
+	: historyDefault;
 
 const dir = writable<Directory>(dirInitial);
+const history = writable<string[]>(historyInitial);
 
 dir.subscribe((value) => {
 	if (value === undefined) return;
@@ -29,5 +34,13 @@ dir.subscribe((value) => {
 		localStorage.setItem('updatedVersion', version);
 	}
 });
+history.subscribe((value) => {
+	if (value === undefined) return;
+	// Limit to 100 entries
+	if (value.length > 100) value = value.slice(value.length - 100);
+	if (browser) {
+		localStorage.setItem('history', JSON.stringify(value));
+	}
+});
 
-export { dir };
+export { dir, history };
