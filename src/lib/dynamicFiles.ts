@@ -1,0 +1,72 @@
+const ctfFiles = import.meta.glob('../routes/\\(posts\\)/blog/writeups/*/*.md');
+const writeupFiles = import.meta.glob('../routes/\\(posts\\)/blog/writeups/*/*/*.md');
+
+type Module = {
+	metadata: {
+		title: string;
+		shortTitle?: string;
+		date?: string;
+		length?: string;
+		author?: string;
+		headline?: string;
+	};
+};
+
+const ctfWriteups: {
+	[ctf: string]: {
+		absPath: string;
+		module: Module;
+		writeups: {
+			[writeup: string]: {
+				absPath: string;
+				module: Module;
+			};
+		};
+	};
+} = {};
+for (const path in ctfFiles) {
+	const pathEls = path.split('/');
+	const ctf = pathEls[pathEls.length - 2];
+
+	ctfWriteups[ctf] = {
+		absPath: '/' + pathEls.slice(3, 6).join('/'),
+		module: (await ctfFiles[path]()) as Module, // dit NOT know I could use top-level await
+		writeups: {}
+	};
+}
+for (const path in writeupFiles) {
+	const pathEls = path.split('/');
+	const ctf = pathEls[pathEls.length - 3];
+	const writeup = pathEls[pathEls.length - 2];
+
+	ctfWriteups[ctf].writeups[writeup] = {
+		absPath: '/' + pathEls.slice(3, 7).join('/'),
+		module: (await writeupFiles[path]()) as Module
+	};
+}
+
+// Auto-generated writeups. Final output should look like:
+// └── <a href="/blog/writeups/fectf23">FE CTF 2023 - The UniPwnie Experience</a>
+//     ├── <a href="/blog/writeups/fectf23/admin-cli">Admin CLI</a>
+//     ├── <a href="/blog/writeups/fectf23/inception">Inception</a>
+//     └── <a href="/blog/writeups/fectf23/padding-oracle">Padding Oracle</a>
+//TODO: Support for multiple CTFs
+const formatCtfWriteups = () =>
+	Object.values(ctfWriteups)
+		.map(({ absPath, module, writeups }) => {
+			// Go through every ctf...
+			const writeupsList = Object.values(writeups).map(({ absPath, module }) => {
+				/// And every writeup in that ctf
+				const metadata = module.metadata;
+				return `    ├── <a href="${absPath}">${metadata.shortTitle || metadata.title}</a>\n`;
+			});
+			// Replace the last '├──' with '└──'
+			writeupsList[writeupsList.length - 1] = writeupsList[writeupsList.length - 1].replace(
+				'├──',
+				'└──'
+			);
+			return `└── <a href="${absPath}">${module.metadata.shortTitle}</a>\n${writeupsList.join('')}`;
+		})
+		.join('');
+
+export { ctfWriteups, formatCtfWriteups };

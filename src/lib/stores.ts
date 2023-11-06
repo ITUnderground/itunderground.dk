@@ -1,6 +1,7 @@
 import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
 import type { Directory } from './shell/types';
+import { formatCtfWriteups } from './dynamicFiles';
 
 const dirDefault: Directory = {
 	home: {
@@ -21,11 +22,7 @@ const dirDefault: Directory = {
 				'└── <a href="/?command=cat%20writeups">writeups/</a>',
 			'blog-posts':
 				'└── <a href="/blog/setting-up-kali-windows">Setting up Kali Linux on Windows</a>',
-			writeups:
-				'└── <a href="/blog/writeups/fectf23">FE CTF 2023 - The UniPwnie Experience</a>\n' +
-				'    ├── <a href="/blog/writeups/fectf23/admin-cli">Admin CLI</a>\n' +
-				'    ├── <a href="/blog/writeups/fectf23/inception">Inception</a>\n' +
-				'    └── <a href="/blog/writeups/fectf23/padding-oracle">Padding Oracle</a>'
+			writeups: formatCtfWriteups()
 		}
 	}
 };

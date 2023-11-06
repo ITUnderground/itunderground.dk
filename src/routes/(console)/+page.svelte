@@ -3,6 +3,7 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import { version } from '$app/environment';
 	import { onMount } from 'svelte';
+	import { formatCtfWriteups } from '$lib/dynamicFiles';
 
 	const cwd = '/home/itunderground';
 	const server = 'itunderground';
@@ -115,11 +116,7 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`
 					<span>cat writeups</span>
 				</span>
 				<span class="whitespace-pre-wrap break-keep">
-					{@html '└── <a href="/blog/writeups/fectf23">FE CTF 2023 - The UniPwnie Experience</a>\n' +
-						'    ├── <a href="/blog/writeups/fectf23/admin-cli">Admin CLI</a>\n' +
-						'    ├── <a href="/blog/writeups/fectf23/inception">Inception</a>\n' +
-						'    └── <a href="/blog/writeups/fectf23/padding-oracle">Padding Oracle</a>'}
-						
+					{@html formatCtfWriteups()}
 				</span>
 			</div>
 		</noscript>
