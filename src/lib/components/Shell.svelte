@@ -24,6 +24,9 @@
 
 	/** @type {HTMLSpanElement}*/
 	let terminalInputSpan;
+
+	$: log && terminalInputSpan?.scrollIntoView();
+
 	async function submit() {
 		input += input_right;
 		input_right = '';
