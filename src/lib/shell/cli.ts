@@ -226,6 +226,7 @@ class CLI {
 			cwd,
 			command
 		});
+		if (!command) return;
 		// Try to run command
 		try {
 			const { commandOrFilePath: commands, redirect } = this._redirectParser(command);
