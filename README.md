@@ -69,7 +69,7 @@ To render markdown, we use [mdsvex](https://mdsvex.com/). It supports both .md f
 
 Dynamic data fetching in markdown components has not yet been used on our site, but feel free to add it to the readme if you decide to utilize it.
 
-To add a markdown file, create a directory corresponding to its name and add a `+page.md` file. Remember to link to the file somewhere, such as in the [dir store](src/lib/stores.ts) or there won't be a way to navigate to it (This is not necessary for writeups unless starting a new CTF. Their links are automatically updated).
+To add a markdown file, create a directory corresponding to its name and add a `+page.md` file. Remember to link to the file somewhere, such as in the [default filesystem](src/lib/shell/const.ts) or there won't be a way to navigate to it (This is not necessary for writeups unless starting a new CTF. Their links are automatically updated).
 
 Push your changes to GitHub to see the updated website.
 
