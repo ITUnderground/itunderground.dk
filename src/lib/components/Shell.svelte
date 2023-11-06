@@ -1,18 +1,16 @@
 <script>
+	import { version } from '$app/environment';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 
 	import CLI from '$lib/shell/cli';
 	const cli = new CLI(reloadLog);
 
-	/** @type {import('$lib/shell/types').LogEntry[]} */
-	export let prerun = []; // Commands to be run before the user can interact with the shell
-
 	export let animationSpeed = {
 		characters: 0,
 		lines: 0
 	}; // Speed of the animation in ms. 0 for no animation
-	let introAnimationPlaying = prerun.length === 0; // Both of these control whether the shell is interactive
+	let introAnimationPlaying = false; // Both of these control whether the shell is interactive
 	let interactive = true; // But this one allows commands to take control of the shell for a while
 
 	let input = '';
@@ -152,36 +150,51 @@
 
 	// Run prerun commands
 	async function type() {
-		for (const logEntry of prerun) {
-			if ('output' in logEntry) {
-				// Print to stdout if there is output
-				cli.stdout(logEntry.output);
-			}
-			if ('command' in logEntry) {
-				// Run command if there is one
-				// Display typing animation
-				if (animationSpeed.characters === 0) {
-					input = logEntry.command;
-				} else {
-					for (let i = 0; i < logEntry.command.length; i++) {
-						await new Promise((resolve) => setTimeout(resolve, animationSpeed.characters));
-						input = logEntry.command.slice(0, i + 1);
-					}
+		// Print initial message
+		cli.stdout(`ITUnderground v${version} Mon Aug 28 16:48:20 CST 2023 SvelteKit
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent permitted by applicable law.
+Last login: ${Date().slice(0, 24)} from 127.0.0.1`);
+
+		// Load .cshrc file
+		const cshrc = cli.dir.read('~/.cshrc');
+		if (!cshrc || cshrc.type !== 'File') return;
+
+		// Run commands in the file
+		for (const line of cshrc.value.split('\n')) {
+			const command = line.trim();
+			if (command.startsWith('#')) continue;
+
+			// Display typing animation
+			if (animationSpeed.characters === 0) {
+				input = command;
+			} else {
+				for (let i = 0; i < command.length; i++) {
+					await new Promise((resolve) => setTimeout(resolve, animationSpeed.characters));
+					input = command.slice(0, i + 1);
 				}
-				// Run command
-				await cli.run(logEntry.command);
-				// Reset inpput
-				input = '';
 			}
+			// Run command after waiting a bit
+			if (animationSpeed.lines !== 0) await new Promise((resolve) => setTimeout(resolve, 300));
+			await cli.run(command);
+			// Reset inpput
+			input = '';
+
 			// Update log and cwd
 			log = [...cli.log];
 			cwd = cli.dir.cwd.replace('/home/itunderground', '~');
 			// Update history index
 			historyIndex = cli.history.length;
+
 			// Wait for next line
+			console.log(animationSpeed);
 			if (animationSpeed.lines !== 0)
 				await new Promise((resolve) => setTimeout(resolve, animationSpeed.lines));
 		}
+
 		introAnimationPlaying = true;
 	}
 
