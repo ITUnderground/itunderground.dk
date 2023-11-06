@@ -43,7 +43,18 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`
 
 	// Add cookie so we know the user has seen the animation
 	let inBrowser = false;
-	onMount(() => (inBrowser = true));
+	onMount(() => {
+		inBrowser = true;
+		addEventListener(
+			'keydown',
+			(e) => {
+				if (['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].indexOf(e.code) > -1) {
+					e.preventDefault();
+				}
+			},
+			false
+		);
+	});
 	function showAnimation() {
 		if (!document.cookie.includes('seenAnimation')) {
 			// Set cookie
