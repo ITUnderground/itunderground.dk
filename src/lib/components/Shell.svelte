@@ -189,9 +189,9 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`);
 			}
 			// Run command after waiting a bit
 			if (animationSpeed.lines !== 0) await new Promise((resolve) => setTimeout(resolve, 300));
-			await cli.run(command);
 			// Reset inpput
 			input = '';
+			await cli.run(command);
 
 			// Update log and cwd
 			log = [...cli.log];
