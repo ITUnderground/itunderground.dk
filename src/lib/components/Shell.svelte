@@ -24,7 +24,9 @@
 
 	function reloadLog() {
 		log = [...cli.log];
-		terminalInputSpan?.scrollIntoView();
+		setTimeout(() => {
+			terminalInputSpan?.scrollIntoView();
+		}, 1); // Why???
 	}
 
 	async function submit() {
@@ -94,7 +96,6 @@
 						.map((c) => (c.includes('/') ? `<span style="color: #ec4899">${c}</span>` : c))
 						.join(' ')
 				);
-				reloadLog();
 			}
 		}
 
