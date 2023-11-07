@@ -15,17 +15,16 @@
 
 	let input = '';
 	let input_right = '';
-	$: log = [...cli.log];
+	let log = [...cli.log];
 	$: cwd = cli.dir.cwd.replace('/home/itunderground', '~');
 
 	function reloadLog() {
 		log = [...cli.log];
+		terminalInputSpan?.scrollIntoView();
 	}
 
 	/** @type {HTMLSpanElement}*/
 	let terminalInputSpan;
-
-	$: log && terminalInputSpan?.scrollIntoView();
 
 	async function submit() {
 		input += input_right;
@@ -38,8 +37,6 @@
 			interactive = true;
 		});
 		input = '';
-
-		terminalInputSpan.scrollIntoView();
 	}
 
 	// Navigate history
@@ -72,18 +69,8 @@
 				characters: 0,
 				lines: 0
 			};
-			introAnimationPlaying = true;
 		}
 		if (!introAnimationPlaying || !interactive) return;
-		// Scroll to bottom if typing visible characters, enter or arrow keys
-		if (
-			(e.key.length === 1 && !(e.ctrlKey || e.altKey || e.metaKey)) ||
-			e.key === 'Enter' ||
-			e.key === 'Backspace' ||
-			e.key.startsWith('Arrow')
-		) {
-			terminalInputSpan.scrollIntoView();
-		}
 
 		// Navigate history
 		if (e.key === 'ArrowUp') {
@@ -140,7 +127,7 @@
 		}
 		// Submit on enter
 		if (e.key === 'Enter') {
-			submit();
+			await submit();
 		}
 
 		// Modifiers
@@ -155,6 +142,16 @@
 		if (e.ctrlKey && e.key === 'Backspace') {
 			e.preventDefault();
 			input = input.replace(/\s*\S+$/, '');
+		}
+
+		// Scroll to bottom if typing visible characters, enter or arrow keys
+		if (
+			(e.key.length === 1 && !(e.ctrlKey || e.altKey || e.metaKey)) ||
+			e.key === 'Enter' ||
+			e.key === 'Backspace' ||
+			e.key.startsWith('Arrow')
+		) {
+			terminalInputSpan.scrollIntoView();
 		}
 	}
 
@@ -191,7 +188,9 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`);
 			if (animationSpeed.lines !== 0) await new Promise((resolve) => setTimeout(resolve, 300));
 			// Reset inpput
 			input = '';
+			interactive = false;
 			await cli.run(command);
+			interactive = true;
 
 			// Update log and cwd
 			log = [...cli.log];
@@ -258,8 +257,8 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`);
 			</span>
 		{/if}
 	{/each}
-	{#if interactive}
-		<span bind:this={terminalInputSpan}>
+	<span bind:this={terminalInputSpan}>
+		{#if interactive}
 			<span class="text-[var(--shellcolor-home)]"
 				><strong>{cli.env.get('USER')}@{CLI.commands.hostname.fn(cli.dummyAccessObject)}</strong
 				></span
@@ -267,10 +266,10 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`);
 			<span>{input}</span><span class="cursor" /><span
 				class="-ml-[0.8rem] text-[var(--shellcolor-base)]">{input_right}</span
 			>
-		</span>
-	{:else}
-		<br />
-	{/if}
+		{:else}
+			<br />
+		{/if}
+	</span>
 </div>
 <svelte:window on:keydown={onKeyDown} />
 
