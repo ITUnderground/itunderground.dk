@@ -171,7 +171,7 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`);
 
 		// Load .cshrc file
 		const cshrc = cli.dir.read('~/.cshrc');
-		if (!cshrc || cshrc.type !== 'File') return;
+		if (!cshrc || cshrc.type !== 'File') return (introAnimationPlaying = true);
 
 		// Run commands in the file
 		for (const line of cshrc.value.trim().split('\n')) {
