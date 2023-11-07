@@ -213,7 +213,9 @@ class CLI {
 	 * @param command string command to run
 	 * @returns output of command
 	 */
-	async run(command: string) {
+	async run(command: string, silent?: boolean): Promise<string | void> {
+		command = command.trim();
+		silent ||= false;
 		// Get variables in case they are changed by command
 		const user = env.get('USER') || 'it';
 		const server = CLI.commands.hostname.fn(this.dummyAccessObject) as string;
@@ -222,12 +224,13 @@ class CLI {
 		// Parse redirects
 		let output: string | void | undefined;
 		// Add to log
-		this._pushlog({
-			user,
-			server,
-			cwd,
-			command
-		});
+		if (!silent)
+			this._pushlog({
+				user,
+				server,
+				cwd,
+				command
+			});
 		if (!command) return;
 		// Try to run command
 		try {
@@ -246,7 +249,7 @@ class CLI {
 			}
 		}
 		// Add to log
-		if (output) this._pushlog({ output });
+		if (output && !silent) this._pushlog({ output });
 
 		this.history.push(command);
 		historyStore.set(this.history);

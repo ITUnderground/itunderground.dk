@@ -169,6 +169,11 @@
 		for (const line of cshrc.value.trim().split('\n')) {
 			const command = line.trim();
 			if (command.startsWith('#')) continue;
+			if (command.startsWith(';')) {
+				// Run command, but don't show output
+				await cli.run(command.slice(1), true);
+				continue;
+			}
 
 			// Display typing animation
 			if (animationSpeed.characters === 0) {
