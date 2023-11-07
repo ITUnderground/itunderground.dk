@@ -1,3 +1,5 @@
+import { history as historyStore } from '$lib/stores';
+import { get } from 'svelte/store';
 import type Command from './command';
 import * as _baseCommands from './commands/builtin/index';
 import * as _customCommands from './commands/index';
@@ -30,7 +32,7 @@ class CLI {
 		...customCommands
 	};
 	public log: LogEntry[] = [];
-	public history: string[] = [];
+	public history: string[] = get(historyStore);
 	public dir: Dir = dir;
 	public env: Env = env;
 	public onLogUpdate: Callback;
@@ -247,6 +249,7 @@ class CLI {
 		if (output) this._pushlog({ output });
 
 		this.history.push(command);
+		historyStore.set(this.history);
 		return output;
 	}
 
@@ -276,13 +279,13 @@ class CLI {
 			case '>': {
 				const file = dir.read(destination);
 				if (file?.type === 'Directory') return `${destination}: is a directory`;
-				dir.write(destination, output);
+				dir.write(destination, output + '\n');
 				return;
 			}
 			case '>>': {
 				const file = dir.read(destination);
 				if (file?.type === 'Directory') return `${destination}: is a directory`;
-				dir.write(destination, (file?.value || '') + output);
+				dir.write(destination, (file?.value || '') + output + '\n');
 				return;
 			}
 			case '|': {

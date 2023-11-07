@@ -19,7 +19,8 @@ export const defaultDir = {
 				'└── <a href="/?command=cat%20writeups">writeups/</a>',
 			'blog-posts':
 				'└── <a href="/blog/setting-up-kali-windows">Setting up Kali Linux on Windows</a>',
-			writeups: formatCtfWriteups()
+			writeups: formatCtfWriteups(),
+			'.cshrc': 'ls /home/itunderground\n' + 'cat underground\n'
 		}
 	}
 };

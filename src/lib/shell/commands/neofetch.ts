@@ -25,7 +25,7 @@ export default new Command({
 		const shell = 'ColorShell';
 		const terminal = 'Web Terminal';
 		const CPU = (js(`window?.navigator?.hardwareConcurrency`) || 'unknown') + ' cores';
-		const GPU = (
+		let GPU = (
 			js(
 				`(() => {
 				var canvas = document?.createElement('canvas');
@@ -35,10 +35,10 @@ export default new Command({
 				return gl?.getParameter(dbgRenderInfo.UNMASKED_RENDERER_WEBGL);
 			})();`
 			) as string | undefined
-		)
-			?.split('Direct')[0]
-			.split(',')[1]
-			.trim();
+		)?.split('Direct')[0];
+		if (GPU?.includes(',')) {
+			GPU = GPU.split(',')[1].trim();
+		}
 		const memory = js(`navigator?.deviceMemory`) + 'GB';
 
 		const logo = [
