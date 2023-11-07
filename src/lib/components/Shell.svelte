@@ -162,18 +162,21 @@
 		// Print initial message
 		cli.stdout(motd);
 
-		// Load .cshrc file
+		// Load .cshrc files
+		const cshsysrc = cli.dir.read('~/.cshsysrc');
 		const cshrc = cli.dir.read('~/.cshrc');
-		if (!cshrc || cshrc.type !== 'File') return (disableTyping = true);
+		if ((!cshsysrc || cshsysrc.type !== 'File') && (!cshrc || cshrc.type !== 'File'))
+			return (disableTyping = true);
 
 		// Run commands in the file
-		for (const line of cshrc.value.trim().split('\n')) {
-			const command = line.trim();
-			if (command.startsWith('#')) continue;
+		// const command = line.trim();
+		async function runCommand(/** @type {string} */ command) {
+			if (command.trim() === '') return;
+			if (command.startsWith('#')) return;
 			if (command.startsWith(';')) {
 				// Run command, but don't show output
 				await cli.run(command.slice(1), true);
-				continue;
+				return;
 			}
 
 			// Display typing animation
@@ -203,6 +206,14 @@
 			if (animationSpeed.lines !== 0)
 				await new Promise((resolve) => setTimeout(resolve, animationSpeed.lines));
 		}
+		if (cshsysrc && cshsysrc.type === 'File')
+			for (const line of cshsysrc.value.trim().split('\n')) {
+				await runCommand(line);
+			}
+		if (cshrc && cshrc.type === 'File')
+			for (const line of cshrc.value.trim().split('\n')) {
+				await runCommand(line);
+			}
 
 		disableTyping = true;
 	}

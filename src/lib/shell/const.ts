@@ -21,7 +21,13 @@ export const defaultDir = {
 			'blog-posts':
 				'└── <a href="/blog/setting-up-kali-windows">Setting up Kali Linux on Windows</a>',
 			writeups: formatCtfWriteups(),
-			'.cshrc': 'ls /home/itunderground\n' + 'cat underground\n'
+			'.cshsysrc':
+				`;if "test -a .cshrc" --quiet ` +
+				`--else "echo '# Welcome to the .cshrc file. Any commands that you put in here will be run when you log in, after the commands in .cshsysrc.' >> .cshrc" ` +
+				`--else "echo '# While the .cshsysrc file is writeable, its contents get replaced after every site update, so .cshrc is used as a user-specific file.' >> .cshrc" ` +
+				`--else "echo '# Tip: start a line with ; to make the command run silent during startup.' >> .cshrc"\n` +
+				'ls /home/itunderground\n' +
+				'cat underground\n'
 		}
 	}
 };
