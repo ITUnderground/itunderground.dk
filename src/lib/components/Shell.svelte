@@ -10,31 +10,31 @@
 		characters: 0,
 		lines: 0
 	}; // Speed of the animation in ms. 0 for no animation
-	let introAnimationPlaying = false; // Both of these control whether the shell is interactive
-	let interactive = true; // But this one allows commands to take control of the shell for a while
+	let disableTyping = false; // Disables user typing. Used for playback of .cshrc
+	let inputVisible = true; // Hides the input. Used when waiting for a command to finish
 
 	let input = '';
 	let input_right = '';
 	let log = [...cli.log];
 	$: cwd = cli.dir.cwd.replace('/home/itunderground', '~');
 
+	/** @type {HTMLSpanElement}*/
+	let terminalInputSpan;
+
 	function reloadLog() {
 		log = [...cli.log];
 		terminalInputSpan?.scrollIntoView();
 	}
 
-	/** @type {HTMLSpanElement}*/
-	let terminalInputSpan;
-
 	async function submit() {
 		input += input_right;
 		input_right = '';
-		interactive = false;
+		inputVisible = false;
 		await cli.run(input.trim()).then(() => {
 			log = [...cli.log];
 			cwd = cli.dir.cwd.replace('/home/itunderground', '~');
 			historyIndex = cli.history.length;
-			interactive = true;
+			inputVisible = true;
 		});
 		input = '';
 	}
@@ -70,7 +70,7 @@
 				lines: 0
 			};
 		}
-		if (!introAnimationPlaying || !interactive) return;
+		if (!disableTyping || !inputVisible) return;
 
 		// Navigate history
 		if (e.key === 'ArrowUp') {
@@ -168,7 +168,7 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`);
 
 		// Load .cshrc file
 		const cshrc = cli.dir.read('~/.cshrc');
-		if (!cshrc || cshrc.type !== 'File') return (introAnimationPlaying = true);
+		if (!cshrc || cshrc.type !== 'File') return (disableTyping = true);
 
 		// Run commands in the file
 		for (const line of cshrc.value.trim().split('\n')) {
@@ -188,9 +188,9 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`);
 			if (animationSpeed.lines !== 0) await new Promise((resolve) => setTimeout(resolve, 300));
 			// Reset inpput
 			input = '';
-			interactive = false;
+			inputVisible = false;
 			await cli.run(command);
-			interactive = true;
+			inputVisible = true;
 
 			// Update log and cwd
 			log = [...cli.log];
@@ -203,7 +203,7 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`);
 				await new Promise((resolve) => setTimeout(resolve, animationSpeed.lines));
 		}
 
-		introAnimationPlaying = true;
+		disableTyping = true;
 	}
 
 	type();
@@ -258,7 +258,7 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`);
 		{/if}
 	{/each}
 	<span bind:this={terminalInputSpan}>
-		{#if interactive}
+		{#if inputVisible}
 			<span class="text-[var(--shellcolor-home)]"
 				><strong>{cli.env.get('USER')}@{CLI.commands.hostname.fn(cli.dummyAccessObject)}</strong
 				></span
