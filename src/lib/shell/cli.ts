@@ -217,8 +217,9 @@ class CLI {
 	}
 
 	/**
-	 * Runs an shell command and adds it to the log
+	 * Runs a shell command and optionally adds it to the log
 	 * @param command string command to run
+	 * @param silent whether to add to log
 	 * @returns output of command
 	 */
 	async run(command: string, silent?: boolean): Promise<string | void> {
@@ -257,10 +258,12 @@ class CLI {
 			}
 		}
 		// Add to log
-		if (output && !silent) this._pushlog({ output });
+		if (!silent) {
+			if (output) this._pushlog({ output });
 
-		this.history.push(command);
-		historyStore.set(this.history);
+			this.history.push(command);
+			historyStore.set(this.history);
+		}
 		return output;
 	}
 
