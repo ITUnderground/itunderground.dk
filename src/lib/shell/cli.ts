@@ -76,7 +76,7 @@ class CLI {
 			})
 		);
 		// Match stuff like -a, --all, -a=true, --all=true, -a true, --all true
-		const namedRegex = new RegExp(/ --?(\w*)(?:(?:\s+|=)(\w+))?/g);
+		const namedRegex = new RegExp(/ --?(\w*)(?:(?:\s+|=)(\S+))?/g);
 		let z: RegExpExecArray | null;
 		// cursed assignment, loop through all matches
 		while ((z = namedRegex.exec(commandString)) !== null) {
