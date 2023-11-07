@@ -1,3 +1,4 @@
+import { version } from '$app/environment';
 import { formatCtfWriteups } from '$lib/dynamicFiles';
 
 export const defaultDir = {
@@ -24,3 +25,11 @@ export const defaultDir = {
 		}
 	}
 };
+
+export const motd = `ITUnderground v${version} Mon Aug 28 16:48:20 CST 2023 SvelteKit
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent permitted by applicable law.
+Last login: ${Date().slice(0, 24)} from 127.0.0.1`;
