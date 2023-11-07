@@ -18,7 +18,7 @@ export type Input = {
  */
 export type LogEntry = Output | Input;
 
-type NamedArguments = { [flag: string]: string | boolean | undefined };
+type NamedArguments = { [flag: string]: string[] | boolean };
 export type ParsedCommand = {
 	name: string;
 	positionalArguments: string[] | undefined[];

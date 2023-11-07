@@ -67,57 +67,65 @@ class CLI {
 		const commandObject = this._getCommandObject(commandName);
 		if (!commandObject) throw new Error(`${commandName}: command not found`);
 
-		const { namedArguments: commandSupportedArguments } = commandObject;
+		const { namedArguments: supportedNamedArguments } = commandObject;
+
+		let args = commandString.split(' ').slice(1).join(' ');
+		const argMatcher = /(?:"([^"]*)"|'([^']*)'|([^=\s]+))/; // Matches "a b", a, -a, --a, etc.
+		const namedMatcher = /-{1,2}([^=\s]+)/; // Matches -a, --a, --a=, --a, etc.
+		const nextArg = (del?: boolean) => {
+			const match = args.match(argMatcher);
+			1;
+			if (!match) return null;
+			// Remove the matched arg from the string
+			if (del) args = args.replace(argMatcher, '').trim();
+
+			return match[1] ?? match[2] ?? match[3];
+		};
 
 		// Initialise all arguments to false
-		const argumentValues: NamedArguments = Object.fromEntries(
-			commandSupportedArguments.map((arg) => {
-				return [arg.name, false];
+		const namedArgumentValues: NamedArguments = Object.fromEntries(
+			supportedNamedArguments.map((arg) => {
+				return [arg.name, arg.hasValue ? [] : false];
 			})
 		);
-		// Match stuff like -a, --all, -a=true, --all=true, -a true, --all true
-		const namedRegex = new RegExp(/ --?(\w*)(?:(?:\s+|=)((?!-)\S+))?/g);
-		let z: RegExpExecArray | null;
-		// cursed assignment, loop through all matches
-		while ((z = namedRegex.exec(commandString)) !== null) {
-			const [fullMatch, argName, argValue] = z;
-			// argValue is just the word after the argement. requestedArguments.requireValue determines if argValue is used as an actual value, or just part of the command
+		const positionalArgumentValues: string[] = [];
 
-			// Find matching arg names in requested arguments
-			const commandSupportedArgumentList = commandSupportedArguments.filter((commandArg) =>
-				// Name could be empty string with `rm -`. In those cases we just pass - or -- (that's what the fullMatch.split does)
-				commandArg.choices.includes(argName || fullMatch.split(' ')[0])
-			);
-			if (!commandSupportedArgumentList.length) {
-				throw new Error(
-					`${commandName}: invalid option -- '${argName}'\n` +
-						`Try '${commandName} --help' for more information.`
-				);
-			}
+		let z: string | null = null;
+		while ((z = nextArg(true)) !== null) {
+			// Named
+			if (z.startsWith('-')) {
+				let match = z.match(namedMatcher);
+				match ||= ['-', '-'];
+				const name = match[1];
 
-			for (const commandSupportedArgument of commandSupportedArgumentList) {
-				// If the argument requires a value, use the value from the command, otherwise use true to represent that it is present
-				const detectedValue = commandSupportedArgument.hasValue ? argValue : true;
-				argumentValues[commandSupportedArgument.name] = detectedValue;
-			}
+				// Check if the named arg is supported
+				const supported = supportedNamedArguments.find((arg) => arg.choices.includes(name));
+				if (!supported) throw new Error(`${name}: invalid argument`);
 
-			// Remove match from commandString so it can be used as positional arguments
-			let match = fullMatch;
-			// but dont remove captured value if the argument doesn't require a value
-			if (commandSupportedArgumentList.every((arg) => !arg.hasValue)) {
-				match = fullMatch.replace(argValue, '').trim();
+				const value: string | boolean | null = nextArg(false);
+				// If the argument requires a value but none is provided
+				if (
+					supported.hasValue &&
+					(value === null || (typeof value === 'string' && value.startsWith('-')))
+				)
+					throw new Error(`${name}: argument requires value`);
+				if (supported.hasValue) nextArg(true); // Remove the value from the string
+
+				if (supported.hasValue) {
+					(namedArgumentValues[supported.name] as string[]).push(value || '');
+				} else {
+					namedArgumentValues[supported.name] = true;
+				}
+				continue;
 			}
-			commandString = commandString.replace(match, '');
+			// Positional
+			positionalArgumentValues.push(z);
 		}
-		const positional = commandString
-			.split(' ')
-			.slice(1)
-			.filter((arg) => arg !== '');
 
 		return {
 			name: commandName,
-			namedArguments: argumentValues,
-			positionalArguments: positional,
+			namedArguments: namedArgumentValues,
+			positionalArguments: positionalArgumentValues,
 			raw: commandString
 		};
 	}
@@ -144,8 +152,8 @@ class CLI {
 		commandOrFilePath: [ParsedCommand | null, string | null];
 		redirect: string | null;
 	} {
-		// Supports >, >>, and |
-		const regex = />{1,2}|\|/g;
+		// Supports >, >>, and |, but not inside quotes
+		const regex = /(>{1,2}|\|)(?=([^"']*["'][^"']*["'])*[^"']*$)/g;
 		const match = command.match(regex);
 		if (!match) return { commandOrFilePath: [this._argParser(command), null], redirect: null };
 		const redirect = match[0];
