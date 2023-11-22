@@ -20,8 +20,10 @@
 			--tertiary: #414244;
 			--content: #c4c4c5;
 			--border: #333;
+			--background: #1d1e20;
+			--brand: #c97eff;
 			word-break: break-word;
-			@apply bg-[#1d1e20] font-roboto text-[18px] leading-[1.6] text-[var(--primary)];
+			@apply bg-[var(--background)] font-roboto text-[18px] leading-[1.6] text-[var(--primary)];
 
 			/* Element styles */
 			.post-content > h1,
