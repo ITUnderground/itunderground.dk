@@ -1,6 +1,6 @@
 import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
-import type { Directory } from './shell/types';
+import type { CustomTheme, Directory, ThemeName } from './shell/types';
 import { version } from '$app/environment';
 import { defaultDir } from './shell/const';
 
@@ -43,4 +43,19 @@ history.subscribe((value) => {
 	}
 });
 
-export { dir, history };
+const themeDefault = {
+	name: 'papermod',
+	custom: false
+};
+const themeInitial = browser
+	? JSON.parse(localStorage.getItem('theme') || 'null') ?? themeDefault
+	: themeDefault;
+const theme = writable<{ name: ThemeName; custom: false | CustomTheme }>(themeInitial);
+theme.subscribe((value) => {
+	if (value === undefined) return;
+	if (browser) {
+		localStorage.setItem('theme', JSON.stringify(value));
+	}
+});
+
+export { dir, history, theme };

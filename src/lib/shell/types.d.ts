@@ -18,7 +18,7 @@ export type Input = {
  */
 export type LogEntry = Output | Input;
 
-type NamedArguments = { [flag: string]: string | boolean | undefined };
+type NamedArguments = { [flag: string]: string[] | boolean };
 export type ParsedCommand = {
 	name: string;
 	positionalArguments: string[] | undefined[];
@@ -48,4 +48,29 @@ type NamedArgumentOptions = {
 
 type CommandImport = {
 	[key: string]: Command;
+};
+
+type ThemeName = 'papermod' | 'catppuccin-mocha';
+type CustomTheme = {
+	brand: string;
+	h1: string;
+	h2: string;
+	h3: string;
+	h4: string;
+	h5: string;
+	h6: string;
+	content: string;
+	border: string;
+	separator: string;
+	background: string;
+	muted: string;
+	bold: string;
+	italic: string;
+	link: string;
+	visited: string;
+	linkHover: string;
+	success: string;
+	warning: string;
+	error: string;
+	selected: string;
 };

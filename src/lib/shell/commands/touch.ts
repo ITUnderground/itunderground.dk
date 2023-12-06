@@ -5,6 +5,10 @@ export default new Command({
 		const requestedPath = positional[0];
 		if (!requestedPath) return 'touch: missing file operand';
 
+		// 🥚 easter egg
+		if (requestedPath.toLowerCase() === 'woman')
+			throw Error(`touch: cannot touch 'woman': Permission denied`);
+
 		// Check if path exists. If it does, ignore it
 		const resolved = dir.read(requestedPath);
 		if (resolved) return;

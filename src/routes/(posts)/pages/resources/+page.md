@@ -105,7 +105,7 @@ For Windows, WSL the most convenient way to get started. You can follow our [Kal
 r33l br0s use arch btw.
 Just kidding, but understanding linux is a very sought after skill in the IT industry. The easiest way to learn Linux is to use it. So if you are up for it, you can install a Linux distro on your main machine, but it's not a steadfast requirement for learning to hack.
 
-> <span style="color:red"><b>Dont install Kali as your main distro</b></span> - just use a vm (see the two sections above).
+> <b style="color:var(--error) !important">Dont install Kali as your main distro</b> - just use a vm (see the two sections above).
 >
 > Kali is designed exclusively for hacking, not for daily use.
 

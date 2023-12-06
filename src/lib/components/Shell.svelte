@@ -4,42 +4,42 @@
 	import { page } from '$app/stores';
 
 	import CLI from '$lib/shell/cli';
+	import { motd } from '$lib/shell/const';
 	const cli = new CLI(reloadLog);
 
 	export let animationSpeed = {
 		characters: 0,
 		lines: 0
 	}; // Speed of the animation in ms. 0 for no animation
-	let introAnimationPlaying = false; // Both of these control whether the shell is interactive
-	let interactive = true; // But this one allows commands to take control of the shell for a while
+	let disableTyping = false; // Disables user typing. Used for playback of .cshrc
+	let inputVisible = true; // Hides the input. Used when waiting for a command to finish
 
 	let input = '';
 	let input_right = '';
-	$: log = [...cli.log];
+	let log = [...cli.log];
 	$: cwd = cli.dir.cwd.replace('/home/itunderground', '~');
-
-	function reloadLog() {
-		log = [...cli.log];
-	}
 
 	/** @type {HTMLSpanElement}*/
 	let terminalInputSpan;
 
-	$: log && terminalInputSpan?.scrollIntoView();
+	function reloadLog() {
+		log = [...cli.log];
+		setTimeout(() => {
+			terminalInputSpan?.scrollIntoView();
+		}, 1); // Why???
+	}
 
 	async function submit() {
 		input += input_right;
 		input_right = '';
-		interactive = false;
+		inputVisible = false;
 		await cli.run(input.trim()).then(() => {
 			log = [...cli.log];
 			cwd = cli.dir.cwd.replace('/home/itunderground', '~');
 			historyIndex = cli.history.length;
-			interactive = true;
+			inputVisible = true;
 		});
 		input = '';
-
-		terminalInputSpan.scrollIntoView();
 	}
 
 	// Navigate history
@@ -72,18 +72,8 @@
 				characters: 0,
 				lines: 0
 			};
-			introAnimationPlaying = true;
 		}
-		if (!introAnimationPlaying || !interactive) return;
-		// Scroll to bottom if typing visible characters, enter or arrow keys
-		if (
-			(e.key.length === 1 && !(e.ctrlKey || e.altKey || e.metaKey)) ||
-			e.key === 'Enter' ||
-			e.key === 'Backspace' ||
-			e.key.startsWith('Arrow')
-		) {
-			terminalInputSpan.scrollIntoView();
-		}
+		if (!disableTyping || !inputVisible) return;
 
 		// Navigate history
 		if (e.key === 'ArrowUp') {
@@ -106,7 +96,6 @@
 						.map((c) => (c.includes('/') ? `<span style="color: #ec4899">${c}</span>` : c))
 						.join(' ')
 				);
-				reloadLog();
 			}
 		}
 
@@ -140,7 +129,7 @@
 		}
 		// Submit on enter
 		if (e.key === 'Enter') {
-			submit();
+			await submit();
 		}
 
 		// Modifiers
@@ -156,27 +145,39 @@
 			e.preventDefault();
 			input = input.replace(/\s*\S+$/, '');
 		}
+
+		// Scroll to bottom if typing visible characters, enter or arrow keys
+		if (
+			(e.key.length === 1 && !(e.ctrlKey || e.altKey || e.metaKey)) ||
+			e.key === 'Enter' ||
+			e.key === 'Backspace' ||
+			e.key.startsWith('Arrow')
+		) {
+			terminalInputSpan.scrollIntoView();
+		}
 	}
 
 	// Run prerun commands
 	async function type() {
 		// Print initial message
-		cli.stdout(`ITUnderground v${version} Mon Aug 28 16:48:20 CST 2023 SvelteKit
+		cli.stdout(motd);
 
-The programs included with the Debian GNU/Linux system are free software;
-the exact distribution terms for each program are described in the individual files in /usr/share/doc/*/copyright.
-
-Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent permitted by applicable law.
-Last login: ${Date().slice(0, 24)} from 127.0.0.1`);
-
-		// Load .cshrc file
+		// Load .cshrc files
+		const cshsysrc = cli.dir.read('~/.cshsysrc');
 		const cshrc = cli.dir.read('~/.cshrc');
-		if (!cshrc || cshrc.type !== 'File') return;
+		if ((!cshsysrc || cshsysrc.type !== 'File') && (!cshrc || cshrc.type !== 'File'))
+			return (disableTyping = true);
 
 		// Run commands in the file
-		for (const line of cshrc.value.trim().split('\n')) {
-			const command = line.trim();
-			if (command.startsWith('#')) continue;
+		// const command = line.trim();
+		async function runCommand(/** @type {string} */ command) {
+			if (command.trim() === '') return;
+			if (command.startsWith('#')) return;
+			if (command.startsWith(';')) {
+				// Run command, but don't show output
+				await cli.run(command.slice(1), true);
+				return;
+			}
 
 			// Display typing animation
 			if (animationSpeed.characters === 0) {
@@ -189,9 +190,11 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`);
 			}
 			// Run command after waiting a bit
 			if (animationSpeed.lines !== 0) await new Promise((resolve) => setTimeout(resolve, 300));
-			await cli.run(command);
 			// Reset inpput
 			input = '';
+			inputVisible = false;
+			await cli.run(command);
+			inputVisible = true;
 
 			// Update log and cwd
 			log = [...cli.log];
@@ -203,8 +206,16 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`);
 			if (animationSpeed.lines !== 0)
 				await new Promise((resolve) => setTimeout(resolve, animationSpeed.lines));
 		}
+		if (cshsysrc && cshsysrc.type === 'File')
+			for (const line of cshsysrc.value.trim().split('\n')) {
+				await runCommand(line);
+			}
+		if (cshrc && cshrc.type === 'File')
+			for (const line of cshrc.value.trim().split('\n')) {
+				await runCommand(line);
+			}
 
-		introAnimationPlaying = true;
+		disableTyping = true;
 	}
 
 	type();
@@ -258,8 +269,8 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`);
 			</span>
 		{/if}
 	{/each}
-	{#if interactive}
-		<span bind:this={terminalInputSpan}>
+	<span bind:this={terminalInputSpan}>
+		{#if inputVisible}
 			<span class="text-[var(--shellcolor-home)]"
 				><strong>{cli.env.get('USER')}@{CLI.commands.hostname.fn(cli.dummyAccessObject)}</strong
 				></span
@@ -267,10 +278,10 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1`);
 			<span>{input}</span><span class="cursor" /><span
 				class="-ml-[0.8rem] text-[var(--shellcolor-base)]">{input_right}</span
 			>
-		</span>
-	{:else}
-		<br />
-	{/if}
+		{:else}
+			<br />
+		{/if}
+	</span>
 </div>
 <svelte:window on:keydown={onKeyDown} />
 

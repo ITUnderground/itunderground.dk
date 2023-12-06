@@ -15,3 +15,6 @@ export { default as neofetch } from './neofetch';
 export { default as sleep } from './sleep';
 export { default as exit } from './exit';
 export { default as recoverfilesystembecauseideleteditanddidntthinkoftheconsequences } from './recoverfilesystembecauseideleteditanddidntthinkoftheconsequences';
+export { default as test } from './test';
+export { default as if } from './if';
+export { default as theme } from './theme';

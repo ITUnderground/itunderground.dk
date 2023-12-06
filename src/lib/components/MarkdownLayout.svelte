@@ -76,30 +76,34 @@
 		<meta property="twitter:card" content="summary_large_image" />`}
 </svelte:head>
 
-<header class="m-auto flex h-16 max-w-5xl flex-wrap px-4 py-4">
+<header class="mx-0 my-auto flex h-16 w-full flex-wrap bg-[var(--background)] px-4 py-4">
 	<a
 		href="/"
-		class="m-auto text-2xl font-bold text-[var(--primary)] no-underline hover:text-[var(--primary)]"
+		class="group m-auto text-2xl font-bold text-[var(--h1)] no-underline hover:text-[var(--brand)]"
 		>ITUnderground
-		<img src="/cap.png" alt="itunderground" class="inline-block h-12" />
+		<img src="/cap.png" alt="itunderground" class="ml-2 hidden h-12 group-hover:inline-block" />
+		<img
+			src="/cap-gray.png"
+			alt="itunderground"
+			class="ml-2 inline-block h-12 group-hover:hidden"
+		/>
 	</a>
 </header>
 <article class="m-auto min-h-[calc(100vh-4rem)] max-w-3xl p-4">
 	<header class="my-6">
-		<div class="flex flex-wrap text-sm text-[var(--secondary)]">
+		<div class="flex flex-wrap text-sm text-[var(--muted)]">
 			{#each breadcrumbs as item, i}
 				<a
 					href="/{path(breadcrumbs, i)}"
-					class="text-base text-[var(--primary)] no-underline hover:text-[var(--primary)]"
-					>{item[1]}</a
+					class="text-base text-[var(--h1)] no-underline hover:text-[var(--brand)]">{item[1]}</a
 				>
 				{#if !last(breadcrumbs, i)}
 					&nbsp;»&nbsp;
 				{/if}
 			{/each}
 		</div>
-		<h1 class="mb-[2px] text-4xl font-bold text-[var(--primary)]">{title}</h1>
-		<div class="flex flex-wrap text-sm text-[var(--secondary)]">
+		<h1 class="mb-[2px] text-4xl font-bold text-[var(--h1)]">{title}</h1>
+		<div class="flex flex-wrap text-sm text-[var(--muted)]">
 			{#if date}
 				<span>
 					{date}

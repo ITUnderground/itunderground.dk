@@ -2,7 +2,7 @@
 title: Who are we?
 date: 2023-08-26
 length: 1 min
-author: Alexander Thoren
+author: Alexander
 ---
 
 ## Our organisation

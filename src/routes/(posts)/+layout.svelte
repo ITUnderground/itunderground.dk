@@ -15,22 +15,35 @@
 	/* Most of these styles are taken from PaperMod (https://github.com/adityatelange/hugo-PaperMod/) */
 	.post {
 		:global {
-			--primary: #dadadb;
-			--secondary: #9b9c9d;
-			--tertiary: #414244;
-			--content: #c4c4c5;
-			--border: #333;
 			word-break: break-word;
-			@apply bg-[#1d1e20] font-roboto text-[18px] leading-[1.6] text-[var(--primary)];
+			@apply bg-[var(--background)] font-roboto text-[18px] leading-[1.6] text-[var(--content)];
 
 			/* Element styles */
-			.post-content > h1,
+			h1 {
+				@apply text-[var(--h1)];
+			}
+			h2 {
+				@apply text-[var(--h2)];
+			}
+			h3 {
+				@apply text-[var(--h3)];
+			}
+			h4 {
+				@apply text-[var(--h4)];
+			}
+			h5 {
+				@apply text-[var(--h5)];
+			}
+			h6 {
+				@apply text-[var(--h6)];
+			}
+			h1,
 			h2,
 			h3,
 			h4,
 			h5,
 			h6 {
-				@apply mb-4 mt-6 font-bold leading-[1.2] text-[var(--primary)];
+				@apply mb-4 mt-6 font-bold leading-[1.2];
 			}
 			.post-content {
 				@apply text-[var(--content)];
@@ -62,7 +75,7 @@
 				}
 
 				blockquote {
-					@apply my-5 border-l-[3px] border-[var(--primary)] px-[14px];
+					@apply my-5 border-l-[3px] border-[var(--h1)] px-[14px];
 				}
 
 				table {
@@ -111,7 +124,7 @@
 					text-align: -webkit-match-parent;
 				}
 				hr {
-					@apply mx-0 my-8 h-[2px] border-0 bg-[var(--tertiary)];
+					@apply mx-0 my-8 h-[2px] border-0 bg-[var(--separator)];
 				}
 				summary {
 					@apply select-none hover:cursor-pointer;
@@ -119,6 +132,17 @@
 
 				.math-inline .katex-mathml {
 					position: relative !important;
+				}
+
+				b {
+					@apply text-[var(--bold)];
+				}
+				i {
+					@apply text-[var(--italic)];
+				}
+
+				a {
+					@apply text-[var(--link)] underline visited:text-[var(--visited)] hover:text-[var(--linkHover)];
 				}
 			}
 		}
