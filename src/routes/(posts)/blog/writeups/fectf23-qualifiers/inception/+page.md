@@ -1,5 +1,5 @@
 ---
-title: 'FECTF 2023 Inception writeup'
+title: 'FECTF 2023 Qualifiers Inception writeup'
 shortTitle: 'Inception'
 date: 2023-10-29
 length: 8 min
