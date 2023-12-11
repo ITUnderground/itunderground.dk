@@ -33,7 +33,7 @@ export const defaultDir = {
 	}
 };
 
-export const motd = `ITUnderground v${version} Mon Aug 28 16:48:20 CST 2023 SvelteKit
+export const motd = `ITUnderground v${version} Mon Dec 11 14:09:20 CST 2023 SvelteKit
 
 The programs included with the Debian GNU/Linux system are free software;
 the exact distribution terms for each program are described in the individual files in /usr/share/doc/*/copyright.
