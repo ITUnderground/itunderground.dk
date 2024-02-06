@@ -21,7 +21,7 @@ Hope to see you there!
 
 Also check out our Google Calendar for an overview over the events for this semester:
 
-<iframe src="https://calendar.google.com/calendar/embed?src=a958e7dadgao22g6k57f4ogjvvefcnqc%40import.calendar.google.com&ctz=Europe%2FBerlin" style="border: 0;" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+<iframe src="https://calendar.google.com/calendar/embed?src=a958e7dadgao22g6k57f4ogjvvefcnqc%40import.calendar.google.com&ctz=Europe%2FBerlin" style="border: 0; max-width: 96vw; width: 800px;" width="800" height="600" frameborder="0" scrolling="no"></iframe>
 
 <br>
 <br>
