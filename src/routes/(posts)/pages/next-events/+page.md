@@ -9,21 +9,24 @@ author: ITUnderground
 
 Subscribe to our [rss feed](http://itunderground.dk/rss/events.xml) to never miss an event.
 
-### Upcoming events:
+### Upcomming Meet n' Greet!
 
-| Name                    | Description                                                                                                                                 | Date       |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
-| Bi-weekly Hack n' Chill | Come and join us for some easy hacking like CTF and HTB. No experience hacking? Don't worry, just show up and everyone will help eachother. | 2023-20-06 |
+Join us for our upcoming Meet n' Greet for this semester! Here we will briefly go over the events we'll be organising this semester, as well as have some beginner friendly CTF challenges ready for everyone to try out :) (Don't worry, you don't need any experience to try out those challenges, and there will be plenty of people around to help!)
+We will, of course, also have free snacks for all participants! 🍕
+Hope to see you there!
 
-<details>
-<summary>Click to open Google Calendar</summary>
+- **When?** Monday, February 19th. 19-02-2024 @ 16:00.
+- **Where?** TBD: stay tuned for a room update!
+- **What?** Fun learning to hack with like-minded individuals!
+
+Also check out our Google Calendar for an overview over the events for this semester:
+
 <iframe src="https://calendar.google.com/calendar/embed?src=a958e7dadgao22g6k57f4ogjvvefcnqc%40import.calendar.google.com&ctz=Europe%2FBerlin" style="border: 0;" width="800" height="600" frameborder="0" scrolling="no"></iframe>
-</details>
 
 <br>
 <br>
 
-### Past events:
+### Past events
 
 Note that no events are prerequisites for coming. Just show up and learn!
 
