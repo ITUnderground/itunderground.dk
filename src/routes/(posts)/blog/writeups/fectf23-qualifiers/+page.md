@@ -1,6 +1,6 @@
 ---
-title: 'FE CTF 2023 The UniPwnie Experience - Writeups'
-shortTitle: 'FE CTF 2023 - The UniPwnie Experience'
+title: 'FE CTF 2023 - The UniPwnie Experience Qualifiers - Writeups'
+shortTitle: 'FE CTF 2023 - The UniPwnie Experience Qualifiers'
 ---
 
 <script>

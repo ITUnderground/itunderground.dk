@@ -52,10 +52,10 @@ function ctfWriteups() {
 }
 
 // Auto-generated writeups. Final output should look like:
-// └── <a href="/blog/writeups/fectf23">FE CTF 2023 - The UniPwnie Experience</a>
-//     ├── <a href="/blog/writeups/fectf23/admin-cli">Admin CLI</a>
-//     ├── <a href="/blog/writeups/fectf23/inception">Inception</a>
-//     └── <a href="/blog/writeups/fectf23/padding-oracle">Padding Oracle</a>
+// └── <a href="/blog/writeups/fectf23-qualifiers">FE CTF 2023 - The UniPwnie Experience</a>
+//     ├── <a href="/blog/writeups/fectf23-qualifiers/admin-cli">Admin CLI</a>
+//     ├── <a href="/blog/writeups/fectf23-qualifiers/inception">Inception</a>
+//     └── <a href="/blog/writeups/fectf23-qualifiers/padding-oracle">Padding Oracle</a>
 //TODO: Support for multiple CTFs
 const formatCtfWriteups = () =>
 	Object.values(ctfWriteups())
