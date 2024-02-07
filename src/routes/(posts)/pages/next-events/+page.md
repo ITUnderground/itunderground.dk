@@ -16,7 +16,7 @@ We will, of course, also have free snacks for all participants! 🍕
 Hope to see you there!
 
 - **When?** Monday, February 19th. 19-02-2024 @ 16:00.
-- **Where?** TBD: stay tuned for a room update!
+- **Where?** Scroll Bar!
 - **What?** Fun learning to hack with like-minded individuals!
 
 Also check out our Google Calendar for an overview over the events for this semester:

@@ -43,7 +43,7 @@ Last login: ${Date().slice(0, 24)} from 127.0.0.1
 
 
 <span style="color: #e94998;"><b>!!! MEET AND GREET 2024 !!!</b></span>
-Our Meet n' Greet, the first event of the semester, will be held on Monday, February 19th, 19-02-2024! Read more <a href="/pages/next-events">here</a>!`;
+Our Meet n' Greet, the first event of the semester, will be held on Monday, February 19th, 19-02-2024˘ in Scroll Bar! Read more <a href="/pages/next-events">here</a>!`;
 
 export const themes: { [key: string]: CustomTheme } = {
 	papermod: {
