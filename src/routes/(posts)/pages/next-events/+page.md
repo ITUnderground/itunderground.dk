@@ -7,18 +7,10 @@ author: ITUnderground
 
 ## Join us for an event!
 
-Subscribe to our [rss feed](http://itunderground.dk/rss/events.xml) to never miss an event.
+We meet up every other week on odd-numbered weeks. We usually meet in room TBA (stay tuned!) at **16:00**. We usually stay until around **20:00**, but you can drop by or leave whenever you want! This semester our events are on weeks 9, 11, 13, 15, 17 and 19.  
+We also sometimes participate in public [CTFs](/pages/resources#whats-a-ctf) as a University Hacking Team. Info about these events is posted in our [Discorg server](/pages/discord).
 
-### Upcomming Meet n' Greet!
-
-Join us for our upcoming Meet n' Greet for this semester! Here we will briefly go over the events we'll be organising this semester, as well as have some beginner friendly CTF challenges ready for everyone to try out :) (Don't worry, you don't need any experience to try out those challenges, and there will be plenty of people around to help!)
-We will, of course, also have free snacks for all participants! 🍕
-Hope to see you there!
-
-- **When?** Monday, February 19th. 19-02-2024 @ 16:00.
-- **Where?** Scroll Bar!
-- **What?** Fun learning to hack with like-minded individuals!
-
+Subscribe to our [rss feed](http://itunderground.dk/rss/events.xml) to never miss an event.  
 Also check out our Google Calendar for an overview over the events for this semester:
 
 <iframe src="https://calendar.google.com/calendar/embed?src=a958e7dadgao22g6k57f4ogjvvefcnqc%40import.calendar.google.com&ctz=Europe%2FBerlin" style="border: 0; max-width: 96vw; width: 800px;" width="800" height="600" frameborder="0" scrolling="no"></iframe>

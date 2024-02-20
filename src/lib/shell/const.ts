@@ -39,11 +39,7 @@ The programs included with the Debian GNU/Linux system are free software;
 the exact distribution terms for each program are described in the individual files in /usr/share/doc/*/copyright.
 
 Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent permitted by applicable law.
-Last login: ${Date().slice(0, 24)} from 127.0.0.1
-
-
-<span style="color: #e94998;"><b>!!! MEET AND GREET 2024 !!!</b></span>
-Our Meet n' Greet, the first event of the semester, will be held on Monday, February 19th, 19-02-2024˘ in Scroll Bar! Read more <a href="/pages/next-events">here</a>!`;
+Last login: ${Date().slice(0, 24)} from 127.0.0.1`;
 
 export const themes: { [key: string]: CustomTheme } = {
 	papermod: {
