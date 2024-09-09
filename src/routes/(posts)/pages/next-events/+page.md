@@ -1,14 +1,15 @@
 ---
 title: 'Our events'
-date: 2023-08-28
+date: 2024-09-09
 length: 1 min
 author: ITUnderground
 ---
 
 ## Join us for an event!
 
-We meet up every other week on odd-numbered weeks. We usually meet in room TBA (stay tuned!) at **16:00**. We usually stay until around **20:00**, but you can drop by or leave whenever you want! This semester our events are on weeks 9, 11, 13, 15, 17 and 19.  
-We also sometimes participate in public [CTFs](/pages/resources#whats-a-ctf) as a University Hacking Team. Info about these events is posted in our [Discorg server](/pages/discord).
+We meet up every other week on odd-numbered weeks. We usually meet Wednesday at **16:00** and post on [Discord](/pages/discord) about what room we are in. We usually stay until around **20:00**, but you can drop by or leave whenever you want! This semester our events are on weeks 37, 39, 41, 43, 45, 47, 49 and 51. 
+ 
+We also sometimes participate in public [CTFs](/pages/resources#whats-a-ctf) as a University Hacking Team. Info about these events is posted in our [Discord server](/pages/discord).
 
 Subscribe to our [rss feed](http://itunderground.dk/rss/events.xml) to never miss an event.  
 Also check out our Google Calendar for an overview over the events for this semester:
