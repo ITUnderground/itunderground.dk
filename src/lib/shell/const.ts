@@ -13,7 +13,7 @@ export const defaultDir = {
 			},
 			// Multiline file
 			underground:
-				'├── <a href="/pages/will-hack-for-drinks">will-hack-for-drinks</a>\n' +
+				'├── <a href="/pages/will-hack-for-drinks">w͟i͟l͟l͟-͟h͟a͟c͟k͟-͟f͟o͟r͟-͟d͟r͟i͟n͟k͟s͟</a>\n' +
 				'├── <a href="/pages/who-are-we">who-are-we</a>\n' +
 				'├── <a href="/pages/next-events">next-events</a>\n' +
 				'├── <a href="/pages/discord">discord-server</a>\n' +

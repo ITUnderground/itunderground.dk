@@ -9,20 +9,28 @@ author: David
 
 ## What is this event?
 
-**Will Hack for Drinks** is a hacking competition at Scrollbar, ITU—open to everyone, whether you’re a total beginner or an experienced hacker. Want to learn something new? Jump in and give it a try. Ready to put your skills to the test? Climb the leaderboard and prove yourself. Oh, and did we mention the free drinks?
+**Will Hack for Drinks** is a hacking competition at Scrollbar, ITU—open to
+everyone, whether you’re a total beginner or an experienced hacker. Want to
+learn something new? Jump in and give it a try. Ready to put your skills to the
+test? Climb the leaderboard and prove yourself. Oh, and did we mention the free
+drinks?
 
-It’s a **Capture The Flag** competition: solve hacking challenges, submit flags, and earn points. Compete solo or as a team of up to four.
+It’s a **Capture The Flag** competition: solve hacking challenges, submit flags,
+and earn points. Compete solo or as a team of up to four.
 
 No matter your level, come hack, have fun, and see how far you can go!
 
 ## When?
+
 Fri, 11 Apr, 4:15pm - 7pm in Scrollbar.
 
 ## Signup
 
-You can signup to the event here: https://events.humanitix.com/will-hack-for-drinks-2025
+> ℹ️ Note!
+>
+> Signup only required for non ITU students!
 
-If you are NOT from ITU you have to signup. If you are from ITU we only use this to know how many will show up.
-
+You can signup to the event here:
+https://events.humanitix.com/will-hack-for-drinks-2025
 
 ![will-hack-for-drinks-logo](/media/will-hack-for-drinks/logo.png)

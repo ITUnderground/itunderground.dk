@@ -31,33 +31,6 @@
 	}
 </script>
 
-<style>
-	@keyframes diagonal-rainbow {
-    0% { background-position: 0% 0%; }
-    100% { background-position: 200% 200%; }
-  }
-
-	:global(a[href="/pages/will-hack-for-drinks"]) {
-    font-weight: bold;
-    background: linear-gradient(45deg, 
-      #ff0000, /* Bright Red */
-      #ff9900, /* Light Orange */
-      #ffeb00, /* Bright Yellow */
-      #33ff57, /* Neon Green */
-      #33ccff, /* Light Blue */
-      #9966ff, /* Soft Purple */
-      #ff66cc  /* Light Pink instead of dark violet */
-    );
-    background-size: 200% 200%;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: diagonal-rainbow 4s linear infinite;
-    display: inline-block;
-
-	}
-</style>
-
 <div class="flex h-full w-full overflow-hidden" id="Terminal">
 	<div class="flex w-full flex-col-reverse items-center justify-between">
 		<!-- This is pretty fucked, but basically I'm using a reverse flex column so that the terminal overflows on top, which means the footer needs to go first. -->
@@ -98,7 +71,7 @@
 					<span>cat underground</span>
 				</span>
 				<span class="whitespace-pre-wrap break-keep">
-					{@html '├── <a href="/pages/will-hack-for-drinks">will-hack-for-drinks</a>\n' +
+					{@html '├── <a href="/pages/will-hack-for-drinks">w͟i͟l͟l͟-͟h͟a͟c͟k͟-͟f͟o͟r͟-͟d͟r͟i͟n͟k͟s͟</a>\n' +
 						'├── <a href="/pages/who-are-we">who-are-we</a>\n' +
 						'├── <a href="/pages/next-events">next-events</a>\n' +
 						'├── <a href="/pages/discord">discord-server</a>\n' +
@@ -126,3 +99,36 @@
 		</noscript>
 	</div>
 </div>
+
+<style>
+	@keyframes diagonal-rainbow {
+		0% {
+			background-position: 0% 0%;
+		}
+		100% {
+			background-position: 200% 200%;
+		}
+	}
+
+	:global(a[href='/pages/will-hack-for-drinks']) {
+		font-weight: bold;
+		background: linear-gradient(
+			45deg,
+			#ff0000,
+			/* Bright Red */ #ff9900,
+			/* Light Orange */ #ffeb00,
+			/* Bright Yellow */ #33ff57,
+			/* Neon Green */ #33ccff,
+			/* Light Blue */ #9966ff,
+			/* Soft Purple */ #ff66cc /* Light Pink instead of dark violet */
+		);
+		background-size: 200% 200%;
+		background-clip: text;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		animation: diagonal-rainbow 4s linear infinite;
+		display: inline-block;
+		position: relative;
+		text-decoration-color: rgb(156 187 200 / var(--tw-text-opacity)); /* Adjust to visible color */
+	}
+</style>
