@@ -28,7 +28,7 @@ Fri, 11 Apr, 4:15pm - 7pm in Scrollbar.
 
 > ℹ️ Note!
 >
-> Signup only required for non ITU students!
+> The signup link has tickets for both ITU students and non-ITU students!
 
 You can signup to the event here:
 https://events.humanitix.com/will-hack-for-drinks-2025
