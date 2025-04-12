@@ -3,7 +3,7 @@ title: 'WHFD 2025 - fram3scape'
 shortTitle: 'fram3scape'
 date: 2025-04-11
 length: 2 min
-author: $gamer
+author: tw0
 headline: Read a solution to fram3scape in Will Hack For Drinks 2025
 ---
 
@@ -20,8 +20,6 @@ headline: Read a solution to fram3scape in Will Hack For Drinks 2025
 > cheatsheet.
 
 ---
-
-<https://docs.python.org/3/library/inspect.html>
 
 ### 1
 
