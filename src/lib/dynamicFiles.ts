@@ -59,20 +59,26 @@ function ctfWriteups() {
 //TODO: Support for multiple CTFs
 const formatCtfWriteups = () =>
 	Object.values(ctfWriteups())
-		.map(({ absPath, module, writeups }) => {
+		.map(({ absPath, module, writeups }, index, array) => {
+			// Lines are different for the final writeup
+			const lvl1Char = index === array.length - 1 ? '└' : '├';
+			const lvl2Char = index === array.length - 1 ? ' ' : '│';
+
 			// Go through every ctf...
 			const writeupsList = Object.values(writeups).map(({ absPath, module }) => {
 				/// And every writeup in that ctf
 				const metadata = module.metadata;
-				return `    ├── <a href="${absPath}">${metadata.shortTitle || metadata.title}</a>\n`;
+				return `${lvl2Char}   ├── <a href="${absPath}">${metadata.shortTitle || metadata.title}</a>\n`;
 			});
 			// Replace the last '├──' with '└──'
 			writeupsList[writeupsList.length - 1] = writeupsList[writeupsList.length - 1].replace(
 				'├──',
 				'└──'
 			);
-			return `└── <a href="${absPath}">${module.metadata.shortTitle}</a>\n${writeupsList.join('')}`;
+			return `${lvl1Char}── <a href="${absPath}">${module.metadata.shortTitle}</a>\n${writeupsList.join('')}`;
 		})
 		.join('');
+
+console.log(formatCtfWriteups())
 
 export { ctfWriteups, formatCtfWriteups };
