@@ -3,7 +3,7 @@ title: 'WHFD 2025 - analyst'
 shortTitle: 'analyst'
 date: 2025-04-11
 length: 8 min
-author: tw0
+author: xladn0
 headline: Read a solution to analyst in Will Hack For Drinks 2025
 ---
 

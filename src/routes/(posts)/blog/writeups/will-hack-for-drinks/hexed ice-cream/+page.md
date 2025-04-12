@@ -1,9 +1,9 @@
 ---
-title: 'WHFD 2025 - hexed ice-crea'
-shortTitle: 'hexed ice-crea'
+title: 'WHFD 2025 - hexed ice-cream'
+shortTitle: 'hexed ice-cream'
 date: 2025-04-11
 length: 1 min
-author: tw0
+author: xladn0
 headline: Read a solution to hexed ice-cream in Will Hack For Drinks 2025
 ---
 

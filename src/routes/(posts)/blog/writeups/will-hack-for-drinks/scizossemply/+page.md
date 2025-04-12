@@ -2,8 +2,8 @@
 title: 'WHFD 2025 - scizossembly'
 shortTitle: 'scizossembly'
 date: 2025-04-11
-length: 2 min
-author: tw0
+length: 4 min
+author: xladn0
 headline: Read a solution to scizossembly in Will Hack For Drinks 2025
 ---
 

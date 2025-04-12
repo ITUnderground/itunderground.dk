@@ -3,7 +3,7 @@ title: 'WHFD 2025 - fram3scape'
 shortTitle: 'fram3scape'
 date: 2025-04-11
 length: 2 min
-author: tw0
+author: xladn0
 headline: Read a solution to fram3scape in Will Hack For Drinks 2025
 ---
 
