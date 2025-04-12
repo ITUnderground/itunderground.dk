@@ -41,7 +41,7 @@ examination results:
 ![printsite](/media/writeups/whfd25/grades/print1.png)
 
 Most of the options in the dropdown don't work, but the one titled "BestÃ¥ede
-resultater for igangvÃ¦rende uddannelser".
+resultater for igangvÃ¦rende uddannelser" does.
 
 In addition to this, there's a text field for user input.
 
