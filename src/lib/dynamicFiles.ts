@@ -15,6 +15,9 @@ function ctfWriteups() {
 		eager: true
 	});
 
+	console.log(ctfFiles);
+	console.log(writeupFiles);
+
 	const ctfWriteupsObj: {
 		[ctf: string]: {
 			absPath: string;

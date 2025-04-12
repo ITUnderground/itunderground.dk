@@ -2,7 +2,7 @@
 title: 'WHFD 2025 - grades'
 shortTitle: 'grades'
 date: 2025-04-11
-length: 10 min
+length: 5 min
 author: Colorman
 headline: Read a solution to grades in Will Hack For Drinks 2025
 ---
