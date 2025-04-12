@@ -59,9 +59,9 @@ Get fourth from module
 aaxsxsadx.__code__.co_consts[2]
 ```
 
-itu{b98vbif9ds0i09bvsdfbisd4sd0ck2o00921304v}
+`itu{b98vbif9ds0i09bvsdfbisd4sd0ck2o00921304v}`
 
-- PART # 1: b98vbif9ds
-- PART # 2: 0i09bvsdfb
-- PART # 3: isd4sd0ck2
-- PART # 4: o00921304v
+- PART # 1: `b98vbif9ds`
+- PART # 2: `0i09bvsdfb`
+- PART # 3: `isd4sd0ck2`
+- PART # 4: `o00921304v`
