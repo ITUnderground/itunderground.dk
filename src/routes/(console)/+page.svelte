@@ -71,7 +71,7 @@
 					<span>cat underground</span>
 				</span>
 				<span class="whitespace-pre-wrap break-keep">
-					{@html '├── <a href="/pages/will-hack-for-drinks">w͟i͟l͟l͟-͟h͟a͟c͟k͟-͟f͟o͟r͟-͟d͟r͟i͟n͟k͟s͟</a>\n' +
+					{@html '├── <a href="/pages/will-hack-for-drinks">will-hack-for-drinks</a>\n' +
 						'├── <a href="/pages/who-are-we">who-are-we</a>\n' +
 						'├── <a href="/pages/next-events">next-events</a>\n' +
 						'├── <a href="/pages/discord">discord-server</a>\n' +
@@ -110,17 +110,22 @@
 		}
 	}
 
-	:global(a[href='/pages/will-hack-for-drinks']) {
+
+</style>
+
+<!-- Apply this to get rainbow text
+<style>
+ 	:global(a[href='/pages/will-hack-for-drinks']) {
 		font-weight: bold;
 		background: linear-gradient(
 			45deg,
 			#ff0000,
-			/* Bright Red */ #ff9900,
-			/* Light Orange */ #ffeb00,
-			/* Bright Yellow */ #33ff57,
-			/* Neon Green */ #33ccff,
-			/* Light Blue */ #9966ff,
-			/* Soft Purple */ #ff66cc /* Light Pink instead of dark violet */
+			#ff9900,
+			#ffeb00,
+			#33ff57,
+			#33ccff,
+			#9966ff,
+			#ff66cc
 		);
 		background-size: 200% 200%;
 		background-clip: text;
@@ -131,4 +136,4 @@
 		position: relative;
 		text-decoration-color: rgb(156 187 200 / var(--tw-text-opacity)); /* Adjust to visible color */
 	}
-</style>
+</style> -->
