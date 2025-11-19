@@ -11,7 +11,7 @@ shortTitle: 'Will Hack For Drinks 2025'
 	const ctf = cwd[cwd.length - 1];
 </script>
 
-List of writups by ITUnderground for our Will Hack For Drinks 2025 event.
+List of writeups by ITUnderground for both of our Will Hack For Drinks 2025 events.
 
 <ul>
 
