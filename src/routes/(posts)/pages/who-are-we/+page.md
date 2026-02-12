@@ -8,7 +8,7 @@ author: Alexander
 ## Our organisation
 
 **_ITUnderground_** is a student organisation from the IT University of Copenhagen that engages in offensive cybersecurity — also known as hacking.  
-We teach everything from cryptography to forensics to privelege escalation.
+We teach everything from cryptography to forensics to privilege escalation.
 
 ## So what do we do?
 
@@ -19,6 +19,8 @@ Sometimes we host **workshops** or _talks_ about interesting things in the hacki
 ## Wanna participate?
 
 **Don't know anything about hacking but want to get started?** The best way to learn is by doing, and at ITUnderground we offer a place where you can contribute to a collaborative learning environment. Just show up for one of our meetups and we'll teach you how to get started!
+
+Check out [Getting-started](/pages/getting-started)
 
 <!--
 	We are ITUnderground, a student organisation herer at ITU. We host hacking workshops where anyone at any skill level can come to both learn and do a bit of hacking. We also host CTF (Capture The Flag) events, where you compete in jeopardy-style hacking challenges.

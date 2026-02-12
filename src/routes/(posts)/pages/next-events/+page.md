@@ -8,8 +8,8 @@ author: ITUnderground
 ## Join us for an event!
 
 We meet up at ITU every other week for our biweekly events. We post on [Discord](/pages/discord) about what room we are in and when we start. We usually stay until around **20:00**, but you can drop by or leave whenever you want! **We will update this page when we have the specific weeks set for this semester.**
- 
-We also sometimes participate in public [CTFs](/pages/resources#whats-a-ctf) as a University Hacking Team. Info about these events is posted in our [Discord server](/pages/discord).
+
+We also sometimes participate in public [CTFs](/pages/getting-started#whats-a-ctf) as a University Hacking Team. Info about these events is posted in our [Discord server](/pages/discord).
 
 Check out our Google Calendar for an overview over the events for this semester:
 

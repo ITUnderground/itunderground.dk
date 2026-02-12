@@ -71,11 +71,11 @@
 					<span>cat underground</span>
 				</span>
 				<span class="whitespace-pre-wrap break-keep">
-					{@html '├── <a href="/pages/will-hack-for-drinks">will-hack-for-drinks</a>\n' +
+					{@html '├── <a href="/pages/getting-started">getting-started</a>' +
+						'├── <a href="/pages/will-hack-for-drinks">will-hack-for-drinks</a>\n' +
 						'├── <a href="/pages/who-are-we">who-are-we</a>\n' +
 						'├── <a href="/pages/next-events">next-events</a>\n' +
-						'├── <a href="/pages/discord">discord-server</a>\n' +
-						'├── <a href="/pages/resources">resources</a>'}
+						'├── <a href="/pages/discord">discord-server</a>\n'}
 				</span>
 				<span>
 					<span class="text-[var(--shellcolor-home)]"><strong>it@underground</strong></span>:<span
@@ -99,19 +99,6 @@
 		</noscript>
 	</div>
 </div>
-
-<style>
-	@keyframes diagonal-rainbow {
-		0% {
-			background-position: 0% 0%;
-		}
-		100% {
-			background-position: 200% 200%;
-		}
-	}
-
-
-</style>
 
 <!-- Apply this to get rainbow text
 <style>
@@ -137,3 +124,14 @@
 		text-decoration-color: rgb(156 187 200 / var(--tw-text-opacity)); /* Adjust to visible color */
 	}
 </style> -->
+
+<style>
+	@keyframes diagonal-rainbow {
+		0% {
+			background-position: 0% 0%;
+		}
+		100% {
+			background-position: 200% 200%;
+		}
+	}
+</style>

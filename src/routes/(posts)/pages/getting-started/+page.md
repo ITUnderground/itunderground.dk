@@ -1,6 +1,6 @@
 ---
-title: 'Resources and getting started with ethical hacking'
-date: 2023-09-11
+title: 'Getting started with ethical hacking'
+date: 2026-02-12
 length: 15 min
 author: ITUnderground
 ---
@@ -8,73 +8,91 @@ author: ITUnderground
 <details>
 <summary>Table of contents</summary>
 
+- [ITUnderground](#itunderground)
+- [What's a CTF?](#whats-a-ctf)
+- [CTF Categories](#ctf-categories)
+  - [Cryptography](#cryptography)
+  - [Forensics](#forensics)
+  - [Web Hacking](#web-hacking)
+  - [Binary Exploitation - Cybersecurity subject](#binary-exploitation---cybersecurity-subject)
 - [Resources to learn hacking](#resources-to-learn-hacking)
-  - [Categories](#categories)
-    - [Cryptography](#cryptography)
-    - [Forensics](#forensics)
-    - [Web Hacking](#web-hacking)
-    - [Binary Exploitation](#binary-exploitation---cybersecurity-subject)
-  - [Where do I learn?](#where-do-i-learn)
-    - [HackTheBox](#hack-the-box)
-    - [TryHackMe](#tryhackme)
-    - [PicoCTF](#picoctf---hands-on-with-ctf-challenges)
+  - [ITUnderground CTF](#itunderground-ctf)
+  - [PicoCTF - Hands on with CTF challenges](#picoctf---hands-on-with-ctf-challenges)
+  - [Hack The Box](#hack-the-box)
+  - [TryHackMe](#tryhackme)
 - [Mentality](#mentality)
   - [Operating systems](#operating-systems)
     - [Virtual machine](#virtual-machine)
     - [WSL](#wsl)
-    - [Linux and Kali](#linux-and-why-we-use-kali)
-  - [What's a CTF?](#whats-a-ctf)
+    - [Linux and why we use Kali](#linux-and-why-we-use-kali)
 
 </details>
 
-## Resources to learn hacking
+## ITUnderground
 
-### Categories
+Who are we and what do we do? Read the "Who Are We" page [here](/pages/who-are-we). At itunderground we mostly look at CTFs so this page will explain what CTFs are, and where you can get started. Feel free to ask about anything either in real life or on [discord](/pages/discord).
 
-#### Cryptography
+## What's a CTF?
+
+A CTF (Capture The Flag) is a jeopardy style hacking competition. Jeopardy style means that there are a number of challenges in different categories, each with a number of points. The more difficult the challenge, the more points you get for solving it.
+
+The goal of each challenge is to capture the flag. "Flag" usually means a short string in the format `"name{flag}"` where `name` is the name of the competition, and `flag` is some text related to the challenge solution.
+In a challenge where you have to hack into a server for example, the flag might be located in `/home/user/flag.txt`, and in a crypography challenge you would get the flag upon decoding some string.
+
+> Tip: Since almost all flags are in the format `name{flag}`, a common tactic is to look for substrings like `name{`.
+
+## CTF Categories
+
+CTF challenges are almost always divided into categories, and people often pick challenges based on the category and difficulty that they like. Here are some of the most common ones.
+
+### Cryptography
 
 _The art of sending secret messages_.
 
 It's basically math. If you are good at math, you will probably be good at cryptography. [ComputerPhile](https://www.youtube.com/@Computerphile) has interesting videos on the subject. But here hands on is super important. See the [PicoCTF](https://play.picoctf.org/) for challenges.
 
-#### Forensics
+### Forensics
 
 Looking through data dumps and being able to locate important data among massive amounts of garbage.  
 This could be something like digging through a hard drive backup or recovering data from deleted files.
 
-_No forensics resources right now, but stay tuned._
-
-#### Web Hacking
+### Web Hacking
 
 Web hacking is probably one of the easier categories to get into. The only tool you need to get started is your browser.
 
 [Burpsuite](https://portswigger.net/burp) is a great tool for web hacking, and it's free to use. It's a proxy that allows you to intercept and modify requests. If you don't know what that means,
 [NetworkChuck has a great playlist](https://www.youtube.com/watch?v=S7MNX_UD7vY&list=PLIhvC56v63IJVXv0GJcl9vO5Z6znCVb1P&pp=iAQB) on networking and how the web works.
 
-#### Binary Exploitation - Cybersecurity subject
+### Binary Exploitation - Cybersecurity subject
 
 [LiveOverflow](https://www.youtube.com/@LiveOverflow) is a YouTuber that specializes in ethical hacking, and he has a lot of great videos on his channel. [This playlist](https://www.youtube.com/watch?v=iyAyN3GFM7A&list=PLhixgUqwRTjxglIswKp9mpkfPNfHkzyeN&pp=iAQB) is a great place to start if you want to learn binary exploitation.
 
 Note that this is probably one of the harder categories to get into.  
 Common tools include Ghidra and gdb.
 
-### Where do I learn?
+## Resources to learn hacking
 
-#### [Hack The Box](https://app.hackthebox.com/)
+These are some of the good places to get stated or improve at ethical hacking.
 
-Getting hands on is super important. [HackTheBox](https://app.hackthebox.com/home) is a great way to try hacking into _realistic_ systems. Start [here](https://app.hackthebox.com/starting-point) once you've made an account.
+### [ITUnderground CTF](https://ctf.itunderground.dk/)
+
+This is our own CTF that we always have open. The best part about starting here is that we can always help out, since we made the challenges. We don't have a ton of challenges in every category, so make sure to also check out other resources.
+
+### [PicoCTF](https://picoctf.org/#picogym) - Hands on with CTF challenges
+
+PicoCTF is a great place to start if you are new to CTFs. It's a giant collection of CTF challenges, and it's free to sign up. - hint that sorting by most solves is a good way to start.
+
+### [Hack The Box](https://app.hackthebox.com/)
+
+Getting hands on is super important. [HackTheBox](https://app.hackthebox.com/home) is a great way to try hacking into _realistic_ systems. Be aware that this is not the most beginner friendly site. Start [here](https://app.hackthebox.com/starting-point) once you've made an account.
 
 If you can solve medium to hard HackTheBox machines you can probably hack real things too.
 
 You can sign up for free, and there are a lot of great resources online to get started. [Ippsec](https://www.youtube.com/channel/UCa6eh7gCkpPo5XXUDfygQQA) is a YouTuber that specializes in HackTheBox, and he has a lot of great videos on his channel.
 
-#### [TryHackMe](https://tryhackme.com/)
+### [TryHackMe](https://tryhackme.com/)
 
 Kind of like HackTheBox, but more reading. It's a great place to start if you are new to hacking.
-
-#### [PicoCTF](https://picoctf.org/#picogym) - Hands on with CTF challenges
-
-PicoCTF is a great place to start if you are new to CTFs. It's a giant collection of CTF challenges, and it's free to sign up. - hint that sorting by most solves is a good way to start.
 
 ## Mentality
 
@@ -114,12 +132,3 @@ Just kidding, but understanding linux is a very sought after skill in the IT ind
 **If you're fine with current OS** and just want to use Linux for hacking, refer to the above sections.
 
 Dual booting is also an option, there are plenty of guides online.
-
-### What's a CTF?
-
-A CTF (Capture The Flag) is a jeopardy style hacking competition. Jeopardy style means that there are a number of challenges in different categories, each with a number of points. The more difficult the challenge, the more points you get for solving it.
-
-The goal of each challenge is to capture the flag. "Flag" usually means a short string in the format `"name{flag}"` where `name` is the name of the competition, and `flag` is some text related to the challenge solution.
-In a challenge where you have to hack into a server for example, the flag might be located in `/home/user/flag.txt`, and in a crypography challenge you would get the flag upon decoding some string.
-
-> Tip: Since almost all flags are in the format `name{flag}`, a common tactic is to look for substrings like `name{`.
