@@ -84,7 +84,8 @@
 					<span>cat blog-posts</span>
 				</span>
 				<span class="whitespace-pre-wrap break-keep">
-					{@html '└── <a href="/blog/setting-up-kali-windows">Setting up Kali Linux on Windows</a>'}
+					{@html '└── <a href="/blog/setting-up-kali-windows">Setting up Kali Linux on Windows</a>\n' +
+						'└── <a href="/blog/making-challenges">Making Challenges</a>\n'}
 				</span>
 				<span>
 					<span class="text-[var(--shellcolor-home)]"><strong>it@underground</strong></span>:<span

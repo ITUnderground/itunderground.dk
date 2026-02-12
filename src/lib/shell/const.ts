@@ -21,7 +21,8 @@ export const defaultDir = {
 				'├── <a href="/?command=cat%20blog-posts">blog-posts/</a>\n' +
 				'└── <a href="/?command=cat%20writeups">writeups/</a>',
 			'blog-posts':
-				'└── <a href="/blog/setting-up-kali-windows">Setting up Kali Linux on Windows</a>',
+				'└── <a href="/blog/setting-up-kali-windows">Setting up Kali Linux on Windows</a>\n' +
+				'└── <a href="/blog/making-challenges">Making Challenges</a>',
 			writeups: formatCtfWriteups(),
 			'.cshsysrc':
 				`;if "test -a .cshrc" --quiet ` +
