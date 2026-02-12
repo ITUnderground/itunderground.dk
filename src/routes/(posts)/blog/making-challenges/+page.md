@@ -17,7 +17,7 @@ For the last event we spun up a separate server on azure separate from our prima
 
 ## Challenge setup
 
-To make a challenge, start by being able to solve it yourself, this means wether it's a python file or js project, test that you can get the flag, and ideally write a writeup on how to solve it. Our flag format is itu{xxx}.
+To make a challenge, start by being able to solve it yourself, this means wether it's a python file or js project, test that you can get the flag, and ideally write a writeup on how to solve it. Our flag format is `itu{xxx}`.
 Every challenge has a singe folder in this repo with the name of the challenge.
 
 If you have an idea for a challenge feel free to ask about how to make/deploy it.
