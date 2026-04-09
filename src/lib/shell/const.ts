@@ -18,6 +18,7 @@ export const defaultDir = {
 				'├── <a href="/pages/who-are-we">who-are-we</a>\n' +
 				'├── <a href="/pages/next-events">next-events</a>\n' +
 				'├── <a href="/pages/discord">discord-server</a>\n' +
+				'├── <a href="/pages/how-to-make-challenges">how-to-make-challenges</a>\n' +
 				'├── <a href="/?command=cat%20blog-posts">blog-posts/</a>\n' +
 				'└── <a href="/?command=cat%20writeups">writeups/</a>',
 			'blog-posts':

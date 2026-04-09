@@ -75,7 +75,8 @@
 						'├── <a href="/pages/will-hack-for-drinks">will-hack-for-drinks</a>\n' +
 						'├── <a href="/pages/who-are-we">who-are-we</a>\n' +
 						'├── <a href="/pages/next-events">next-events</a>\n' +
-						'├── <a href="/pages/discord">discord-server</a>\n'}
+						'├── <a href="/pages/discord">discord-server</a>\n' +
+						'├── <a href="/pages/how-to-make-challenges">how-to-make-challenges</a>'}
 				</span>
 				<span>
 					<span class="text-[var(--shellcolor-home)]"><strong>it@underground</strong></span>:<span
